@@ -27,3 +27,9 @@ npm start
 최신 검증된 Site 소스를 가져올 때는 `dist/`, `engine-source.js`, 해당 회귀 검사와 규칙 생성기를 함께 갱신한 후 `npm run build`를 실행하세요. `scripts/prepare-pages.cjs`는 저장 접근과 메타데이터에 제한된 재실행 가능한 변환을 적용하고, 원본 구조가 바뀌면 실패합니다. 출처 메모도 갱신해야 합니다.
 
 향후 온라인 확장 설계는 [docs/MULTIPLAYER.md](docs/MULTIPLAYER.md)를 참고하세요.
+
+## 방문 통계
+
+관리자 통계 화면: https://sirhero8282.github.io/brass-pittsburgh/stats.html
+
+일별 방문자와 현재 접속 브라우저 집계 코드를 포함합니다. Cloudflare 무료 계정에 집계 Worker를 배포하고 endpoint를 연결하기 전까지 수집은 꺼져 있습니다. [설치 및 집계 기준](docs/ANALYTICS.md)을 참고하세요. 관리자 조회 키는 서버 secret으로만 설정하며 공개 설정 파일에는 넣지 않습니다.

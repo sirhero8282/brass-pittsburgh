@@ -21,5 +21,8 @@ if (!html.includes('./runtime/local-session.js')) {
   html = html.replace(marker, '<script src="./runtime/local-session.js?v=1"></script>' + marker);
 }
 html = html.replace(/app\.js\?v=[^" ]+/, 'app.js?v=20261017-pages-session1');
+if (!html.includes('./runtime/visitor-metrics.js')) {
+  html = html.replace('</body>', '<script src="./metrics-config.js?v=1"></script><script src="./runtime/visitor-metrics.js?v=1" defer></script></body>');
+}
 fs.writeFileSync(path.join(root, 'dist/index.html'), html);
 console.log('GitHub Pages overlay ready: ' + origin);

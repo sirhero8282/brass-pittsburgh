@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex"><meta name="referrer" content="no-referrer">
+  <title>브라스 피츠버그 · 방문 통계</title>
+  <link rel="stylesheet" href="./stats.css">
+  <script src="./metrics-config.js?v=1" defer></script><script src="./stats.js?v=1" defer></script>
+</head>
+<body><main>
+  <a href="./index.html">← 게임으로 돌아가기</a>
+  <h1>방문 통계</h1>
+  <p id="status" role="status">집계 서버 연결을 확인하고 있습니다.</p>
+  <form id="login" hidden>
+    <label for="token">관리자 조회 키</label>
+    <input id="token" type="password" autocomplete="off" required>
+    <button type="submit">통계 보기</button>
+    <p>조회 키는 이 탭의 메모리에서만 사용하며 브라우저 저장소에 보관하지 않습니다.</p>
+  </form>
+  <section id="report" hidden>
+    <div class="cards"><article><h2>현재 접속</h2><strong id="active">—</strong><span>최근 2분 30초 내 신호를 보낸 브라우저</span></article><article><h2>오늘 방문</h2><strong id="today">—</strong><span>한국 시간 · 브라우저별 하루 한 번</span></article></div>
+    <p id="updated"></p><button id="refresh" type="button">새로고침</button>
+    <table><caption>최근 30일 · 일별 방문 브라우저 수</caption><thead><tr><th scope="col">날짜</th><th scope="col">방문자</th></tr></thead><tbody id="daily"></tbody></table>
+  </section>
+  <p class="note">방문자 수는 사람 수와 다를 수 있습니다. 같은 브라우저의 여러 탭은 한 번으로 세며, 다른 기기·시크릿 창·저장소 삭제는 별도로 집계될 수 있습니다. 백그라운드 탭은 신호를 중단합니다. 광고 차단이나 연결 오류로 일부 방문이 누락될 수 있습니다.</p>
+</main></body></html>
