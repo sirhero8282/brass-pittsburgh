@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>피츠버그 오토마 · 실물 보드 시안</title>
+  <link rel="stylesheet" href="./board-prototype.css">
+</head>
+<body>
+  <main class="prototype-shell">
+    <header class="prototype-header">
+      <a href="./index.html" aria-label="기존 오토마 화면으로 돌아가기">← 오토마</a>
+      <div><p>BRASS · PITTSBURGH</p><h1>실물 보드 시안</h1></div>
+      <span class="draft-pill">DRAFT · 1:1</span>
+    </header>
+
+    <section class="board-layout" aria-label="실물 보드 배치 시안">
+      <div class="board-frame">
+        <div class="board-image" role="img" aria-label="브라스 피츠버그 실물 게임판 참고 이미지">
+          <div class="hotspots" aria-label="주요 게임판 구성 요소">
+            <button class="hotspot city detroit" data-name="디트로이트" data-desc="서부 북쪽의 산업 칸과 연결 노선"><b>디트로이트</b><span>산업 2칸</span></button>
+            <button class="hotspot city cleveland" data-name="클리블랜드" data-desc="중서부 중심 산업 구역"><b>클리블랜드</b><span>산업 4칸</span></button>
+            <button class="hotspot city pittsburgh active" data-name="피츠버그" data-desc="중앙 연결망. 현재 선택된 지역입니다."><b>피츠버그</b><span>산업 4칸</span></button>
+            <button class="hotspot city buffalo" data-name="버팔로" data-desc="북동부 철도 분기점"><b>버팔로</b><span>산업 2칸</span></button>
+            <button class="hotspot city harrisburg" data-name="해리스버그" data-desc="동부로 이어지는 중앙 분기점"><b>해리스버그</b><span>산업 2칸</span></button>
+            <button class="hotspot city baltimore" data-name="볼티모어" data-desc="동남부 상인·철도 연결"><b>볼티모어</b><span>산업 2칸</span></button>
+            <button class="hotspot city philadelphia" data-name="필라델피아" data-desc="동부 항만 인접 산업 구역"><b>필라델피아</b><span>산업 2칸</span></button>
+            <button class="hotspot city newyork" data-name="뉴욕" data-desc="동쪽 끝 연결 구역"><b>뉴욕</b><span>산업 2칸</span></button>
+            <button class="hotspot market coal" data-name="석탄 시장" data-desc="왼쪽 아래 고정 자원 시장"><b>석탄 시장</b></button>
+            <button class="hotspot market iron" data-name="철·강철 시장" data-desc="오른쪽 아래 고정 자원 시장"><b>철·강철 시장</b></button>
+            <button class="hotspot playerboard" data-name="개인판" data-desc="오른쪽 아래 플레이어 개인판 영역"><b>개인판</b></button>
+          </div>
+          <div class="round-chip">시대 I · 라운드 1</div>
+        </div>
+      </div>
+
+      <aside class="inspector" aria-live="polite">
+        <p class="eyebrow">보드 좌표</p>
+        <h2 id="inspectTitle">피츠버그</h2>
+        <p id="inspectDesc">중앙 연결망. 현재 선택된 지역입니다.</p>
+        <div class="status-card"><span>현재 상태</span><strong>빈 산업 칸</strong><small>클릭한 위치를 기존 오토마 입력 대상으로 연결하는 자리입니다.</small></div>
+        <div class="legend"><span><i class="rail"></i> 철도</span><span><i class="pipe"></i> 송유관</span><span><i class="slot"></i> 산업 칸</span></div>
+        <p class="hint">보드의 지역과 시장을 눌러 배치 기준을 확인하세요.</p>
+      </aside>
+    </section>
+  </main>
+  <script>
+    const title = document.querySelector('#inspectTitle');
+    const desc = document.querySelector('#inspectDesc');
+    document.querySelectorAll('.hotspot').forEach((spot) => spot.addEventListener('click', () => {
+      document.querySelectorAll('.hotspot').forEach((item) => item.classList.remove('active'));
+      spot.classList.add('active');
+      title.textContent = spot.dataset.name;
+      desc.textContent = spot.dataset.desc;
+    }));
+  </script>
+</body>
+</html>

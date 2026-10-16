@@ -1,0 +1,17 @@
+/* Mobile field-table layout: retain the full desktop board, while making phone play tactile. */
+.map-footer .legend{display:none}
+.field-brief{display:none}
+.next-ui #nextEndTurn{width:100%;min-height:48px;margin:12px 0 8px;border:0;border-radius:9px;background:#17656a;color:#fff;font-size:16px;font-weight:800}
+@media (max-width:900px){
+  .next-ui .game-view .map-wrap{aspect-ratio:120 / 94!important}
+  .next-ui .map-footer{padding-top:4px}
+  .next-ui .map-footer .map-note{font-size:12px}
+  .field-brief{display:block;margin:12px 0;padding:12px 14px;border:1px solid #bdd1d1;border-radius:12px;background:#fff;color:#183941;box-shadow:0 4px 14px #24444b12}
+  .field-brief[hidden]{display:none}
+  .field-brief-head{display:flex;justify-content:space-between;gap:10px;align-items:center}
+  .field-brief-head strong{font-size:16px}.field-brief-head span{font-size:13px;color:#17656a;font-weight:800}
+  .field-piece{margin:8px 0;color:#314f54;font-size:14px;line-height:1.35}
+  .field-metrics,.field-markets{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .field-metrics span,.field-markets span{padding:7px 8px;border-radius:7px;background:#eff6f5;color:#24454b;font-size:13px;font-weight:700}
+  .field-markets{margin-top:6px}.field-markets span{background:#f6f3e8;color:#624e24;font-size:12px}
+}

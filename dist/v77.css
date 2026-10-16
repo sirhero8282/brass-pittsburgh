@@ -1,0 +1,24 @@
+/* The physical board shares row lines between all five industry stacks. */
+#personalBoard.graph-board{align-items:start}
+#personalBoard.graph-board .track{display:grid;grid-template-rows:repeat(7,minmax(158px,auto)) 52px;align-items:stretch;gap:8px}
+#personalBoard.graph-board .track h3{grid-row:8;order:initial;margin:0;align-self:stretch}
+#personalBoard.graph-board .stack-position{display:flex;flex-direction:column;justify-content:flex-end;align-self:stretch;min-width:0;gap:5px}
+#personalBoard.graph-board .stack-position .tile{flex:1;min-height:0}
+#personalBoard.graph-board .stack-position .unlock-card{min-height:30px;padding:5px;margin:0 5px}
+#personalBoard.graph-board .stack-position .route-note{min-height:0;margin:0 4px;padding:3px;font-size:11px}
+/* The turn screen presents the same five stacks as vertical, full-width rows. */
+.available-now .mini-personal-board{display:flex;flex-direction:column;gap:6px;overflow:visible;width:100%;padding:7px}
+.available-now .mini-board-lane{display:grid;grid-template-columns:52px minmax(0,1fr);grid-template-rows:auto auto;align-items:center;gap:3px 7px;min-width:0;width:100%;padding:7px}
+.available-now .mini-board-lane h3{grid-column:1;grid-row:1 / span 2;min-height:0;height:100%;padding:4px 2px;font-size:10px;word-break:keep-all}
+.available-now .mini-board-lane h3 img{width:22px;height:22px}
+.available-now .mini-board-progress{grid-column:2;grid-row:1;display:flex;flex-direction:row;align-items:center;gap:4px;min-height:0;height:5px}
+.available-now .mini-board-step{flex:1;min-width:0;height:5px}
+.available-now .mini-board-lane .tile{grid-column:2;grid-row:2;display:block;min-height:0;min-width:0;padding:6px;text-align:left}
+.available-now .mini-board-lane .board-tile-head{display:flex;flex-direction:row;align-items:center;gap:6px;min-height:0}
+.available-now .mini-board-lane .board-tile-head>img{flex:none;width:32px;height:32px}
+.available-now .mini-board-lane .board-tile-head>span{min-width:0}
+.available-now .mini-board-lane .board-tile-head strong{font-size:12px}
+.available-now .mini-board-lane .board-counts{justify-content:flex-start;margin-top:1px}
+.available-now .mini-board-lane .board-facts{justify-content:flex-start}
+.available-now .mini-board-empty{grid-column:2;grid-row:2;min-height:42px;text-align:left}
+@media(max-width:650px){.available-now .mini-personal-board{grid-template-columns:none}}

@@ -1,0 +1,43 @@
+/* A separate, playable composition for the square physical board. */
+body.square-map-draft { background:#e4e9e5; --draft-left:210px; --draft-right:340px; }
+body.square-map-draft .game-workspace { grid-template-columns:210px minmax(0,1fr) 340px!important; gap:14px!important; justify-content:center!important; }
+body.square-map-draft main { padding:12px 16px!important; }
+body.square-map-draft .map-column { width:min(100%,calc(100dvh - 142px))!important; justify-self:center; border-color:#81938b!important; padding:6px!important; background:#d4dcd4!important; box-shadow:0 14px 32px #20362b26!important; }
+body.square-map-draft.next-ui.table-layout .game-view .map-wrap { aspect-ratio:1!important; background:#172c28; }
+body.square-map-draft .map-toolbar { background:#f6f5ed; border-radius:4px 4px 0 0; }
+body.square-map-draft .draft-left-rail { background:#203b38; border:1px solid #71857c; border-radius:10px; padding:12px 8px; box-sizing:border-box; }
+body.square-map-draft .draft-left-rail .section-head h2 { color:#efe6ca!important; font-size:15px!important; }
+body.square-map-draft .draft-left-rail .mini-personal-board { display:flex!important; flex-direction:column!important; align-items:center!important; gap:14px!important; padding:4px 0 22px!important; background:none!important; }
+body.square-map-draft .draft-left-rail .mini-board-lane { flex:none!important; }
+body.square-map-draft .draft-left-rail .available-network-rack { max-width:100%; }
+body.square-map-draft .draft-right-rail { gap:10px; }
+body.square-map-draft .draft-rail-heading { background:#203b38; box-shadow:none; }
+body.square-map-draft #playerPanel #nextHand { max-height:220px!important; }
+body.square-map-draft .table-automa-dock { grid-template-columns:1fr!important; }
+body.square-map-draft .table-automa-dock>.actions { grid-column:1!important; }
+body.square-map-draft .draft-map-info { display:none; }
+@media(min-width:1600px){body.square-map-draft .game-workspace{grid-template-columns:240px minmax(0,1fr) 380px!important;max-width:1900px;margin:auto} }
+@media(max-width:1050px){
+ body.square-map-draft { overflow:auto!important; }
+ body.square-map-draft main { height:auto!important; }
+ body.square-map-draft #actionView { height:auto!important; }
+ body.square-map-draft .game-workspace { grid-template-columns:minmax(0,1fr) 300px!important; height:auto!important; align-items:start!important; }
+ body.square-map-draft .map-column { grid-column:1!important;grid-row:1!important;width:100%!important; }
+ body.square-map-draft .draft-left-rail { grid-column:1!important;grid-row:2!important;max-height:none; }
+ body.square-map-draft .draft-left-rail .mini-personal-board { flex-direction:row!important;flex-wrap:wrap;justify-content:center; }
+ body.square-map-draft .draft-left-rail .mini-board-lane { width:170px!important; }
+ body.square-map-draft .draft-right-rail { grid-column:2!important;grid-row:1/span 2!important;max-height:none; }
+}
+@media(max-width:759px){
+ body.square-map-draft main { padding:8px 8px 80px!important; }
+ body.square-map-draft .game-workspace { display:flex!important;flex-direction:column!important; }
+ body.square-map-draft .map-column { order:0; }
+ body.square-map-draft .draft-right-rail { display:flex!important;order:1;width:100%; }
+ body.square-map-draft .draft-left-rail { order:2;width:100%; }
+ body.square-map-draft>header { height:auto!important;min-height:48px!important;flex-wrap:wrap; }
+ body.square-map-draft header .header-meta { display:none!important; }
+ body.square-map-draft .next-top { height:auto!important;min-height:28px;flex-wrap:wrap; }
+ body.square-map-draft header nav { flex-wrap:wrap;height:auto!important; }
+}
+
+body.square-map-draft #infoModeBtn,body.square-map-draft #editModeBtn{display:none!important}

@@ -1,0 +1,15 @@
+/* Mobile stability pass: keep the card-first status bar and the board in separate lanes. */
+@media (max-width:900px){
+  body.next-ui{overflow-x:hidden}
+  .next-ui .next-top{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto auto;align-items:center;column-gap:12px;row-gap:3px;padding:11px 14px}
+  .next-ui .next-top>div{display:contents}
+  .next-ui .next-top span{grid-column:1;grid-row:1;font-size:12px;line-height:1.25}
+  .next-ui .next-top strong{grid-column:1;grid-row:2;font-size:18px;line-height:1.25;word-break:keep-all;overflow-wrap:anywhere}
+  .next-ui .next-top>b{grid-column:1;grid-row:3;margin:2px 0 0;font-size:13px;line-height:1.25;white-space:nowrap}
+  .next-ui #nextSetup{grid-column:2;grid-row:1 / span 3;min-width:94px;min-height:44px;padding:8px 10px;line-height:1.25;word-break:keep-all}
+  .next-ui .game-view .map-stage{isolation:isolate;overflow:hidden}
+  .next-ui .game-view .map-wrap{width:100%;height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:136 / 87!important;overflow:hidden!important}
+  .next-ui .map-stage #mapEdges{position:static!important;display:block!important;width:100%!important;height:100%!important;min-width:0!important;min-height:0!important}
+  .next-ui #roundTransition:empty{display:none!important}
+}
+@media (max-width:380px){.next-ui .next-top{column-gap:8px;padding-inline:10px}.next-ui .next-top strong{font-size:16px}.next-ui #nextSetup{min-width:82px;padding-inline:7px}}

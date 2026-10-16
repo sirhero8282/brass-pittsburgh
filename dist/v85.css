@@ -1,0 +1,14 @@
+/* Available map targets use lime green, distinct from the automa's yellow. */
+.game-view .edge.action-candidate{
+  stroke:#b8ef72!important;
+  filter:drop-shadow(0 0 7px #77d938)!important;
+}
+.game-view .map-slot.action-candidate>.slot-surface{
+  stroke:#b8ef72;
+  filter:drop-shadow(0 0 8px #77d938);
+}
+.game-view .node-group.action-candidate .node-box{
+  stroke:#b8ef72!important;
+  stroke-width:6;
+  filter:drop-shadow(0 0 9px #77d938);
+}

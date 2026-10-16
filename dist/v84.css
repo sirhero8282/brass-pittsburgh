@@ -1,0 +1,27 @@
+/* Proposal reason: clear button affordance and readable expanded text. */
+.proposal-why summary{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border:2px solid #b7cfe6;
+  border-radius:9px;
+  background:#f4f9ff;
+  color:#1a5d9d;
+  font-size:13px;
+  font-weight:800;
+  cursor:pointer;
+  list-style:none;
+  user-select:none;
+}
+.proposal-why summary::marker{content:""}
+.proposal-why summary::-webkit-details-marker{display:none}
+.proposal-why summary::after{content:"⌄";font-size:16px;line-height:1}
+.proposal-why[open] summary::after{content:"⌃"}
+.proposal-why summary:hover,.proposal-why summary:focus-visible{
+  background:#e8f3ff;
+  border-color:#1874d4;
+  outline-offset:2px;
+}
+.proposal-why[open] summary{border-color:#1874d4;background:#eaf4ff}
+.proposal #proposalReason,.proposal-why p{color:#173453;line-height:1.55}

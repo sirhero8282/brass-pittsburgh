@@ -1,0 +1,4 @@
+/* Keep the single reversible control next to the latest action. */
+.result-actions{display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.result-actions #undoBtn{border:2px solid #bfd3e8;border-radius:8px;background:#f4f9fe;color:#205b94;padding:6px 10px}
+.result-actions #undoBtn:hover,.result-actions #undoBtn:focus-visible{border-color:#1874d4;background:#e8f3ff}

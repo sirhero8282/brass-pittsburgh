@@ -1,0 +1,86 @@
+/* The player chooses the same physical component that will be put on the map. */
+.next-ui .picker-items:has(.picker-network-tile-choice){
+  grid-template-columns:repeat(auto-fit,minmax(100px,1fr));
+  align-items:center;
+  justify-items:center;
+  gap:10px;
+}
+
+.next-ui .picker-option.picker-network-tile-choice{
+  position:relative;
+  display:grid;
+  place-items:center;
+  width:100px;
+  min-height:57px;
+  height:57px;
+  padding:0;
+  overflow:visible;
+  border:0;
+  border-radius:0;
+  background:transparent!important;
+  box-shadow:none;
+}
+
+.next-ui .picker-option.picker-network-tile-choice img{
+  display:block;
+  width:100px;
+  height:57px;
+  object-fit:contain;
+  filter:drop-shadow(0 2px 2px #0008);
+}
+
+.next-ui .picker-option.picker-network-tile-choice:is(:hover,:focus-visible){
+  outline:3px solid #17656a;
+  outline-offset:3px;
+  border-radius:10px;
+  transform:translateY(-2px);
+}
+
+.picker-network-vanderbilt{
+  position:absolute;
+  right:-5px;
+  top:-5px;
+  display:grid;
+  place-items:center;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:#e49b3e;
+  color:#241706;
+  font-size:12px;
+}
+
+.next-ui.table-layout #nextDetails .picker-items:has(.picker-network-tile-choice){
+  grid-template-columns:repeat(auto-fit,minmax(100px,1fr));
+  gap:9px;
+}
+
+.next-ui.table-layout #nextDetails .picker-option.picker-network-tile-choice{
+  width:100px;
+  min-height:57px;
+  height:57px;
+  padding:0;
+}
+
+.next-ui .next-network-cancel{
+  display:block;
+  width:100%;
+  margin-top:12px;
+  border-color:#9bb3b7!important;
+  background:#fff!important;
+  color:#31555c!important;
+}
+
+.next-ui.table-layout #nextDetails .next-network-cancel{
+  min-height:36px;
+  margin-top:8px;
+}
+
+@media(max-width:650px){
+  .next-ui .picker-option.picker-network-tile-choice,
+  .next-ui .picker-option.picker-network-tile-choice img{
+    width:92px;
+    height:53px;
+  }
+  .next-ui .picker-items:has(.picker-network-tile-choice){grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:8px}
+}

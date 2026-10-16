@@ -1,0 +1,4 @@
+/* Approved double-chevron markers over the actual industry art. */
+.board-flipped-icon{display:inline-block;position:relative;width:35px;height:35px;flex:none;vertical-align:middle}
+.board-flipped-icon>img{display:block;width:34px;height:34px;object-fit:contain;filter:drop-shadow(0 1px 2px #000a)}
+.board-flipped-icon .board-double-chevron{position:absolute;inset:0;width:35px;height:35px;overflow:visible;filter:drop-shadow(0 1px 1px #000b);transform:scale(.5);transform-origin:50% 42%}

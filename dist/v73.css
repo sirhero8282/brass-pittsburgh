@@ -1,0 +1,35 @@
+/* Personal board: illustrated stacks and compact game-symbol facts. */
+#personalBoard{align-items:stretch;gap:12px}
+#personalBoard .track{gap:8px;justify-content:flex-end}
+#personalBoard .track h3{display:flex;align-items:center;justify-content:center;gap:7px;min-height:46px;margin:0;padding:7px;background:#1e2a28;border:1px solid #42524b;border-radius:10px;color:#f5deaa;font-size:14px}
+#personalBoard .track h3 img{width:29px;height:29px;object-fit:contain;filter:drop-shadow(0 2px 3px #0009)}
+#personalBoard .tile{display:block;width:100%;min-height:155px;padding:10px;background:linear-gradient(145deg,#30403b,#192724);border:1px solid #56675d;border-radius:12px;color:#eee6d6;text-align:left;text-decoration:none;box-shadow:inset 0 1px #ffffff12,0 3px 9px #0004}
+#personalBoard .tile.next{border-color:#e5ba64;box-shadow:inset 0 1px #ffffff25,0 0 0 1px #e5ba64,0 4px 12px #0007}
+#personalBoard .tile.locked{opacity:.48}
+#personalBoard .tile.developed{opacity:.55;text-decoration:none}
+#personalBoard .board-tile-head{display:flex;align-items:center;gap:7px;min-height:46px}
+#personalBoard .board-tile-head>img{flex:none;width:43px;height:43px;object-fit:contain;filter:drop-shadow(0 2px 3px #000b)}
+#personalBoard .board-tile-head>span{min-width:0}
+#personalBoard .board-tile-head strong{font-size:13px;line-height:1.3;overflow-wrap:anywhere}
+.board-counts{display:flex;align-items:center;flex-wrap:wrap;gap:4px 9px;color:#e2d7bc;font-size:11px;font-weight:700;margin-top:4px}
+.board-counts span{display:inline-flex;align-items:center;gap:2px}
+.board-counts img{width:13px;height:13px;object-fit:contain}
+.board-facts{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin-top:8px;line-height:1.3}
+.board-cost{padding-top:8px;border-top:1px solid #ffffff26}
+.board-effect{padding-top:7px;border-top:1px dashed #d7ad6155}
+.board-fact{display:inline-flex;align-items:center;gap:4px;min-height:25px;padding:2px 6px;background:#101b1bd9;border:1px solid #596861;border-radius:7px;color:#f0e7d2;font-size:12px;white-space:nowrap}
+.board-fact img{width:19px;height:19px;object-fit:contain}
+.board-fact .board-glyph{display:inline-flex;align-items:center;justify-content:center;width:17px;font-size:17px;font-weight:900;color:#ebc46c}
+.board-fact.money .board-glyph{color:#efc661}
+.board-fact.vp .board-glyph,.board-fact.quality .board-glyph{color:#f5d15c}
+.board-fact.income{border-color:#669e8b}
+.board-note{font-size:11px;color:#c0c9bc;line-height:1.35}
+.board-requirement{display:inline-flex;align-items:center;gap:3px;color:#e3bb72}
+#personalBoard .unlock-card{display:flex;align-items:center;flex-wrap:wrap;justify-content:center;gap:5px;text-align:left;font-size:11px}
+#personalBoard .unlock-card .board-facts{width:100%;justify-content:center;margin:2px 0 0}
+.board-unlock-mark{color:#f0c65d}
+#networkTiles .network-tile{background:linear-gradient(145deg,#25332e,#14211f)}
+#networkTiles .network-tile strong{display:block;font-size:13px;margin-bottom:5px}
+#networkTiles .network-tile .board-facts{margin-top:7px}
+#networkTiles .network-tile .board-note{font-size:11px}
+@media(max-width:650px){#personalBoard .track{min-width:184px}#personalBoard{grid-template-columns:repeat(5,184px)}#personalBoard .tile{min-height:164px}}

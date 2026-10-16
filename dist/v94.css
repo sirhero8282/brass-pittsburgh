@@ -1,0 +1,38 @@
+/* Play table: market left, map and player controls in the centre, game guidance right. */
+@media (min-width:901px){
+  .next-ui .game-workspace{display:grid;grid-template-columns:minmax(218px,.56fr) minmax(520px,2.3fr) minmax(250px,.7fr);gap:14px;align-items:start}
+  .next-ui .market-column{position:sticky;top:86px;max-height:calc(100vh - 102px);overflow:auto;padding-right:2px}
+  .next-ui .map-column{min-width:0;display:flex;flex-direction:column;gap:12px}
+  .next-ui .command-column{position:sticky;top:86px;max-height:calc(100vh - 102px);overflow:auto;padding-right:2px}
+  .next-ui .game-view .map-wrap{height:min(60vh,680px)!important;min-height:440px!important;border-radius:12px!important}
+  .next-ui #playerPanel{margin:0;padding:15px 16px;border-radius:12px}
+  .next-ui #playerPanel .player-flow{margin:8px 0 11px}
+  .next-ui #playerPanel .next-hand-panel{padding:10px 0}
+  .next-ui #playerPanel #nextHand{max-height:180px;overflow:auto}
+  .next-ui #playerPanel .next-card{min-height:110px}
+  .next-ui #playerPanel .next-card img{width:31px;height:31px}
+  .next-ui #playerPanel .next-card img.next-city-icon{height:39px}
+  .next-ui #playerPanel .next-card strong{font-size:13px}
+  .next-ui #playerPanel .player-actions{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px}
+  .next-ui #playerPanel .player-actions button{min-height:60px;font-size:13px;padding:6px 3px;gap:3px}
+  .next-ui #playerPanel .player-actions button img{width:23px;height:23px}
+  .next-ui #playerPanel #nextActionHint{margin:9px 0;font-size:13px}
+  .next-ui #playerPanel .next-details{margin:9px 0;padding:11px}
+  .next-ui .next-market-panel{margin:0;padding:13px}
+  .next-ui #nextMarket{grid-template-columns:1fr 1fr;gap:6px}
+  .next-ui #nextMarket button{padding:8px 4px}
+  .next-ui #nextMarket b{font-size:17px}
+  .next-ui .market-drawer #markets{grid-template-columns:1fr}
+  .next-ui .market-drawer .market-card{padding:9px}
+  .next-ui .field-brief{margin:9px 0}
+  .next-ui .command-column .proposal{padding:14px}
+  .next-ui .command-column .proposal h2{font-size:18px}
+}
+@media (max-width:900px){
+  .next-ui .game-workspace{display:flex;flex-direction:column;gap:10px}
+  .next-ui .map-column{display:flex;flex-direction:column;gap:10px;order:1}
+  .next-ui .market-column{order:2;width:100%}
+  .next-ui .command-column{order:3;width:100%}
+  .next-ui .next-market-panel{margin:0}
+  .next-ui #playerPanel{margin:0}
+}

@@ -1,0 +1,39 @@
+/* Five physical player-board lanes, high levels above low levels. */
+#personalBoard.graph-board{display:grid;grid-template-columns:repeat(5,minmax(190px,1fr));align-items:stretch;gap:7px;overflow-x:auto;max-width:100%;padding:12px 7px 18px;border:1px solid #67756c;border-radius:16px;background:repeating-linear-gradient(90deg,#1c292b 0,#1c292b calc(20% - 4px),#344244 calc(20% - 4px),#344244 20%);box-shadow:inset 0 2px 25px #0008}
+#personalBoard .track{display:flex;flex-direction:column-reverse;justify-content:flex-end;gap:8px;min-width:190px;padding:8px;background:linear-gradient(90deg,#152023dd,#273330ed 52%,#152023dd);border:1px solid #77847876;border-radius:12px}
+#personalBoard .track h3{order:0;margin-top:8px;min-height:52px;background:#263633;border:1px solid #ba9c69;border-radius:8px;box-shadow:inset 0 1px #ffffff26}
+#personalBoard .track .tile{flex:none;min-height:149px;border:2px solid #718078;background:linear-gradient(150deg,#303c41,#192524);box-shadow:inset 0 1px #ffffff30,0 3px 6px #0009}
+#personalBoard .track:nth-child(1) .tile{border-top-color:#9ba7a2}
+#personalBoard .track:nth-child(2) .tile{border-top-color:#b0a7c2}
+#personalBoard .track:nth-child(3) .tile{border-top-color:#dc9b6c}
+#personalBoard .track:nth-child(4) .tile{border-top-color:#c38d6c}
+#personalBoard .track:nth-child(5) .tile{border-top-color:#a79cbb}
+#personalBoard .track .tile.next{border-color:#e8c271;box-shadow:0 0 0 2px #e6bd6e55,0 5px 12px #0008}
+#personalBoard .track .tile.locked{opacity:.62}
+#personalBoard .track .tile.developed{opacity:.45}
+#personalBoard .unlock-card{flex:none;min-height:40px;margin:0 12px;border-style:solid;border-radius:28px;background:#242d32;box-shadow:0 2px 5px #000a}
+#personalBoard .route-note{min-height:32px;margin:0 8px;color:#efca81}
+.available-now{min-width:0}
+.mini-personal-board{display:grid;grid-template-columns:repeat(5,minmax(112px,1fr));gap:5px;overflow-x:auto;width:100%;max-width:100%;padding:8px;background:#172528;border:1px solid #66786f;border-radius:12px;scrollbar-color:#8d9c8a #192422}
+.mini-board-lane{display:flex;flex-direction:column;gap:6px;min-width:112px;padding:6px;background:linear-gradient(#293630,#14201d);border:1px solid #647266;border-radius:8px}
+.mini-board-progress{display:flex;flex-direction:column;justify-content:flex-end;gap:4px;min-height:42px}
+.mini-board-step{display:block;height:5px;border-radius:4px;background:#566460}
+.mini-board-step.current{background:#f2cb70;box-shadow:0 0 5px #f4ca82}
+.mini-board-step.cleared{background:#577a61}
+.mini-board-step.future{opacity:.45}
+.mini-board-lane .tile{display:flex;flex-direction:column;gap:4px;min-height:115px;width:100%;padding:6px;border:1px solid #d9b571;border-radius:7px;text-align:center;background:#253531}
+.mini-board-lane .board-tile-head{display:flex;flex-direction:column;align-items:center;gap:3px;min-height:0}
+.mini-board-lane .board-tile-head>img{width:42px;height:42px;object-fit:contain}
+.mini-board-lane .board-tile-head strong{font-size:11px;line-height:1.2}
+.mini-board-lane .board-counts{justify-content:center;gap:3px;font-size:10px}
+.mini-board-lane .board-counts span:nth-child(-n+2){display:none}
+.mini-board-lane .board-facts{justify-content:center;gap:3px;margin-top:2px;padding-top:4px}
+.mini-board-lane .board-effect{display:none}
+.mini-board-lane .board-fact{min-height:20px;padding:1px 3px;font-size:10px}
+.mini-board-lane .board-fact img{width:15px;height:15px}
+.mini-board-lane .board-note{font-size:9px}
+.mini-board-lane h3{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:38px;margin:0;padding:4px;background:#34443a;border:1px solid #bc9e6d;border-radius:6px;font-size:10px;color:#f5dea9;line-height:1.1}
+.mini-board-lane h3 img{width:20px;height:20px;object-fit:contain}
+.mini-board-empty{display:grid;place-items:center;min-height:115px;color:#99a99b;font-size:12px}
+@media(max-width:1100px){#personalBoard.graph-board{grid-template-columns:repeat(5,190px)}}
+@media(max-width:650px){#personalBoard.graph-board{grid-template-columns:repeat(5,190px)}.mini-personal-board{grid-template-columns:repeat(5,112px)}}

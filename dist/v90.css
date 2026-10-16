@@ -1,0 +1,14 @@
+/* The action notice is deliberately mobile-only and never occupies the board. */
+#automaActionToast{display:none!important}
+@media (max-width:900px){
+  #mobileAutomaActionToast[hidden]{display:none!important}
+  #mobileAutomaActionToast:not([hidden]){height:auto!important;min-height:0!important;max-height:120px!important;overflow:hidden!important}
+
+  /* Keep the same four-card hand on phones, but reduce vertical card chrome only. */
+  .next-ui .next-card{min-height:112px;padding:7px 4px;gap:4px}
+  .next-ui .next-card.city{min-height:120px}
+  .next-ui .next-card img{width:32px;height:32px}
+  .next-ui .next-card img.next-city-icon{height:46px}
+  .next-ui .next-card small{font-size:11px;line-height:1.15}
+  .next-ui .next-card strong{font-size:13px;line-height:1.2}
+}

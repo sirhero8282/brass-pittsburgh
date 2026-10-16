@@ -1,0 +1,11 @@
+/* Oilfield labels sit on dark SVG cards despite the light app-wide text theme. */
+.game-view .oil-node .node-name{
+  fill:#fff6dc;
+  font-size:13px;
+  font-weight:900;
+  paint-order:stroke;
+  stroke:#24342f;
+  stroke-width:1.4px;
+  stroke-linejoin:round;
+}
+.game-view .oil-node .node-sub{fill:#d3e2db;font-size:10px}

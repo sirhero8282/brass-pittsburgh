@@ -1,0 +1,26 @@
+/* The end-of-round notice follows the mobile viewport, not the map's scroll position. */
+@media(max-width:900px){
+  body>.round-transition:not([hidden]){
+    position:fixed;
+    left:50%;
+    top:50%;
+    z-index:100;
+    width:min(400px,calc(100vw - 32px));
+    transform:translate(-50%,-50%);
+  }
+  .round-transition-card{box-shadow:0 12px 42px #102a4c90,0 0 0 6px #edc87435}
+}
+.player-round-spent{
+  display:inline-flex;
+  align-items:center;
+  padding:6px 9px;
+  border:2px solid #b9d4eb;
+  border-radius:9px;
+  background:#eaf4ff;
+  color:#1c5b96;
+  font-size:12px;
+  font-weight:800;
+  white-space:nowrap;
+}
+.icon-metrics>.round-spend-metric{border-color:#bad8ed;background:#eaf5ff;color:#174f82}
+@media(max-width:650px){.player-panel .section-head{flex-wrap:wrap;gap:6px}.player-round-spent{font-size:12px}}

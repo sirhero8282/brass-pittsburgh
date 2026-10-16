@@ -1,0 +1,14 @@
+/* Keep all player-state and execution information with the right-side action dock. */
+@media (min-width:901px){
+  .next-ui .next-action-zone>.section-head{align-items:flex-start;margin-bottom:8px}
+  .next-ui .next-action-zone>.section-head h2{font-size:17px;line-height:1.25}
+  .next-ui .next-action-zone>.section-head .eyebrow{font-size:9px}
+  .next-ui .next-action-zone .player-round-spent{font-size:11px;text-align:right;white-space:normal}
+  .next-ui .next-action-zone .player-stats{display:grid!important;grid-template-columns:1fr 1fr 1fr;gap:4px;margin:0 0 8px;padding:7px}
+  .next-ui .next-action-zone .player-stats span{font-size:10px;padding:0;background:transparent;border:0}
+  .next-ui .next-action-zone .player-stats b{display:block;font-size:14px}
+  .next-ui .next-action-zone .player-bonus{margin:0 0 8px;padding:7px}
+  .next-ui .next-action-zone .player-bonus small{font-size:10px}
+  .next-ui .next-action-zone .player-flow{margin:0 0 8px;gap:4px}
+  .next-ui .next-action-zone .player-flow span{font-size:10px;padding:4px}
+}

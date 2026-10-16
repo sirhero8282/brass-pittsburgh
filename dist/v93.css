@@ -1,0 +1,14 @@
+/* Use the available viewport for the game surface instead of a centred document column. */
+.next-ui main,.next-ui .view,.next-ui .game-view{width:100%;max-width:none}
+.next-ui main{padding-left:14px;padding-right:14px}
+@media (min-width:901px){
+  .next-ui main{padding:12px 18px 28px}
+  .next-ui .game-workspace{grid-template-columns:minmax(0,3fr) minmax(290px,.62fr);gap:22px}
+  .next-ui .game-view .map-wrap{height:calc(100vh - 132px)!important;max-height:none!important}
+}
+@media (max-width:900px){
+  .next-ui main{padding:0 6px 82px}
+  .next-ui .view{padding:0}
+  .next-ui .game-view{padding:0 4px 12px}
+  .next-ui .game-view .map-wrap{width:100%;border-radius:0!important}
+}

@@ -1,0 +1,31 @@
+/* Bottom control dock: eight compact cards on the left, every action step on the right. */
+@media (min-width:901px){
+  .next-ui .game-workspace{grid-template-columns:minmax(205px,.5fr) minmax(680px,2.7fr) minmax(245px,.64fr);gap:12px}
+  .next-ui .game-view .map-wrap{height:min(59vh,700px)!important}
+  .next-ui #playerPanel{padding:14px 15px}
+  .next-ui .next-control-row{display:grid;grid-template-columns:minmax(0,3.4fr) minmax(238px,.86fr);gap:13px;align-items:stretch;border-top:1px solid #d8e1e2;padding-top:12px}
+  .next-ui .next-card-zone{min-width:0}
+  .next-ui .next-action-zone{min-width:0;padding-left:13px;border-left:1px solid #c8dbdd;display:flex;flex-direction:column}
+  .next-ui #playerPanel .next-hand-panel{border:0;padding:0}
+  .next-ui #playerPanel .next-hand-panel summary{font-size:16px}
+  .next-ui #playerPanel .next-hand-panel p{margin:5px 0 8px;font-size:12px}
+  .next-ui #playerPanel #nextHand{grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;max-height:300px;padding:3px;overflow:auto}
+  .next-ui #playerPanel .next-card,.next-ui #playerPanel .next-card.city{min-height:132px;padding:7px 2px;gap:5px;border-radius:9px}
+  .next-ui #playerPanel .next-card img{width:27px;height:27px}
+  .next-ui #playerPanel .next-card img.next-city-icon{height:37px}
+  .next-ui #playerPanel .next-card small{font-size:10px;line-height:1.1}
+  .next-ui #playerPanel .next-card strong{font-size:12px;line-height:1.15;overflow-wrap:anywhere}
+  .next-ui #playerPanel .next-selection{padding:8px 0 0;border:0}
+  .next-ui #playerPanel .next-selection strong{font-size:13px}
+  .next-ui #playerPanel .player-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .next-ui #playerPanel .player-actions button{min-height:58px;font-size:13px}
+  .next-ui #playerPanel .player-actions button img{width:21px;height:21px}
+  .next-ui #playerPanel #nextActionHint{font-size:12px;line-height:1.45;margin:8px 0}
+  .next-ui #playerPanel .next-details{font-size:13px;padding:10px;margin:7px 0}
+  .next-ui #playerPanel #nextUndo,.next-ui #playerPanel #nextEndTurn{min-height:40px;margin-top:7px;font-size:13px}
+  .next-ui #playerPanel .field-brief{padding:10px;margin:7px 0}
+}
+@media (max-width:900px){
+  .next-ui .next-control-row{display:flex;flex-direction:column;gap:10px}
+  .next-ui .next-action-zone{display:flex;flex-direction:column}
+}

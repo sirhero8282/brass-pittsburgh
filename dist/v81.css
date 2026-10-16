@@ -1,0 +1,71 @@
+/* Bright board-game shell, matched to the supplied blue-and-white concept. */
+:root{--bg:#f2f7fd;--panel:#fff;--panel2:#f9fcff;--ink:#172b46;--text:#172b46;--muted:#60738b;--gold:#176fd2;--red:#d35649;--green:#138d75;--line:#cedded;--player:#1870d5;--auto:#eca423;--blue:#156dce;--blue-light:#eaf4ff}
+body{background:linear-gradient(155deg,#f9fcff 0%,#eaf2fc 52%,#f4f9ff 100%);color:var(--ink)}
+header{background:#fffefaed;border-bottom:1px solid #ccdcee;box-shadow:0 2px 10px #426b9215}
+header h1,header h1 small,.game-heading h2,.section-head h2{color:#142c4b}
+.eyebrow{color:#236cb8}.save{color:#405a72}.save i{background:#15a88a}
+nav{background:#142b43;border-top:1px solid #39526c;box-shadow:0 -3px 12px #17406422}
+nav button{color:#c8d7e8}nav button.active{background:#1467bd;color:#fff;box-shadow:inset 3px 0 #6db9ff}
+@media(min-width:1180px){nav{background:#142b43}nav button.active{background:#1769be;box-shadow:inset 3px 0 #73c6ff}}
+.view{color:#1b3351}.sticky{background:#f5f9fcef;border-color:#d6e2ee}
+.panel,.proposal,.market-panel{background:#fff;border-color:#cfdeed;box-shadow:0 4px 15px #34557512}
+.muted,.map-note,.map4-note,.map4-legend,.legend{color:#647790}
+.stats button,.quick button,.quick-panel .quick button{background:#fff;border:1px solid #ccdaeb;color:#1a395a;box-shadow:0 2px 5px #42699412}
+.stats button:hover,.quick button:hover{border-color:#65a8ea;background:#f4faff}
+.stats span{color:#5e7490}.stats b{color:#123963}
+.primary,.good{background:linear-gradient(135deg,#2382e7,#1066cb);color:#fff;box-shadow:0 3px 9px #1766ba2d}
+.secondary{background:#eaf3fc;color:#1b538b;border:1px solid #bfdbf3}
+.bad{background:#d24d4e;color:#fff}
+.link{color:#1165bd}.mode-badge{background:#fff5e4;color:#a56517;border-color:#efc47a}
+.mode-card,.starter-choice button{background:#fff;border:1px solid #cbdbea;color:#183553;box-shadow:0 2px 7px #244e7a0d}
+.mode-card strong,.mode-card span{color:#183553}.mode-card.active,.starter-choice button.active{background:#e7f3ff;border:2px solid #1977d8;color:#0e5caf;box-shadow:0 0 0 3px #2484df18}
+.mode-card.active strong,.mode-card.active span{color:#0c61b7}.mode-card:disabled{opacity:1}
+.setup-card,.hand-panel,.hand-list span{background:#f8fbff;border:1px solid #d1e0ee;color:#213a55}
+.hand-panel b,.setup-card b{color:#1b3857}
+#physicalAutomaCardList span{background:#eef6fe;border:1px solid #bfd9f2;color:#184b7b}
+.map-stage,.game-view .map-stage{background:#fff;border:1px solid #cfdfef;border-radius:13px;box-shadow:0 4px 13px #315e8a17}
+.game-view .map-stage{border-color:#cfdfef}.game-view .map-toolbar,.map-toolbar{background:#fff;color:#183b5d;border-color:#d8e3ed}
+.map-toolbar b,.map-toolbar span,.map-footer,.map-tools{color:#274562}
+.map-toolbar button,.zoom-controls button,.map-mode button{background:#f4f9fe;color:#204768;border:1px solid #cdddef}
+.map-mode{border-color:#d0deeb;background:#f4f8fd}.map-mode button.active,.map-toolbar button.active{background:#176dcc;color:#fff;border-color:#176dcc}
+.game-view .map-wrap{border-color:#d4e2ef;box-shadow:inset 0 0 32px #ffffff55,0 2px 8px #355e8622}
+.map-selection-bar{background:#eaf4ff;border-color:#9ec5f2;color:#1a4b7f}.map-selection-bar button{background:#fff;color:#1f568b;border-color:#a8c7e7}
+.market-drawer,.market-panel{background:#fff;border-color:#cdddec}.market-card{background:#f9fcff;border-color:#d6e3f1;color:#1a3655}.market-card h3{color:#142e4c}.market-card p{color:#9d641b}.cube{background:#ecf4fa;border-color:#aabfd2}.cube.filled{background:#e4edf4;box-shadow:inset 0 0 0 1px #9eb5cb}
+.command-column .proposal{background:linear-gradient(145deg,#fff,#f2f8ff);border:1px solid #e5b65f;border-left:4px solid #e9a231;box-shadow:0 7px 17px #224d7920}
+.command-column .proposal h2,.proposal h2,.proposal-hero h2{color:#173454}
+.proposal-top span,.command-column .proposal #proposalType{color:#b26d19!important}.proposal-top b{color:#215683}.proposal-visual{background:#edf6ff;border-color:#c1d7ea}
+.proposal-facts>span,.detail span,.proposal-supply{background:#f5faff;border-color:#d4e3f1;color:#233d57}
+.proposal-supply h3,.supply-group>strong{color:#1d5c9d}.supply-row,.supply-row span{color:#294663}.supply-none,.proposal-why,.proposal-why p{color:#63768e}.proposal-why{border-color:#d9e4ee}
+.command-column .actions #executeBtn{background:linear-gradient(135deg,#ffc761,#e8a135);color:#392c11;border-color:#e7a740}
+.command-column .actions #impossibleBtn{background:#f0f8fc;border-color:#8dbdce;color:#275b6b}
+.icon-status-card,.command-column .compact-panel,.turn-order-panel,.player-panel{background:#fff;border:1px solid #cdddec;box-shadow:0 3px 10px #284e7910}
+.icon-status-card.current,.turn-order-row.current{background:#edf6ff;border-color:#67aaea}
+.icon-status-card h3,.player-panel .section-head h2{color:#183d61}
+.icon-metrics>span{background:#f2f7fd;border:1px solid #d6e4f0;color:#1c3d5c}.metric-symbol{color:#176dc3}
+.turn-order-panel .order-label,.turn-queue,.order-income b{color:#2566a2}
+.turn-order-grid{color:#647b94}.turn-order-row{color:#214263}.turn-order-row.current{background:#ebf5ff;border-color:#83b5e9}
+.player-panel{border-left:4px solid #1873d3}.player-panel .player-actions button{background:#fff;border:1px solid #c9dbee;color:#1b3958}
+.player-panel .player-actions button:hover:not(:disabled){background:#ebf5ff;border-color:#3188df}
+.player-flow span{background:#f2f7fc;color:#617994;border-color:#d2e1ee}.player-flow span.current{background:#e5f2ff;color:#0b5cae;border-color:#2282e5}.player-flow span.done{color:#1771be;border-color:#b1d4f3}
+.available-now .mini-personal-board,.available-now .mini-board-lane{background:#f6faff;border-color:#d0e1f0}.available-now .mini-board-lane h3{background:#e5f1ff;color:#174e84;border-color:#abd1f3}.available-now .mini-board-lane .tile{background:#fff;border-color:#7fb4e7;color:#193e62}.available-now .mini-board-empty{color:#657c93}
+.available-net,.network-bonus-box,.bonus-chip,.pending-reward{background:#f5faff;border-color:#cddfed;color:#254667}
+#boardView #personalBoard{border-color:#b8c6d1;box-shadow:0 4px 13px #22456829}
+#networkTiles .network-tile,.network-tile{background:#fff;border-color:#d0dfed;color:#203f5c}.network-tile.board-used{background:#e7f3ff;border-color:#79b6ed}
+.board-switch{background:#edf4fa;border-color:#c6d9e9}.board-switch button{color:#24567f}.board-switch button[aria-selected="true"]{background:#176ecb;color:#fff}
+.log,.market-card,.setup-card{box-shadow:0 2px 6px #345a8210}.log{background:#fff;border-color:#d2dfec;color:#173758}.log p{color:#506985}.log-round{color:#1670c2}
+.decision-audit{background:#f6faff;border-color:#c9dceb}.decision-audit summary{color:#1c66ac}.decision-audit pre{color:#294b68}
+.final-score-grid{border-color:#cbddeb}.final-score-grid>*{border-color:#d2e0eb;color:#1c3855}.final-score-grid>*:nth-child(3n+1){background:#ebf5fd}.final-score-grid>*:nth-last-child(-n+3){color:#0d66bd}
+dialog{background:#fff;color:#1b3654;border-color:#afcce7;box-shadow:0 22px 55px #112b4d44}dialog::backdrop{background:#152c4580}
+dialog label{color:#4d6681}dialog input,dialog select,.mobile-target-setting select{background:#f9fcff;color:#183a5d;border-color:#bbd2e7}
+.picker-option,.stack-row,.available-card,.market-resource-row,.info-slot{background:#f8fbff;color:#1b3c60;border-color:#d1e0ed}
+.picker-option:hover,.available-card:hover{background:#ebf5ff;border-color:#74afe6}.picker-empty{color:#718398}
+.confirm-action-detail .confirm-resource-row{background:#f3f9fe;border-color:#b8d4ed;color:#274966}.confirm-resource-row span{color:#2c4d6a}.confirm-fact>b{color:#176ec6}
+.map4-frame{border-color:#c9d9e8;box-shadow:0 5px 15px #315a821a}
+@media(max-width:650px){.game-view .stats{background:#f2f8fdf0}.map-stage .map-toolbar .mobile-era-round,.map-stage .map-toolbar .mobile-era-round b{color:#245475}}
+.turn-banner{background:#e7f3ff;border-color:#7bb5eb;color:#194777}.turn-banner span{color:#136bbf}
+.picker-option:focus,.picker-option:focus-visible{background:#ebf5ff;border-color:#2585db;outline:2px solid #2585db;outline-offset:1px}
+.picker-option.vanderbilt-option{background:#fff7ec!important;border-color:#e6a459!important;color:#714a19}
+#networkTiles .board-counts,.available-now .board-counts{color:#42617e}
+#networkTiles .board-note,.available-now .board-note{color:#536f88}
+#networkTiles .board-fact,.available-now .board-fact{background:#e9f2fa;border-color:#c5d9ea;color:#1c4467}
+#networkTiles .board-fact.vp,#networkTiles .board-fact.link,#networkTiles .board-fact.flipped,#networkTiles .board-fact.sale-oil,.available-now .board-fact.vp,.available-now .board-fact.link,.available-now .board-fact.flipped,.available-now .board-fact.sale-oil{background:transparent;border-color:transparent}

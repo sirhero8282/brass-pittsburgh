@@ -1,0 +1,11 @@
+.map-wrap{height:min(72vh,900px);min-height:0;aspect-ratio:auto;overflow:auto}
+#mapEdges{position:static;display:block;width:1000px;height:900px;min-width:1000px;min-height:900px}
+.node-box{fill:#192424;stroke:#586664;stroke-width:2}.node-group{cursor:pointer}
+.node-group.has-auto .node-box{stroke:var(--auto);stroke-width:5}.node-group.has-player .node-box{stroke:var(--player);stroke-width:5}.node-group.market-node .node-box{stroke:var(--gold)}
+.node-name{fill:var(--ink);font-size:15px;font-weight:800;text-anchor:middle;pointer-events:none}.node-sub{fill:var(--muted);font-size:11px;text-anchor:middle;pointer-events:none}
+.personal{grid-template-columns:repeat(5,minmax(185px,1fr));gap:12px}.track{min-width:185px}.tile{min-height:108px;padding:10px}.tile strong{font-size:14px}.tile small{display:block;font-size:12px;line-height:1.45;margin-top:4px}.tile.locked{opacity:.34}.tile .qty{float:right;color:var(--gold);font-weight:800}
+.unlock-card{border:1px dashed #7b6845;border-radius:9px;padding:9px;color:var(--gold);font-size:12px;text-align:center;background:#171b18}.unlock-card.locked{opacity:.34}.route-note{font-size:12px;color:#b9c3bd;text-align:center;padding:3px}
+@media(max-width:650px){.personal{grid-template-columns:repeat(5,185px)}}
+.turn-banner{display:flex;justify-content:space-between;align-items:center;background:#0e1717;border:1px solid var(--gold);border-radius:11px;padding:10px 13px;margin-bottom:12px}.turn-banner span{color:var(--gold);font-weight:800}
+.player-panel{border-color:#e8483f}.player-stats{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}.player-stats span{background:#2b1717;border:1px solid #873832;border-radius:99px;padding:7px 10px;font-size:13px}.player-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.player-actions button{background:#4a211f;border:1px solid #a8423b;border-radius:10px;padding:12px 5px;font-weight:800}.player-actions button:active{background:#682b27}
+@media(max-width:520px){.player-actions{grid-template-columns:repeat(2,1fr)}}

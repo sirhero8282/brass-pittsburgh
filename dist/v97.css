@@ -1,0 +1,44 @@
+/* Personal state belongs to the left side; the lower dock is selection-only. */
+@media (min-width:901px){
+  .next-ui .player-side-panel{display:block;margin:0 0 12px;padding:13px;border:1px solid #c7d9dc;border-left:4px solid #1873d3;border-radius:12px;background:#fff;box-shadow:0 3px 10px #284e7910}
+  .next-ui .player-side-panel .section-head{align-items:flex-start;margin-bottom:9px}
+  .next-ui .player-side-panel .section-head h2{font-size:18px}.next-ui .player-side-panel .eyebrow{font-size:9px}
+  .next-ui .player-side-panel .player-round-spent{font-size:11px;text-align:right}
+  .next-ui .player-side-panel .player-stats{display:grid!important;grid-template-columns:1fr;gap:4px;margin:0 0 9px;padding:8px}
+  .next-ui .player-side-panel .player-stats span{font-size:12px;background:transparent;border:0;padding:2px 0}
+  .next-ui .player-side-panel .player-stats b{float:right;font-size:15px}
+  .next-ui .player-side-panel .player-bonus{margin:0 0 9px;padding:8px}.next-ui .player-side-panel .player-bonus small{font-size:10px}
+  .next-ui .player-side-panel .player-flow{display:grid;grid-template-columns:1fr;gap:4px;margin:0}.next-ui .player-side-panel .player-flow span{font-size:11px;padding:5px}
+  .next-ui .next-action-zone>.section-head,.next-ui .next-action-zone>.player-stats,.next-ui .next-action-zone>.player-bonus,.next-ui .next-action-zone>.player-flow{display:none!important}
+  .next-ui .next-action-zone .player-actions{margin-top:0}
+  .next-ui .next-card-unavailable{opacity:.38;filter:grayscale(.75);border-style:dashed!important}
+}
+@media (max-width:900px){
+  .next-ui .player-side-panel{order:0;width:100%;padding:12px;border:1px solid #c7d9dc;border-radius:12px;background:#fff}
+  .next-ui .next-action-zone>.section-head,.next-ui .next-action-zone>.player-stats,.next-ui .next-action-zone>.player-bonus,.next-ui .next-action-zone>.player-flow{display:none!important}
+  .next-ui .next-card-unavailable{opacity:.45;filter:grayscale(.75)}
+}
+
+/* Compact action language: icon first, detail only in the audit record. */
+.action-symbol{width:28px;height:28px;flex:0 0 28px;display:inline-block;vertical-align:middle;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.physical-action-symbol{object-fit:contain;stroke:none}
+.action-symbol.sell text{fill:currentColor;stroke:none;font:800 19px/1 system-ui,sans-serif}
+.action-symbol.image-symbol{object-fit:contain;stroke:none}
+.next-ui .player-actions .action-symbol{width:29px;height:29px;flex-basis:29px}
+.next-ui .player-actions button{display:flex;align-items:center;justify-content:center;gap:7px}
+.next-ui .player-actions button img.action-symbol{width:29px;height:29px}
+.latest{display:grid;gap:5px}
+.recent-action{display:flex;align-items:center;gap:7px;width:100%;min-height:35px;padding:4px 2px;border:0;border-radius:7px;background:transparent;color:#28454c;text-align:left;cursor:pointer}
+.recent-action:hover,.recent-action:focus-visible{background:#e7f1f1;outline:none}
+.recent-actor{display:block;width:22px;height:22px;flex:0 0 22px;object-fit:contain;filter:drop-shadow(0 1px 1px #17373c66)}
+.recent-actor.player{display:grid;place-items:center;background:transparent;color:#103f82;font:800 18px/1 Georgia,serif;filter:none}
+.recent-plus{font-weight:800;color:#7a8f93}
+.recent-action .action-symbol{width:22px;height:22px;flex-basis:22px;color:#17656a}
+.recent-action .action-symbol.sell text{font-size:16px}
+.recent-industry-icon{display:block;width:22px;height:22px;flex:0 0 22px;object-fit:contain;filter:drop-shadow(0 1px 1px #17373c66)}
+.recent-network-icons{display:flex;align-items:center;gap:1px;flex:0 0 auto}
+.recent-network-icons .action-symbol{display:block}
+.recent-routes{font-size:12px;font-weight:700;color:#24444b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.recent-place{font-size:13px;font-weight:750;color:#24444b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.recent-detail-arrow{margin-left:auto;color:#557980;font-size:23px;line-height:1;font-weight:400}
+@media (max-width:650px){.recent-action{min-height:38px}.recent-place{font-size:12px}}

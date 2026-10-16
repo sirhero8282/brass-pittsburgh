@@ -1,0 +1,22 @@
+/* Map-first board view: the board surface carries no extra controls or header chrome. */
+.next-ui .map-toolbar,.next-ui .map-footer{display:none!important}
+.next-ui .game-view .map-stage{padding:0;background:transparent;border:0;box-shadow:none;overflow:visible}
+.next-ui .game-view .map-wrap{border-radius:14px}
+.node-group[data-node="털리도"] .node-name,
+.node-group[data-node="올버니"] .node-name,
+.node-group[data-node="서부"] .node-name,
+.node-group[data-node="캘리포니아"] .node-name{
+  fill:#fff8df!important;
+  stroke:#263632!important;
+  stroke-width:3px;
+  paint-order:stroke fill;
+}
+@media (min-width:901px){
+  .next-ui .game-workspace{grid-template-columns:minmax(0,2.45fr) minmax(300px,.7fr);gap:24px}
+  .next-ui .game-view .map-wrap{height:min(calc(100vh - 158px),940px)!important;aspect-ratio:auto!important}
+}
+@media (max-width:900px){
+  .next-ui .game-view{padding:0 10px 12px}
+  .next-ui .game-workspace{gap:14px}
+  .next-ui .game-view .map-wrap{aspect-ratio:120 / 98!important;border-radius:12px}
+}

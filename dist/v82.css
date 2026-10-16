@@ -1,0 +1,32 @@
+/* Sharper outlines for the bright interface. Keep the map artwork and tile icons intact. */
+.panel,.setup-card,.hand-panel,.log,.market-panel,.market-drawer,
+.icon-status-card,.command-column .compact-panel,.turn-order-panel,.player-panel,
+.game-view .map-stage,.map-stage,.map4-frame,dialog{
+  border-width:2px;
+  border-style:solid;
+  border-color:#b8cee4;
+}
+.game-view .map-wrap{border-width:2px;border-style:solid;border-color:#b5cfe9}
+.command-column .proposal{border-width:3px;border-left-width:5px;border-color:#d4ad69;border-left-color:#e9a231}
+.market-card,.available-net,.network-bonus-box,.bonus-chip,.pending-reward,
+.proposal-facts>span,.detail span,.proposal-supply,.decision-audit,
+.available-now .mini-board-lane,.available-now .mini-personal-board{
+  border-width:2px;border-style:solid;border-color:#c5d9ea;
+}
+.stats button,.quick button,.quick-panel .quick button,
+.player-panel .player-actions button,.board-switch,.board-switch button,
+.map-toolbar button,.zoom-controls button,.map-mode button,
+.picker-option,.stack-row,.available-card,.market-resource-row,.info-slot,
+.mode-card,.starter-choice button{
+  border-width:2px;border-style:solid;border-color:#bfd3e8;
+}
+.mode-card.active,.starter-choice button.active,
+.picker-option:focus,.picker-option:focus-visible,
+.available-card:focus,.available-card:focus-visible,
+.player-panel .player-actions button.active,
+.map-mode button.active,.map-toolbar button.active{
+  border-width:3px;border-color:#1874d4;
+}
+.mode-card.active,.starter-choice button.active{box-shadow:0 0 0 3px #2588e525}
+.market-card,.map-stage,.command-column .proposal,.panel{box-shadow:0 4px 12px #294c7817}
+@media(max-width:650px){.game-view .map-stage,.panel,.player-panel{border-width:2px}}

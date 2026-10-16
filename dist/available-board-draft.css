@@ -1,0 +1,76 @@
+/* Live physical player-board presentation. */
+body.available-board-draft .available-panel{--board-ink:#173b42;--board-dark:#172f32;box-sizing:border-box;width:100%;max-width:760px;min-width:0;align-self:center;padding:14px;border-color:#b8c9cc;background:linear-gradient(145deg,#fff,#edf4f4);box-shadow:0 10px 24px #17374418}
+body.available-board-draft .available-panel .section-head{margin-bottom:10px}
+body.available-board-draft .available-panel #fullBoardBtn{margin-left:2px}
+body.available-board-draft .available-now{box-sizing:border-box;width:100%;min-width:0;container-type:inline-size;overflow:visible}
+
+/* Three physical stacks above, two centred below. */
+.next-ui.table-layout.available-board-draft .command-column .available-now .mini-personal-board{position:relative;display:grid!important;box-sizing:border-box;width:100%;max-width:720px;min-width:0;margin:0 auto;grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-template-rows:auto auto auto!important;gap:13px 10px!important;overflow:hidden!important;padding:16px 15px 23px!important;border:1px solid #52686a!important;border-radius:12px!important;background:linear-gradient(180deg,#ffffff12,transparent 28%),repeating-linear-gradient(90deg,transparent 0,transparent calc(50% - 1px),#d9c58f1f calc(50% - 1px),#d9c58f1f 50%),radial-gradient(circle at 50% -20%,#3f6062,#203d40 54%,#142a2d 100%)!important;box-shadow:inset 0 0 0 1px #fff1,inset 0 -20px 34px #06141673,0 6px 14px #17353b35!important}
+.next-ui.table-layout.available-board-draft .available-now .mini-personal-board::before{content:"PITTSBURGH · PLAYER INDUSTRY BOARD";position:absolute;right:15px;bottom:7px;color:#d9c79073;font:700 7px/1 Georgia,serif;letter-spacing:.14em}
+
+/* Each lane is one physical component: cost ribbon, tile, reward ribbon. */
+.next-ui.table-layout.available-board-draft .available-now .mini-board-lane{position:relative;display:flex!important;width:auto!important;height:auto!important;min-width:0!important;grid-column:span 2;grid-template-columns:none!important;grid-template-rows:none!important;flex-direction:column!important;align-items:center!important;gap:4px!important;padding:0!important;overflow:visible!important;border:0!important;border-radius:0!important;background:transparent!important}
+.next-ui.table-layout.available-board-draft .available-now .mini-board-lane:nth-child(4){grid-column:span 2}
+.next-ui.table-layout.available-board-draft .available-now .mini-board-lane:nth-child(5):last-child{grid-column:2/span 2}
+.next-ui.table-layout.available-board-draft .available-now .mini-board-lane .mini-board-progress{display:none!important}
+.next-ui.table-layout.available-board-draft .available-now .mini-board-lane h3{display:flex!important;order:2!important;width:auto!important;height:auto!important;min-height:0!important;grid-column:auto!important;grid-row:auto!important;align-items:center!important;justify-content:center!important;gap:4px!important;margin:0!important;padding:3px 9px!important;border:1px solid #c9b97966!important;border-radius:999px!important;background:#0e2426b8!important;color:#efe4c4!important;font-size:9px!important;line-height:1!important;text-align:center!important;text-shadow:0 1px 2px #000!important}
+.next-ui.table-layout.available-board-draft .available-now .mini-board-lane h3 img{width:15px!important;height:15px!important;object-fit:contain}
+
+.next-ui.table-layout.available-board-draft .available-now .mini-board-lane .tile.available-industry-tile{--component-height:122px;position:relative;display:grid!important;width:min(100%,166px)!important;height:auto!important;min-width:0!important;min-height:var(--component-height)!important;grid-column:auto!important;grid-row:auto!important;grid-template-columns:22px minmax(122px,1fr) 22px!important;grid-template-rows:auto!important;grid-template-areas:"build center reward"!important;align-items:start!important;justify-content:center!important;gap:0!important;padding:7px 0 0!important;overflow:visible!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;color:var(--board-ink)!important;text-align:center!important}
+
+/* The parchment ribbons sit behind the foreground square and finish in a point. */
+.next-ui.table-layout.available-board-draft .available-now .available-industry-tile-build,.next-ui.table-layout.available-board-draft .available-now .available-industry-tile-reward{--ribbon-fill:linear-gradient(90deg,#f7f1df,#d5ccb5 54%,#efe7d2);position:relative!important;z-index:4!important;display:flex!important;box-sizing:border-box!important;width:100%!important;min-width:0!important;min-height:calc(var(--component-height) - 12px)!important;margin:0!important;padding:1px 0 7px!important;align-items:flex-start!important;justify-content:flex-start!important;overflow:visible!important;border:1px solid #8d8167!important;border-radius:4px 4px 2px 2px!important;background:var(--ribbon-fill)!important;box-shadow:inset 0 1px #fff9,0 3px 5px #030d0e73!important;clip-path:none!important}
+.next-ui.table-layout.available-board-draft .available-now .available-industry-tile-build::after,.next-ui.table-layout.available-board-draft .available-now .available-industry-tile-reward::after{content:"";position:absolute;z-index:-1;left:-1px;right:-1px;bottom:-12px;height:13px;background:var(--ribbon-fill);clip-path:polygon(0 0,100% 0,50% 100%);filter:drop-shadow(0 2px 1px #030d0e55)}
+.next-ui.table-layout.available-board-draft .available-now .available-industry-tile-build{grid-area:build!important;justify-self:end!important}
+.next-ui.table-layout.available-board-draft .available-now .available-industry-tile-reward{--ribbon-fill:linear-gradient(90deg,#e9e1cc,#c6bca4 50%,#f6efdc);grid-area:reward!important;justify-self:start!important}
+.next-ui.table-layout.available-board-draft .available-now .available-industry-tile-reward.empty{--ribbon-fill:repeating-linear-gradient(135deg,#d8d0bb,#d8d0bb 5px,#c8bea7 5px,#c8bea7 10px);visibility:visible!important;opacity:.34}
+
+/* The physical square remains the foreground piece. */
+.next-ui.table-layout.available-board-draft .available-now .available-industry-tile-center{position:relative!important;z-index:3!important;display:flex!important;grid-area:center!important;min-width:0!important;flex-direction:column!important;align-items:center!important}
+.next-ui.table-layout.available-board-draft .available-now .available-industry-tile-art{display:block!important;width:min(var(--component-height),100%)!important;aspect-ratio:1!important;overflow:visible!important;border-radius:7%!important}
+.next-ui.table-layout.available-board-draft .available-now .available-industry-tile-art img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;border-radius:7%!important;box-shadow:0 1px 0 #fff8,0 4px 6px #02090ac2,0 11px 14px #02090a99!important;filter:drop-shadow(0 1px 0 #f4e8c8)!important}
+.next-ui.table-layout.available-board-draft .available-now .available-industry-tile-pips{display:flex!important;min-height:8px!important;align-items:center!important;justify-content:center!important;gap:5px!important;margin-top:5px!important}
+.next-ui.table-layout.available-board-draft .available-now .available-industry-tile-pips i{display:block!important;width:8px!important;height:8px!important;border-radius:999px!important;background:#d9c486!important;box-shadow:inset 0 1px #fff9,0 1px 2px #000!important}
+
+/* Icons read vertically along each ribbon, including the era symbol at the pointed end. */
+.next-ui.table-layout.available-board-draft .available-now .available-industry-tile .board-facts{display:flex!important;width:100%!important;flex-direction:column!important;flex-wrap:nowrap!important;align-items:center!important;justify-content:flex-start!important;row-gap:2px!important;column-gap:0!important;margin:0!important;padding:0!important;border:0!important}
+.next-ui.table-layout.available-board-draft .available-now .available-industry-tile .board-facts>*{display:block!important;flex:0 0 auto!important;margin:0!important}
+.next-ui.table-layout.available-board-draft .available-now .available-industry-tile .board-facts>*+*{margin-top:-6px!important}
+.next-ui.table-layout.available-board-draft .available-now .available-resource-pile{display:flex!important;flex-direction:column!important;align-items:center!important;gap:0!important;line-height:0!important}
+.next-ui.table-layout.available-board-draft .available-now .available-resource-pile img{display:block!important;flex:0 0 auto!important}
+.next-ui.table-layout.available-board-draft .available-now .available-industry-tile .board-fact{min-height:18px!important;padding:0!important;background:transparent!important;box-shadow:none!important}
+.next-ui.table-layout.available-board-draft .available-now .available-industry-tile .board-fact img{width:22px!important;height:22px!important}
+.next-ui.table-layout.available-board-draft .available-now .available-tile-token{width:27px!important;height:27px!important}
+.next-ui.table-layout.available-board-draft .available-now .available-tile-token>b{font-size:12px!important}
+.next-ui.table-layout.available-board-draft .available-now .available-tile-token.cash{width:24px!important;height:24px!important}
+.next-ui.table-layout.available-board-draft .available-now .available-tile-token.income-level-vp{position:relative!important;display:grid!important;place-items:center!important}
+.next-ui.table-layout.available-board-draft .available-now .available-tile-token.income-level-vp>img:first-child{width:100%!important;height:100%!important;object-fit:contain!important}
+.next-ui.table-layout.available-board-draft .available-now .available-tile-token.income-level-vp .available-income-level-mark{position:absolute!important;left:50%!important;top:50%!important;width:58%!important;height:58%!important;object-fit:contain!important;transform:translate(-50%,-50%)!important;filter:drop-shadow(0 1px 1px #0008)!important}
+.next-ui.table-layout.available-board-draft .available-now .available-tile-income,.next-ui.table-layout.available-board-draft .available-now .available-tile-link{width:26px!important;height:26px!important}
+.next-ui.table-layout.available-board-draft .available-now .available-industry-tile .board-facts>.available-tile-link-stack{display:block!important;align-self:center!important;min-height:26px!important;flex:none!important}
+.next-ui.table-layout.available-board-draft .available-now .available-tile-link-stack img{display:block!important;width:26px!important;height:26px!important;max-width:none!important;object-fit:contain!important;filter:drop-shadow(0 1px 1px #0008)!important}
+.next-ui.table-layout.available-board-draft .available-now .available-tile-link-stack.links-2,.next-ui.table-layout.available-board-draft .available-now .available-tile-link-stack.links-3{position:relative!important;width:46px!important;min-height:26px!important}
+.next-ui.table-layout.available-board-draft .available-now .available-tile-link-stack.links-2{height:26px!important}
+.next-ui.table-layout.available-board-draft .available-now .available-tile-link-stack.links-3{height:46px!important}
+.next-ui.table-layout.available-board-draft .available-now .available-tile-link-stack.links-2 img,.next-ui.table-layout.available-board-draft .available-now .available-tile-link-stack.links-3 img{position:absolute!important;margin:0!important}
+.next-ui.table-layout.available-board-draft .available-now .available-tile-link-stack.links-2 img:nth-child(1),.next-ui.table-layout.available-board-draft .available-now .available-tile-link-stack.links-3 img:nth-child(1){left:0!important;top:0!important}
+.next-ui.table-layout.available-board-draft .available-now .available-tile-link-stack.links-2 img:nth-child(2),.next-ui.table-layout.available-board-draft .available-now .available-tile-link-stack.links-3 img:nth-child(2){left:20px!important;top:0!important}
+.next-ui.table-layout.available-board-draft .available-now .available-tile-link-stack.links-3 img:nth-child(3){left:10px!important;top:17px!important}
+.next-ui.table-layout.available-board-draft .available-now .available-resource-pile img+img{margin-top:-9px!important}
+.next-ui.table-layout.available-board-draft .available-now .available-tile-era{position:absolute!important;z-index:6!important;left:50%!important;bottom:-20px!important;display:grid!important;width:16px!important;height:16px!important;min-height:16px!important;place-items:center!important;margin:0!important;transform:translateX(-50%)!important;filter:drop-shadow(0 1px 1px #0008)}
+.next-ui.table-layout.available-board-draft .available-now .available-tile-era::before{content:"";display:block;width:11px;height:11px;border:2px solid #dde1d5;border-radius:50%;background:linear-gradient(90deg,#253740 0 50%,#f0efe3 50% 100%);box-shadow:0 0 0 1px #35484b,inset 0 0 0 1px #969b91}
+.next-ui.table-layout.available-board-draft .available-now .available-tile-era.era-2::before{background:linear-gradient(90deg,#f0efe3 0 50%,#39422f 50% 100%)}
+.next-ui.table-layout.available-board-draft .available-now .mini-board-lane h3{display:none!important}
+
+.next-ui.table-layout.available-board-draft .available-net{display:grid!important;box-sizing:border-box;width:100%;max-width:720px;min-width:0;margin:8px auto 0;grid-template-columns:repeat(auto-fit,minmax(86px,1fr))!important;gap:7px;padding:8px;overflow:hidden;border:1px solid #52686a;border-radius:9px;background:radial-gradient(circle at 50% -40%,#3f6062,#203d40 60%,#142a2d)}
+.next-ui.table-layout.available-board-draft .available-network-tile{display:block;min-width:0;overflow:visible;border-radius:7px;filter:drop-shadow(0 4px 4px #02090aaa)}
+.next-ui.table-layout.available-board-draft .available-network-tile img{display:block;width:100%;height:auto;aspect-ratio:260/148;object-fit:fill;border-radius:7px}
+
+/* Narrow command rails keep the same 2 + 2 + 1 order with smaller components. */
+@container (max-width:520px){
+  .next-ui.table-layout.available-board-draft .command-column .available-now .mini-personal-board{gap:11px 7px!important;padding-inline:10px!important}
+  .next-ui.table-layout.available-board-draft .available-now .mini-board-lane{grid-column:span 2}
+  .next-ui.table-layout.available-board-draft .available-now .mini-board-lane:nth-child(4){grid-column:span 2}
+  .next-ui.table-layout.available-board-draft .available-now .mini-board-lane:nth-child(5):last-child{grid-column:2/span 2}
+  .next-ui.table-layout.available-board-draft .available-now .mini-board-lane .tile.available-industry-tile{--component-height:92px;width:min(100%,126px)!important;grid-template-columns:17px minmax(92px,1fr) 17px!important}
+}

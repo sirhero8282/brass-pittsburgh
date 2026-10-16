@@ -1,0 +1,24 @@
+.log-actions{display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end}
+.decision-audit{margin:12px 0 8px;border:1px solid #46534c;border-radius:10px;background:#111b1b;padding:10px;max-width:100%}
+.decision-audit summary{cursor:pointer;color:#dfbb79;font-size:14px;font-weight:700;line-height:1.5}
+.decision-audit pre{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;max-height:500px;overflow:auto;margin:10px 0 0;color:#d7ded6;font:13px/1.65 system-ui,-apple-system,"Noto Sans KR",sans-serif}
+.log>div{min-width:0}
+@media(max-width:650px){#logView>.section-head{align-items:flex-start;flex-wrap:wrap}.log-actions{width:100%;justify-content:space-between}}
+.oil-node.oil-city-built.player .node-box{stroke:#e8483f;stroke-width:5;filter:drop-shadow(0 0 5px #e8483f99)}
+.oil-node.oil-city-built.automa .node-box{stroke:#ffd54d;stroke-width:5;filter:drop-shadow(0 0 5px #ffd54d99)}
+.oil-node.oil-city-built.flipped .node-box{opacity:.72}
+.oil-node.action-candidate .node-box{stroke:#fff16b;stroke-width:6;filter:drop-shadow(0 0 9px #ffe76c)}
+.tile-level{pointer-events:none;filter:drop-shadow(0 1px 2px #000b)}
+.tile-level circle{fill:#172322;stroke:#f5d77e;stroke-width:1.8}
+.tile-level text{fill:#fff2c7;font:900 10px Georgia,serif;text-anchor:middle}
+.final-score[hidden]{display:none}
+.final-score-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr) minmax(0,1fr);gap:0;border:1px solid #45534c;border-radius:10px;overflow:hidden;margin:12px 0}
+.final-score-grid>*{padding:8px 6px;border-bottom:1px solid #34453f;font-size:13px;overflow-wrap:anywhere}
+.final-score-grid>*:nth-child(3n+2),.final-score-grid>*:nth-child(3n+3){text-align:right}
+.final-score-grid>*:nth-last-child(-n+3){border-bottom:0;color:#ffe39a;font-weight:800}
+.final-score-grid>*:nth-child(3n+1){background:#1b2927}
+.log p{white-space:pre-line}
+.map-stage .map-wrap{position:relative}
+.map-era-round{position:absolute;top:14px;left:14px;z-index:3;display:flex;gap:12px;padding:9px 13px;border:1px solid #b99053;border-radius:10px;background:#172522ec;color:#f7e6ba;box-shadow:0 5px 16px #14201ab3;font-size:13px;font-weight:700;pointer-events:none}
+.map-era-round b{color:#fff;font-size:17px;margin-left:3px}
+@media(max-width:650px){.map-era-round{top:8px;left:8px;gap:8px;padding:6px 9px;font-size:11px}.map-era-round b{font-size:14px}}

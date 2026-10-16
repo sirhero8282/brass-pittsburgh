@@ -1,0 +1,14 @@
+/* Keep every line in the execution confirmation readable on the light dialog. */
+#confirmActionDialog .confirm-action-detail .confirm-fact{
+  background:#f3f9fe;
+  border:2px solid #b8d4ed;
+  color:#173453;
+}
+#confirmActionDialog .confirm-action-detail .confirm-fact span{color:#173453}
+#confirmActionDialog .confirm-action-detail .confirm-fact>b{color:#176ec6}
+#confirmActionDialog .confirm-action-detail .confirm-resource-row{
+  background:#f3f9fe;
+  border:2px solid #b8d4ed;
+  color:#173453;
+}
+#confirmActionDialog .confirm-action-detail .confirm-resource-row span{color:#294b68}
