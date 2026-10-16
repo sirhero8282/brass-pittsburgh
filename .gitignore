@@ -12,3 +12,4 @@ artifacts/
 .wrangler/
 .dev.vars
 .dev.vars.*
+.cache/

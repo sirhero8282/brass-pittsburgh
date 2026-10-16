@@ -2,7 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "brass-pittsburgh-metrics",
   "main": "worker.mjs",
-  "compatibility_date": "2026-10-17",
+  "compatibility_date": "2026-10-12",
   "workers_dev": true,
   "vars": {
     "ALLOWED_ORIGIN": "https://sirhero8282.github.io"

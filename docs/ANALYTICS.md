@@ -1,6 +1,8 @@
 # 방문 통계 설치
 
-현재 상태: 프런트엔드와 서버 코드만 준비됨. Cloudflare 계정/서버가 연결되기 전에는 metrics-config.js의 endpoint가 비어 있어 집계가 꺼져 있다. 준비 상태의 통계 화면은 /stats.html에서 볼 수 있다.
+현재 상태: 2026-10-17 Cloudflare 집계 서버 배포 및 관리자 인증 API 검증 완료. endpoint는 https://brass-pittsburgh-metrics.brass-pittsburgh-metrics.workers.dev 이며 metrics-config.js에 연결되어 있다. 통계 화면: https://sirhero8282.github.io/brass-pittsburgh/stats.html . 새 설정이 배포된 게임 페이지부터 수집한다.
+
+관리자 조회 키는 이 PC의 artifacts/metrics-admin.dpapi에 Windows 현재 사용자 기준으로 암호화 보관되어 있다. 파일은 Git에서 제외된다. 프로젝트 폴더의 PowerShell에서 `./scripts/metrics-admin.ps1 -Copy`를 실행해 키를 복사한 뒤 통계 화면에 붙여넣는다. 사용 후 클립보드를 지우는 것을 권장한다. `-Verify`는 비밀값을 출력하지 않고 현재 집계값을 확인한다. PC/Windows 사용자 계정이 바뀌면 이 암호화 파일을 그대로 사용할 수 없으므로 새 관리자 키를 발급해야 한다.
 
 ## 집계 기준
 
@@ -10,7 +12,7 @@
 - 일별 중복 방지 기록은 오늘/어제만, 일별 합계는 최근 1년까지만 유지한다. 화면은 최근 30일을 보여준다. 오래된 기록은 다음 집계 요청 때 정리한다. 활성 수 계산은 만료 시각으로 필터하므로 정리 요청이 없어도 숫자가 자동으로 오래 남지 않는다.
 - 사람의 정확한 수를 보장하지 않는다. 시크릿 창/기기/저장소 삭제는 중복 집계, 차단 도구/네트워크 오류는 누락을 만들 수 있다. 공개 이벤트 API는 인증된 인원수나 부정 접속 방지 수단이 아니다.
 
-## 1. Cloudflare 무료 계정 연결
+## 재설치 시: Cloudflare 무료 계정 연결
 
 https://dash.cloudflare.com/sign-up 에서 직접 계정을 생성하고 로그인한다. Workers Free 플랜을 사용하며 유료 플랜으로 전환하지 않는다. GitHub Pages 호스팅과 URL은 유지한다.
 

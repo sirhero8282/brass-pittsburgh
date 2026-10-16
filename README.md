@@ -32,4 +32,4 @@ npm start
 
 관리자 통계 화면: https://sirhero8282.github.io/brass-pittsburgh/stats.html
 
-일별 방문자와 현재 접속 브라우저 집계 코드를 포함합니다. Cloudflare 무료 계정에 집계 Worker를 배포하고 endpoint를 연결하기 전까지 수집은 꺼져 있습니다. [설치 및 집계 기준](docs/ANALYTICS.md)을 참고하세요. 관리자 조회 키는 서버 secret으로만 설정하며 공개 설정 파일에는 넣지 않습니다.
+일별 방문자와 현재 접속 브라우저를 Cloudflare Worker + SQLite Durable Object에서 집계합니다. 한국 시간 기준이며 현재 접속은 최근 150초 내 신호를 보낸 브라우저 수입니다. [설치 및 집계 기준](docs/ANALYTICS.md)을 참고하세요. 관리자 조회 키는 서버 secret으로 설정하고 이 PC에는 Windows 사용자 기준으로 암호화 보관하며, 공개 설정 파일에는 넣지 않습니다.
