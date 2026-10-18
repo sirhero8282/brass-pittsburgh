@@ -7,6 +7,9 @@
 - Final complete Pages CJS suite 331/331 passed; focused session/sale/sewing/timing 49/49, timing/release/Pages/metrics 27/27. Build overlay and static references passed. Private development CJS422/422 and Lab MJS passed. Final frozen-source seed102192 both-seat smoke versusv210:51:80,85:47,62 actions each, errors0/bankruptcies0. Small compatibility check only, not general strength evidence or exact human-game replay.
 - Both ChatGPT Site and this public Pages URL are required for future deployments. Publication and live-served asset confirmation follow; no browser interaction QA was performed for this engine-only release.
 
+- LIVE confirmed: ChatGPT Site saved version95 (appgprj_6aa8b237ecfc8191825fb1a632a70b14~appgver_e335e01995808191acc7429ada0eb7bf), deployment appgdep_6ad50fb4341481919e6535afe827b784 succeeded. The supported source helper pushed/reopened71c1b35922d1c8915c0d2dfec7acbae6ef6d4449; local packaging could not start, so saved-source remote-build fallback was used.
+- Public Pages runtime commit8b11e5b2528e8bcdd8260d816a476f828360280b, Actions39154236564 completed success for both verify/deploy. Public HTTP verification matched seven current files including app, update history, local-session and metrics. Actual executor v211-sale-timing-v1; normalized public app SHA2565023cf724c07408034a1ddc8dd63aecd35fd6765b59a7ba368544e08923eb650. Removing only the storage adapter exactly reproduces the Site app (normalized SHA256d42f4f2fae67d49f6093c7275c6a33721bd03a737151e66958c2af6f67cd97a2). Follow-up documentation uses skip-ci; runtime deployment remains the confirmed commit.
+
 ## v210 release import — 2026-10-18 (Asia/Seoul)
 
 - User explicitly selected https://sirhero8282.github.io/brass-pittsburgh/. This is the separate public brass-pittsburgh repository, not private hobby-boardgame-brass. Existing Pages workflow and public access are preserved; ChatGPT Sites publication is unchanged.
