@@ -7,5 +7,6 @@ const {execFileSync}=require('node:child_process');
  const headers={'Authorization':'Bearer '+credential.password,'User-Agent':'Codex-Pages-Deployment','Accept':'application/vnd.github+json'};
  async function get(path){const response=await fetch('https://api.github.com/repos/sirhero8282/brass-pittsburgh'+path,{headers});if(!response.ok)throw Error('GitHub HTTP '+response.status+' for '+path);return response.json()}
  const pages=await get('/pages'),runs=await get('/actions/runs?per_page=5');
- console.log(JSON.stringify({pages:{status:pages.status,url:pages.html_url,buildType:pages.build_type,source:pages.source},runs:runs.workflow_runs.map(r=>({id:r.id,head:r.head_sha,status:r.status,conclusion:r.conclusion,url:r.html_url,title:r.display_title}))}));
+ const latest=runs.workflow_runs[0],jobs=latest?await get('/actions/runs/'+latest.id+'/jobs'):null;
+ console.log(JSON.stringify({pages:{status:pages.status,url:pages.html_url,buildType:pages.build_type,source:pages.source},runs:runs.workflow_runs.map(r=>({id:r.id,head:r.head_sha,status:r.status,conclusion:r.conclusion,url:r.html_url,title:r.display_title})),jobs:jobs?.jobs.map(job=>({name:job.name,status:job.status,conclusion:job.conclusion,steps:job.steps.map(s=>({name:s.name,status:s.status,conclusion:s.conclusion}))}))}));
 })().catch(error=>{console.error(error.message);process.exitCode=1});
