@@ -1,5 +1,12 @@
 # GitHub Pages release handoff — 2026-10-17
 
+## v212 economic recovery — 2026-10-19 (Asia/Seoul)
+
+- Imported tested app/engine/release history for plan-executor-v212-economic-recovery-v1. Removed old-development/deadline hard exclusion of alternatives; economic coke intent uses real connected sales/cost and profitable affordable own consumption, not fixed24VP. Actual positive-VP locomotive can recover cooldown; bounded late existing-goods recovery compares real network/card/oil/sale sequences without hard bans. Rules, champion/schema, saves, assets/layout and analytics remain unchanged. See docs/AUTOMA_ECONOMIC_RECOVERY_V212.md.
+- Preserved local-session adapter, active metrics collector/config/backend/admin, protocol and Actions workflow; current derived app key20261019-plan212-economic-recovery-pages-session1. Release assertions align to executor. Existing support-debt assertion retained with a genuinely profitable connected-market fixture, and old hard-commitment assertion superseded by alternative admissibility.
+- FINAL complete Pages CJS349/349, private CJS440/440 and Lab MJS passed. Focused economics18/18, resource/economics44/44, economics/execution/timing56/56, release/session/metrics16/16, syntax/diff/static subpath/overlay checks passed. Final frozen-source seed102213 both seats versusv211:90:89,87:76,62 actions each, errors0/bankruptcies0. Small compatibility screen only, not a broad win-rate claim. Browser interaction QA and exact human-game replay not performed. No live save mutation.
+- Both this public Pages URL and existing ChatGPT Site must be published. Runtime deployment/source/live-asset verification follow.
+
 ## v211 sale timing — 2026-10-19 (Asia/Seoul)
 
 - Imported tested Site source 71c1b35922d1c8915c0d2dfec7acbae6ef6d4449 runtime/release UI/tests/docs. Actual executor plan-executor-v211-sale-timing-v1. Fixed simulated construction's false immediate sale flip; ready target sale guidance no longer depends on active build stage. Typewriter repeat sales and verified quality income are separate; bounded real build+bundle comparisons check shared oil/card/cash and opponent-sale windows.
