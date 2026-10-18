@@ -1,5 +1,13 @@
 # GitHub Pages release handoff — 2026-10-17
 
+## v210 release import — 2026-10-18 (Asia/Seoul)
+
+- User explicitly selected https://sirhero8282.github.io/brass-pittsburgh/. This is the separate public brass-pittsburgh repository, not private hobby-boardgame-brass. Existing Pages workflow and public access are preserved; ChatGPT Sites publication is unchanged.
+- Imported the tested runtime/assets from ChatGPT Site v94, source b1065871ca5f308ab502ce166d9e0dacb2f72ea3: v210-consistent-planning-v2, sewing settlement/reload repair, update history tab, sale/cancel/slot-priority fixes and the current local four-player board. Imported matching regression fixtures and the r399 coordinate reference used by those fixtures.
+- Retained the local-session storage boundary, shared room protocol, metrics configuration/collector/backend/admin page, and existing Actions deployment. No analytics secret or endpoint change, no storage reset or origin migration. The Pages overlay is idempotent and now derives its cache key from upstream instead of forcing the old v206-era key.
+- Static validation distinguishes document-relative images emitted by four-player/core.js and the valid ./ index link while retaining missing-file/project-subpath checks. Added Pages-specific overlay/session/analytics/cache regression tests. Existing session and visitor tests remain unchanged.
+- Direct Node build commands are the exact package build steps (npm CLI unavailable locally). Focused Pages/session/visitor suite passed 13/13; full imported suite and final deployment confirmation are recorded below. Source-only static checks and browser interaction are separate; do not claim a live release until Actions and public served assets are verified.
+
 - Baseline: published Sites v83, source 5269bd26d901016c9646ed5b88d2912632b60c97; copied from clean sites-v196-publish checkout.
 - Dedicated release repository avoids publishing the private development repository/history and unrelated uncommitted experiments.
 - Runtime preserved under dist. New DOM-free local session handles save/load and isolated state subscriptions; future room protocol is independent and not an online implementation.

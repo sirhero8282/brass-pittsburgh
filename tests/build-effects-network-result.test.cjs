@@ -35,16 +35,12 @@ for(const file of ['dist/app.js','engine-source.js']){
   run('confirmPlayerTurn()');
   assert.equal(run('!!state.gameOver'),true);
  });
- test(`${file}: canceled free developments remain usable without another card or action`,async()=>{
+ test(`${file}: canceling newly awarded development rolls back its entire construction`,async()=>{
   const run=game(file);
   run(`state.playerHand=['피츠버그'];state.playerRemoved['manufacturing:6']='developed';state.playerRemoved['manufacturing:7']='developed';Object.assign(slot('피츠버그',3),{owner:'player',industry:'제조 상자',groupId:'m1',flipped:true});Object.assign(slot('피츠버그',0),{owner:'automa',industry:'코크스 공장',groupId:'o1',resource:1,resources:{코크스:1}});pick=async()=>null;var choice=buildOptions('피츠버그').normal.find(x=>x.g.id==='m7');`);
-  await run("executePlayerBuild(choice,'피츠버그')");
-  assert.equal(run('state.freeDevelop.player'),3);
-  run("state.pendingPlayerTurn=false;state.round=7;state.roundActions.player=0;setPlayerActionBusy=busy=>{playerActionPending=busy};pick=async(label,items)=>items[0]");
-  await run('usePlayerFreeDevelop()');
-  assert.equal(run('state.freeDevelop.player'),0);
-  assert.equal(run('state.playerDiscard.length'),1);
-  assert.equal(run('state.roundActions.player'),0);
+  run('var beforeCancel=JSON.stringify(state)');
+  await assert.rejects(run("executePlayerBuild(choice,'피츠버그')"),/PLAYER_ACTION_CANCELLED/);
+  assert.equal(run('JSON.stringify(state)'),run('beforeCancel'));
  });
  for(const gid of ['s3','s5'])test(`${file}: ${gid} builds then sells connected goods using oil before the final round settles`,async()=>{
   const run=game(file);

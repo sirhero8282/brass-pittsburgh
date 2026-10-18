@@ -272,7 +272,7 @@
  function infoTileForGroup(track,entry){if(typeof INDUSTRIES==='undefined')return null;let id=entry?.ids?.find(candidate=>!state.playerRemoved?.[candidate]),tileIndex=Number(String(id||'').split(':')[1]);return Number.isInteger(tileIndex)?INDUSTRIES?.[track]?.tiles?.[tileIndex]||null:null}
  function infoEraAllowsGroup(entry,tile){let era=Number(state.era)||1,name=String(tile?.[0]||'');return !(era===1&&(name.includes('오일 시티')||name.includes('기관차 공장')))&&!(era===2&&entry?.id==='o1')}
  function infoLegalEmptySlots(city,track,tileName){
-  if(typeof slotRules!=='function'||typeof tileIndustry!=='function')return[];let industry=tileIndustry(track,tileName),rules=slotRules(city),valid=rules.map((allowed,slotIndex)=>({slotIndex,allowed,piece:infoSlotPiece(city,slotIndex)})).filter(item=>item.piece.owner==='none'&&item.allowed.includes(industry));if(!valid.length)return[];let minimum=Math.min(...valid.map(item=>item.allowed.length));return valid.filter(item=>item.allowed.length===minimum).map(item=>item.slotIndex)
+  return typeof legalEmptySlots==='function'?legalEmptySlots(city,track,tileName):[]
  }
  function infoBuildLocations(track,tileName,city){
   if(typeof tileIndustry!=='function'||typeof industryLevel!=='function')return[];

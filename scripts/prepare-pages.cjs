@@ -20,7 +20,8 @@ if (!html.includes('./runtime/local-session.js')) {
   if (!html.includes(marker)) throw new Error('Missing upstream script boundary');
   html = html.replace(marker, '<script src="./runtime/local-session.js?v=1"></script>' + marker);
 }
-html = html.replace(/app\.js\?v=[^" ]+/, 'app.js?v=20261017-pages-session1');
+// Preserve upstream cache invalidation while distinguishing the Pages storage adapter.
+html = html.replace(/app\.js\?v=([^" ]+)/, (_match, version) => 'app.js?v=' + version.replace(/-pages-session1$/, '') + '-pages-session1');
 if (!html.includes('./runtime/visitor-metrics.js')) {
   html = html.replace('</body>', '<script src="./metrics-config.js?v=1"></script><script src="./runtime/visitor-metrics.js?v=1" defer></script></body>');
 }

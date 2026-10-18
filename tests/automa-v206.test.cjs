@@ -64,5 +64,5 @@ test('actual UI lookahead matches the engine and restores the live state at ever
 });
 test('actual UI decision uses the committed plan and the same ranked action as the engine',async()=>{
  const run=engine('../dist/app.js',true);run(`state.era=2;state.round=5;state.actionNo=1;state.turnOwner='automa';state.roundStarter='automa';state.hand=['이리','석탄','제철소','제조 상자'];state.money=60;state.income=30;normalizeRoundActions();globalThis.initial=structuredClone(state);decide();globalThis.expected=candidateChoiceKey(state.current);state=structuredClone(initial)`);
- assert.equal(await run('decideAutoma()'),true);assert.equal(run('candidateChoiceKey(state.current)'),run('expected'));assert.match(run('state.current.audit'),/v206/);
+ assert.equal(await run('decideAutoma()'),true);assert.equal(run('candidateChoiceKey(state.current)'),run('expected'));assert.ok(run('state.current.audit.includes(AUTOMA_EXECUTOR_VERSION)'));
 });

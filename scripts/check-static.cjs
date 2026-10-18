@@ -14,8 +14,11 @@ for (const file of walk(root).filter(file => /\.(html|css|js)$/.test(file))) {
     const ref = match[1] || match[2];
     if (/^(?:[a-z]+:|#|\$|\{)/i.test(ref) || ref.includes('${')) continue;
     if (ref.startsWith('/')) { failures.push(`${path.relative(root, file)}: root-relative ${ref}`); continue; }
-    const target = path.resolve(path.dirname(file), decodeURIComponent(ref.split(/[?#]/)[0]));
-    if (!target.startsWith(root + path.sep) || !fs.existsSync(target)) failures.push(`${path.relative(root, file)}: missing ${ref}`);
+    // core.js emits HTML into /four-player.html: its img paths use that document's base.
+    const documentBase = path.relative(root, file).split(path.sep).join('/') === 'four-player/core.js' ? root : path.dirname(file);
+    const target = path.resolve(documentBase, decodeURIComponent(ref.split(/[?#]/)[0]));
+    const rootIndex = target === root && fs.existsSync(path.join(root, 'index.html'));
+    if ((!target.startsWith(root + path.sep) && !rootIndex) || !fs.existsSync(target)) failures.push(`${path.relative(root, file)}: missing ${ref}`);
   }
 }
 if (failures.length) { console.error(failures.join('\n')); process.exitCode = 1; }

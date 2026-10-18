@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const { readFileSync } = require('node:fs');
 const { join } = require('node:path');
 const vm = require('node:vm');
+
 function engine() {
   const code = readFileSync(join(__dirname, '../dist/app.js'), 'utf8');
   class FixedDate extends Date { static now() { return 123456789; } }
@@ -114,12 +115,11 @@ test('network purpose recognizes a legal next-action coke market sale', () => {
   assert.match(signals.cokeMarketRoute.reason, /코크스/);
 });
 
-test('coke is a supporting subplan while unsafe bicycle placement is rejected', () => {
+test('a coke market sale alone does not prove mandatory support, while unsafe bicycle placement is rejected', () => {
   const run = engine();
   const coke = JSON.parse(run("JSON.stringify(candidateSupportRole({type:'건설',track:'coke',left:2,sellable:1},{id:'TYPEWRITER_QUALITY_ENGINE',execution:{requiredActions:0}}))"));
   const bicycle = JSON.parse(run("JSON.stringify(candidateSupportRole({type:'건설',track:'manufacturing',groupId:'m4',bicycle:{unsafe:true,reason:'상대 링크 이익 과다'}},{id:'LOCOMOTIVE_HEAVY_RAIL_ENGINE'}))"));
-  assert.equal(coke.role, 'SUPPORT_REQUIRED');
-  assert.ok(coke.adjustment > 0);
+  assert.equal(coke, null);
   assert.equal(bicycle.role, 'DISTRACTION');
   assert.ok(bicycle.hardAdjustment <= -200);
 });
@@ -183,7 +183,7 @@ test('generated development template requires the exact target groups', () => {
 
 test('locomotive unblock only accepts development on its shortest unlock path', () => {
   const run = engine();
-  const result = JSON.parse(run(`JSON.stringify((()=>{state.era=2;state.round=2;let path=locomotivePlanEstimate().path,exact={type:'개발',targets:[{groupId:path,track:'manufacturing'}]},unrelated={type:'개발',targets:[{groupId:'m1',track:'manufacturing'}]},coal={type:'건설',track:'coal',groupId:'c2'};let rows=planUnblockCandidates('LOCOMOTIVE_HEAVY_RAIL_ENGINE',{developments:[exact,unrelated],builds:[coal],opts:[exact,unrelated,coal],networks:[]});return {path,exact:rows.includes(exact),unrelated:rows.includes(unrelated),coal:rows.includes(coal)}})())`));
+  const result = JSON.parse(run(`JSON.stringify((()=>{state.era=2;state.round=2;state.removed['manufacturing:3']='developed';state.removed['manufacturing:4']='developed';let path=locomotivePlanEstimate().path,exact={type:'개발',targets:[{id:group(path).ids[0],groupId:path,track:'manufacturing'}]},unrelated={type:'개발',targets:[{id:'manufacturing:0',groupId:'m1',track:'manufacturing'}]},coal={type:'건설',track:'coal',groupId:'c2'};let rows=planUnblockCandidates('LOCOMOTIVE_HEAVY_RAIL_ENGINE',{developments:[exact,unrelated],builds:[coal],opts:[exact,unrelated,coal],networks:[]});return {path,exact:rows.includes(exact),unrelated:rows.includes(unrelated),coal:rows.includes(coal)}})())`));
   assert.equal(result.exact, true);
   assert.equal(result.unrelated, false);
   assert.equal(result.coal, false);

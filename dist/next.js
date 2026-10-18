@@ -1,5 +1,6 @@
 /* Card-first interaction layer. Game rules remain in app.js. */
 let nextCard=null, nextCardIndex=-1, nextAction=null, nextStamp='';
+let nextActionTask=null,nextActionRequest=0;
 let automaTimer=null, automaRunKey='', automaToastTimer=null, automaPausedByUndo=false,automaDecisionRunning=false;
 const nextNames={build:'건설',network:'네트워크',sell:'판매',develop:'개발',loan:'대출',pass:'패스'};
 function nextCards(){return tracksPlayerHand()?(state.playerHand||[]).map(card=>({card,left:1})):physicalAvailableCards()}
@@ -54,18 +55,24 @@ function nextCardIcon(card){return {'제철소':'steelworks','등유':'kerosene'
 function nextCardHasAction(card){let a=nextAvailability(card);return ['build','network','sell','develop','loan'].some(k=>!a[k])}
 function nextCardsForAction(action){return nextCards().filter(({card})=>!nextAvailability(card)[action])}
 function clearNextActionDetails(){let details=$('#nextDetails');if(details){details.hidden=true;details.innerHTML=''}}
-function cancelNextPlayerAction(){
- if(!playerActionPending)return;
+async function cancelNextPlayerAction(){
+ const task=nextActionTask;
+ if(!playerActionPending&&!task)return;
  actionEpoch++;pendingChoiceAbort?.();if(mapSelection)endMapSelection(null,true);
  setPlayerActionBusy(false);clearNextActionDetails();
+ // Finish the old action's rollback before another action can take a snapshot.
+ if(task)await task;
 }
 async function runNextAction(action){
  if(state.pendingPlayerTurn)return;
- if(playerActionPending)cancelNextPlayerAction();
+ const request=++nextActionRequest;
+ if(playerActionPending||nextActionTask)await cancelNextPlayerAction();
+ if(request!==nextActionRequest)return;
  if(!nextCard||nextAvailability(nextCard)[action]){nextCard=null;nextCardIndex=-1;nextAction=action;setPlayerStep('card');renderNext();return}
  nextAction=action;
  const epoch=actionEpoch;
- try{await playerAction(action,nextCard)}finally{if(epoch===actionEpoch&&nextAction===action){nextAction=null;if(!state.pendingPlayerTurn){clearNextActionDetails();$('#nextEndTurn').hidden=true}renderNext()}}
+ const task=playerAction(action,nextCard);nextActionTask=task;
+ try{await task}finally{if(nextActionTask===task)nextActionTask=null;if(epoch===actionEpoch&&nextAction===action){nextAction=null;if(!state.pendingPlayerTurn){clearNextActionDetails();$('#nextEndTurn').hidden=true}renderNext()}}
 }
 function renderNext(){
  const physicalBox=$('#physicalAutomaCards');
@@ -91,7 +98,7 @@ function renderNext(){
  if(handKey!==nextHandRenderKey){
  nextHandRenderKey=handKey;
  $('#nextHand').innerHTML=nextCards().map(({card,left},i)=>{let icon=nextCardIcon(card),selected=nextCard!==null&&nextCardIndex===i,available=playerActionPending?nextCardHasAction(card):nextAction?!nextAvailability(card)[nextAction]:nextCardHasAction(card),title=selected?'다시 누르면 카드 선택이 취소됩니다.':playerActionPending?'현재 선택을 취소하고 이 카드로 다시 선택합니다.':nextAction?(available?nextNames[nextAction]+'을(를) 실행할 수 있습니다.':nextNames[nextAction]+'을(를) 실행할 수 없습니다.'):available?'선택 가능한 행동이 있습니다.':'현재 가능한 건설·네트워크·판매·개발·대출 행동이 없습니다.';return `<button type="button" class="next-card ${icon?'industry':'city'} ${available?'':'next-card-unavailable'}" data-next-card="${i}" aria-pressed="${selected}" ${state.pendingPlayerTurn||!available?'disabled':''} title="${title}"><small>${icon?'산업':'도시'}</small><img class="${icon?'':'next-city-icon'}" src="./assets/icons/${icon?'detail/'+icon:'city-america-1890'}.png" alt=""><strong>${escapeAuditHtml(card)}</strong>${!tracksPlayerHand()?`<small>${left}장 남음</small>`:''}</button>`}).join('')||'<p>남은 카드가 없습니다.</p>';
- $$('[data-next-card]').forEach(b=>b.onclick=async()=>{let index=Number(b.dataset.nextCard),action=playerActionPending?null:nextAction;if(!playerActionPending&&nextCard!==null&&nextCardIndex===index){nextCardIndex=null;nextCard=null;setPlayerStep('card');renderNext();$('[data-next-card="'+index+'"]')?.focus({preventScroll:true});return}if(playerActionPending)cancelNextPlayerAction();nextCardIndex=index;nextCard=nextCards()[nextCardIndex].card;if(action)return runNextAction(action);setPlayerStep(nextCardHasAction(nextCard)?'action':'card');renderNext();$('[data-next-card="'+nextCardIndex+'"]').focus({preventScroll:true})});
+ $$('[data-next-card]').forEach(b=>b.onclick=async()=>{let index=Number(b.dataset.nextCard),action=playerActionPending||nextActionTask?null:nextAction;const request=++nextActionRequest;if(!playerActionPending&&!nextActionTask&&nextCard!==null&&nextCardIndex===index){nextCardIndex=null;nextCard=null;setPlayerStep('card');renderNext();$('[data-next-card="'+index+'"]')?.focus({preventScroll:true});return}if(playerActionPending||nextActionTask)await cancelNextPlayerAction();if(request!==nextActionRequest)return;nextCardIndex=index;nextCard=nextCards()[nextCardIndex]?.card||null;if(action)return runNextAction(action);setPlayerStep(nextCardHasAction(nextCard)?'action':'card');renderNext();$('[data-next-card="'+nextCardIndex+'"]')?.focus({preventScroll:true})});
  }
  $$('[data-next-card]').forEach(b=>b.setAttribute('aria-pressed',String(nextCard!==null&&Number(b.dataset.nextCard)===nextCardIndex)));
  $$('[data-player]').forEach(b=>{const action=b.dataset.player,reason=nextCard?availability[action]:'',available=playerActionPending?nextCardsForAction(action).length>0:nextCard?!reason:nextCardsForAction(action).length>0;b.disabled=state.pendingPlayerTurn||!available;b.title=available?(nextCard?nextNames[action]:nextNames[action]+' 가능한 카드를 선택하세요.'):(reason||nextNames[action]+' 가능한 카드가 없습니다.');b.classList.toggle('next-action-active',nextAction===action);b.setAttribute('aria-describedby','nextActionHint')});
