@@ -1,5 +1,12 @@
 # GitHub Pages release handoff — 2026-10-17
 
+## v211 sale timing — 2026-10-19 (Asia/Seoul)
+
+- Imported tested Site source 71c1b35922d1c8915c0d2dfec7acbae6ef6d4449 runtime/release UI/tests/docs. Actual executor plan-executor-v211-sale-timing-v1. Fixed simulated construction's false immediate sale flip; ready target sale guidance no longer depends on active build stage. Typewriter repeat sales and verified quality income are separate; bounded real build+bundle comparisons check shared oil/card/cash and opponent-sale windows.
+- Preserved local-session adapter, active metrics endpoint/config, collector/backend/admin page, shared protocol and deployment workflow. Current derived app key 20261019-plan211-sale-timing-pages-session1. Updated release assertion and made public verification report executor from the compared app rather than hardcoding v210. No save reset, analytics identifier/secret change, champion change, asset or layout edit.
+- Final complete Pages CJS suite 331/331 passed; focused session/sale/sewing/timing 49/49, timing/release/Pages/metrics 27/27. Build overlay and static references passed. Private development CJS422/422 and Lab MJS passed. Final frozen-source seed102192 both-seat smoke versusv210:51:80,85:47,62 actions each, errors0/bankruptcies0. Small compatibility check only, not general strength evidence or exact human-game replay.
+- Both ChatGPT Site and this public Pages URL are required for future deployments. Publication and live-served asset confirmation follow; no browser interaction QA was performed for this engine-only release.
+
 ## v210 release import — 2026-10-18 (Asia/Seoul)
 
 - User explicitly selected https://sirhero8282.github.io/brass-pittsburgh/. This is the separate public brass-pittsburgh repository, not private hobby-boardgame-brass. Existing Pages workflow and public access are preserved; ChatGPT Sites publication is unchanged.

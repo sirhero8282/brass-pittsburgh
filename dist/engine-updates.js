@@ -1,10 +1,10 @@
 /* Read-only release information. No save, migration or game-state writes. */
 (() => {
   const release = Object.freeze({
-    version: 'v210 · 재봉틀 정산 수정',
-    date: '2026-10-18',
+    version: 'v211 · 판매 판단 일치',
+    date: '2026-10-19',
     timezone: 'Asia/Seoul',
-    executor: 'plan-executor-v210-consistent-planning-v2'
+    executor: 'plan-executor-v211-sale-timing-v1'
   });
   const current = document.getElementById('engineReleaseCurrent');
   if (current) {
