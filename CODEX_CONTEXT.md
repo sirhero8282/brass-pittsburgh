@@ -2,6 +2,10 @@
 
 ## ACCEPTED v213 endgame/development scope — 2026-10-19
 
+- Public HTTP proof matched all seven deployed files, including actual v213-endgame-development-v1 executor, update history, local session and metrics. App normalizedSHA256181642b4e62da5ac76f7306bc5017585f675a5c35a2b3578aef50dc60d193bdf; stripping only session adapter matches Site dc6fe65377f924f66d5922a9071112abc76fe6429ee69c9d413efa69b0c609ca. Browser handoff queued; deployment still verified successful.
+
+- BOTH LIVE: this public Pages runtime58ef6c9489f7273123d105ff264cf5af67fababd, Actions39193340368 verify/build/deploy succeeded. ChatGPT Sitev97 source1d42f24396bdaf2cc85c6926daf9bf28d2235d7d, saved appgprj_6aa8b237ecfc8191825fb1a632a70b14~appgver_238d77f4d3608191b5bdb7482fcdef1e, deployment appgdep_6ad58a5195608191aca3b1d56203f704 succeeded using official pushed-source/reopen and remote-build fallback after local packaging could not start. Private source runtime90fc07d2010e503d32ba25ddd0b5dd28dabd90f2 pushed. Documentation-only follow-ups use skip-ci; runtime stays unchanged. Actual public asset comparison recorded next.
+
 - FINAL accepted source: Pages CJS359/359, private450/450, paired10/10, release3/3, syntax/diff/static/session/analytics checks and cross-checkout equality passed (Pages adapter only difference). Frozen independent102217 both seats vs v212:134:96,96:134 =1W/1L mean0,62 actions each, errors0/bankruptcies0. This is compatibility, not strength improvement proof. No live save mutation or browser manual-play QA. Both-site publication IDs follow.
 
 - Current runtime/release is plan-executor-v213-endgame-development-v1, not funded-completion-v1. Rebuilt on livev212 and preserved only early-quality-preserving late/final valuation plus paired-development runway. Experimental locomotive feasibility/efficiency/loan/completion guidance changes were rejected (broad and narrowed102216 screens0W/2L mean-32) and are NOT in current dist. Main plan completion/liquidity issue remains unresolved. See docs/AUTOMA_ENDGAME_DEVELOPMENT_V213.md.
