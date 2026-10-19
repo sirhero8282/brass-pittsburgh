@@ -2,6 +2,10 @@
 
 ## v214 independent development supply — 2026-10-19
 
+- Actual public HTTP comparison matched all seven live files and executorv214-development-supply-v1. Public normalizedappSHA256a48f06e352137909da2f1be7e801c9e16945d34a6313d89500de019c97e74604; removing only session adapter matches Site4b29835a2f78e95f8e3abd426f28ab8d9f6021e08074f3b694f91f917f536c8e. Session/analytics protections intact; no live saved game changed.
+
+- BOTH LIVE confirmed: public runtimebe02768501ecf96285be7173e160caa052b0c10f, Actions39204429209 verify/build/deploy succeeded. Sitev98/sourcee74dba40c2f9012e5f07438996b1166690b61fde, saved appgprj_6aa8b237ecfc8191825fb1a632a70b14~appgver_f0b0ffca7e5c8191bd820da488fc56a7, deployment appgdep_6ad5aa04ee148191be571f26418aa1c2 succeeded via official pushed-source/reopen and remote-build fallback after local packaging could not start. Private runtime25cd344e8087012139238c1c7f22aaad6e970e06 pushed. No live save mutation; browser handoff queued. Later docs commits use skip-ci to preserve deployed runtime.
+
 - FINAL frozen102218 full-game smoke vs v213/common corrected rules:144:90,90:144,62 actions each, errors0/bankruptcies0,1W/1L mean0. Integration evidence only, not strength improvement. Both-site release follows with unchanged tested runtime.
 
 - Imported tested Site runtime/update history with plan-executor-v214-development-supply-v1. Paid development sources each resource from an independent owned reachable component; pure shared-stock quotes, actual source/cost confirmation and stale/forged-source checks are shared by player/Automa/search. Buffalo iron + West steel works at$5. Construction/free development/oil, strategy/champion/schema, saves and assets/layout unchanged. See docs/DEVELOPMENT_SUPPLY_V214.md.
