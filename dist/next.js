@@ -17,11 +17,12 @@ async function collectAutomaCandidatesCooperatively(excluded=[]){let steps=autom
 async function addAutomaLookaheadCooperatively(opts){let steps=automaLookaheadSteps(opts),result;do{result=steps.next();if(!result.done)await yieldAutomaFrame()}while(!result.done);return result.value}
 async function decideAutoma(){normalizeRoundActions();if(automaDecisionRunning||state.turnOwner!=='automa'||state.roundActions.automa>=actionsThisTurn())return false;if(!state.hand.length){state.current=null;save();return false}automaDecisionRunning=true;setAutomaThinking(true);await yieldAutomaFrame();try{let steps=automaDecisionSteps(),result;do{result=steps.next();if(!result.done)await yieldAutomaFrame()}while(!result.done);state.current=result.value;save();return !!state.current}catch(err){console.error(err);state.current=null;renderProposal();alert('행동 후보 계산 중 오류가 발생했습니다. 다시 계산해 주세요.');return false}finally{automaDecisionRunning=false;setAutomaThinking(false)}}
 function scheduleAutoma(){
+ if(typeof gameSaveStatus!=='undefined'&&!gameSaveStatus.saved){clearTimeout(automaTimer);automaTimer=null;automaRunKey='';setAutomaThinking(false);return}
  if(automaPausedByUndo||!state.setupLocked||nextIsPhysical()||state.gameOver||state.turnOwner!=='automa'){setAutomaThinking(false);return}
 if(roundTransition){setAutomaThinking(false);if(!automaTimer)automaTimer=setTimeout(()=>{automaTimer=null;scheduleAutoma()},4100);return}
  let key=[state.era,state.round,state.actionNo,state.turn,state.hand.length].join(':');
  if(automaRunKey===key||automaTimer)return;
- automaRunKey=key;setAutomaThinking(true);automaTimer=setTimeout(async()=>{automaTimer=null;if(automaPausedByUndo||!state.setupLocked||state.gameMode!=='full'||state.turnOwner!=='automa'||state.gameOver){setAutomaThinking(false);return}try{await decideAutoma();if(state.current)runAutomaAction()}finally{setAutomaThinking(false)}},650);
+ automaRunKey=key;setAutomaThinking(true);automaTimer=setTimeout(async()=>{automaTimer=null;if(typeof gameSaveStatus!=='undefined'&&!gameSaveStatus.saved||automaPausedByUndo||!state.setupLocked||state.gameMode!=='full'||state.turnOwner!=='automa'||state.gameOver){setAutomaThinking(false);return}try{await decideAutoma();if(state.current&&(typeof gameSaveStatus==='undefined'||gameSaveStatus.saved))runAutomaAction()}finally{setAutomaThinking(false)}},650);
 }
 function nextConnectedMarkets(){
  const reachable=new Set;
