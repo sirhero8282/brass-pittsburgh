@@ -1,10 +1,10 @@
 /* Read-only release information. No save, migration or game-state writes. */
 (() => {
   const release = Object.freeze({
-    version: 'v215 · 시대별 중량열차·초반 전략 관찰',
+    version: 'v216 · 카드 예약·폐기 비교·상대 추정',
     date: '2026-10-19',
     timezone: 'Asia/Seoul',
-    executor: 'plan-executor-v215-era-rail-observation-v1'
+    executor: 'plan-executor-v216-card-planning-v1'
   });
   const current = document.getElementById('engineReleaseCurrent');
   if (current) {
