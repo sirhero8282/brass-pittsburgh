@@ -1,5 +1,12 @@
 # GitHub Pages release handoff — 2026-10-17
 
+## v214 independent development supply — 2026-10-19
+
+- FINAL frozen102218 full-game smoke vs v213/common corrected rules:144:90,90:144,62 actions each, errors0/bankruptcies0,1W/1L mean0. Integration evidence only, not strength improvement. Both-site release follows with unchanged tested runtime.
+
+- Imported tested Site runtime/update history with plan-executor-v214-development-supply-v1. Paid development sources each resource from an independent owned reachable component; pure shared-stock quotes, actual source/cost confirmation and stale/forged-source checks are shared by player/Automa/search. Buffalo iron + West steel works at$5. Construction/free development/oil, strategy/champion/schema, saves and assets/layout unchanged. See docs/DEVELOPMENT_SUPPLY_V214.md.
+- Preserved local-session/active analytics/config/backend/workflow overlay; derived app key20261019-plan214-development-supply-pages-session1. New paired28/28 and focused70/70 passed. FINAL Pages387/387, private478/478, Site374/374 passed; syntax/diff/static/session/metrics and normalized runtime equality passed. SiteappSHA2564b29835a2f78e95f8e3abd426f28ab8d9f6021e08074f3b694f91f917f536c8e; adapter only difference. No browser manual-play QA/live save mutation. Frozen full-game smoke and BOTH publication confirmations follow.
+
 ## ACCEPTED v213 endgame/development scope — 2026-10-19
 
 - Public HTTP proof matched all seven deployed files, including actual v213-endgame-development-v1 executor, update history, local session and metrics. App normalizedSHA256181642b4e62da5ac76f7306bc5017585f675a5c35a2b3578aef50dc60d193bdf; stripping only session adapter matches Site dc6fe65377f924f66d5922a9071112abc76fe6429ee69c9d413efa69b0c609ca. Browser handoff queued; deployment still verified successful.
