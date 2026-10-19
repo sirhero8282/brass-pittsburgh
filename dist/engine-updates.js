@@ -1,10 +1,10 @@
 /* Read-only release information. No save, migration or game-state writes. */
 (() => {
   const release = Object.freeze({
-    version: 'v214 · 개발 자원 분리 조달',
+    version: 'v215 · 시대별 중량열차·초반 전략 관찰',
     date: '2026-10-19',
     timezone: 'Asia/Seoul',
-    executor: 'plan-executor-v214-development-supply-v1'
+    executor: 'plan-executor-v215-era-rail-observation-v1'
   });
   const current = document.getElementById('engineReleaseCurrent');
   if (current) {
