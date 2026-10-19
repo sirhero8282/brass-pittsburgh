@@ -1,10 +1,10 @@
 /* Read-only release information. No save, migration or game-state writes. */
 (() => {
   const release = Object.freeze({
-    version: 'v217 · 초기 배치 정보 공개 옵션',
+    version: 'v218 · 탐색 후보 설정·반칙하는 오토마',
     date: '2026-10-19',
     timezone: 'Asia/Seoul',
-    executor: 'plan-executor-v217-information-options-v1'
+    executor: 'plan-executor-v218-search-candidates-v1'
   });
   const current = document.getElementById('engineReleaseCurrent');
   if (current) {

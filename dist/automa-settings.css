@@ -1,0 +1,5 @@
+#setupView #automaCheatEnabled { width: 100%; }
+#setupView .automa-cheat-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 16px 0; }
+#setupView .automa-cheat-fields label { display: grid; gap: 8px; min-width: 0; font-weight: 600; line-height: 1.5; }
+#setupView .automa-cheat-fields select { display: block; width: 100%; min-height: 44px; padding: 8px 12px; border: 1px solid #b8ccd3; border-radius: 8px; background: #fff; color: #173f47; font: inherit; }
+#setupView .automa-cheat-fields select:disabled { opacity: .65; }
