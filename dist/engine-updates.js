@@ -1,10 +1,10 @@
 /* Read-only release information. No save, migration or game-state writes. */
 (() => {
   const release = Object.freeze({
-    version: 'v220 · 저장 용량·복구',
+    version: 'v221 · 판단 근거 정합성',
     date: '2026-10-20',
     timezone: 'Asia/Seoul',
-    executor: 'plan-executor-v220-save-recovery-v1'
+    executor: 'plan-executor-v221-decision-evidence-v1'
   });
   const current = document.getElementById('engineReleaseCurrent');
   if (current) {
