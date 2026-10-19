@@ -1,10 +1,10 @@
 /* Read-only release information. No save, migration or game-state writes. */
 (() => {
   const release = Object.freeze({
-    version: 'v212 · 플랜 수익성·판매 회수',
+    version: 'v213 · 종료 평가·개발 행동 수',
     date: '2026-10-19',
     timezone: 'Asia/Seoul',
-    executor: 'plan-executor-v212-economic-recovery-v1'
+    executor: 'plan-executor-v213-endgame-development-v1'
   });
   const current = document.getElementById('engineReleaseCurrent');
   if (current) {

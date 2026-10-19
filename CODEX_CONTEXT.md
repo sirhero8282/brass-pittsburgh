@@ -1,5 +1,18 @@
 # GitHub Pages release handoff — 2026-10-17
 
+## ACCEPTED v213 endgame/development scope — 2026-10-19
+
+- FINAL accepted source: Pages CJS359/359, private450/450, paired10/10, release3/3, syntax/diff/static/session/analytics checks and cross-checkout equality passed (Pages adapter only difference). Frozen independent102217 both seats vs v212:134:96,96:134 =1W/1L mean0,62 actions each, errors0/bankruptcies0. This is compatibility, not strength improvement proof. No live save mutation or browser manual-play QA. Both-site publication IDs follow.
+
+- Current runtime/release is plan-executor-v213-endgame-development-v1, not funded-completion-v1. Rebuilt on livev212 and preserved only early-quality-preserving late/final valuation plus paired-development runway. Experimental locomotive feasibility/efficiency/loan/completion guidance changes were rejected (broad and narrowed102216 screens0W/2L mean-32) and are NOT in current dist. Main plan completion/liquidity issue remains unresolved. See docs/AUTOMA_ENDGAME_DEVELOPMENT_V213.md.
+- Session/active metrics overlay intact; current app key20261019-plan213-endgame-development-pages-session1. Eight accepted paired runtime fixtures and release tests passed; accepted final full-suite and independent frozen102217 smoke pending. Earlier454/363 counts refer to experiment, not accepted source. No production push/deploy yet; both-site publication follows only checked acceptance.
+
+## v213 funded completion (REJECTED experiment) — 2026-10-19 (Asia/Seoul)
+
+- Imported tested Site runtime/release history for plan-executor-v213-funded-completion-v1. Bounded real locomotive development/loan/wait/build quotes replace fixed $18 and speculative factory values; limited idempotent guidance, real funding-first loan support, correct paired development runway and final-round income/quality utility. No legality, champion/schema, save, asset/layout or analytics changes. See docs/AUTOMA_FUNDED_COMPLETION_V213.md.
+- Preserved local-session and active metrics overlay/config/backend/workflow; derived app key20261019-plan213-funded-completion-pages-session1. Current release assertions updated without weakening session/analytics protections. Final complete public CJS363/363 and private454/454 passed, paired14/14 and focused75/75 passed, syntax/diff/static checks passed; Lab MJS entry passed. No browser manual-game QA or exact human-game replay/live state mutation.
+- Preliminary pre-final-funding/order screen:2W/2L mean-9.75. Next frozen102216:0W/2L mean-32 (99:109,85:139), errors0/bankruptcies0. REJECTED FOR PUBLICATION despite functional tests passing. No source push/deploy this turn; production staysv212. A narrowed early-quality-preserving version is being tested in authoritative Site checkout, not yet imported here. Do not publish this working tree as-is or describe screens as strength improvement. Final acceptance and both-site publication remain pending.
+
 ## v212 economic recovery — 2026-10-19 (Asia/Seoul)
 
 - Imported tested app/engine/release history for plan-executor-v212-economic-recovery-v1. Removed old-development/deadline hard exclusion of alternatives; economic coke intent uses real connected sales/cost and profitable affordable own consumption, not fixed24VP. Actual positive-VP locomotive can recover cooldown; bounded late existing-goods recovery compares real network/card/oil/sale sequences without hard bans. Rules, champion/schema, saves, assets/layout and analytics remain unchanged. See docs/AUTOMA_ECONOMIC_RECOVERY_V212.md.

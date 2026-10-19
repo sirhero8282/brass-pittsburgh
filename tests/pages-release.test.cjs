@@ -3,7 +3,7 @@ const root=path.resolve(__dirname,'..'),read=file=>fs.readFileSync(path.join(roo
 test('Pages retains the session, current executor cache key and active metrics overlay',()=>{
  const html=read('dist/index.html'),app=read('dist/app.js');
  assert.match(app,/^const gameSession=/);assert.match(app,/JSON\.parse\(gameSession\.read\(\)\)/);assert.match(app,/gameSession\.commit\(state\)/);
- assert.match(app,/plan-executor-v212-economic-recovery-v1/);assert.match(html,/20261019-plan212-economic-recovery-pages-session1/);
+ assert.match(app,/plan-executor-v213-endgame-development-v1/);assert.match(html,/20261019-plan213-endgame-development-pages-session1/);
  assert.match(html,/local-session\.js\?v=1/);assert.match(html,/metrics-config\.js\?v=2/);assert.match(html,/visitor-metrics\.js\?v=1/);assert.match(html,/engineUpdatesView/);
  assert.match(html,/og:url" content="https:\/\/sirhero8282.github.io\/brass-pittsburgh\//);
 });
