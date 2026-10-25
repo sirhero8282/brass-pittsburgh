@@ -1,10 +1,10 @@
 /* Read-only release information. No save, migration or game-state writes. */
 (() => {
   const release = Object.freeze({
-    version: 'v222 · 묶음 판매·선점 경쟁',
-    date: '2026-10-25',
+    version: 'v223 · 행동 조합·순점수차',
+    date: '2026-10-26',
     timezone: 'Asia/Seoul',
-    executor: 'plan-executor-v222-batch-sale-race-v1'
+    executor: 'plan-executor-v223-action-combinations-v1'
   });
   const current = document.getElementById('engineReleaseCurrent');
   if (current) {
