@@ -202,9 +202,11 @@ test('opponent sale burst threat exposes ready count, stars and reward value', (
   run("state.playerWhiskey=1;state.setup.merchant['서부']='제조 상자 · 최초 +6VP';state.setup.quality['5★']='+9VP';state.edges['rail:서부|피츠버그']={owner:'player',tile:'normal'};state.edges['pipe:트랜턴 유전|피츠버그']={owner:'player',tile:'pipe3k'};state.oilfields['트랜턴 유전']=3;Object.assign(slot('피츠버그',0),{owner:'player',industry:'제조 상자',groupId:'m1',flipped:false});Object.assign(slot('피츠버그',1),{owner:'player',industry:'제조 상자',groupId:'m1',flipped:false})");
   const threat = JSON.parse(run('JSON.stringify(opponentSaleBurstThreat())'));
   assert.equal(threat.readyCount, 2);
-  assert.equal(threat.stars, 8);
+  assert.equal(threat.stars, 2);
   assert.ok(threat.firstBonusValue >= 6);
-  assert.ok(threat.qualityValue >= 9);
+  assert.equal(threat.qualityValue, 0);
+  run('state.playerWhiskey=3');
+  assert.ok(run('opponentSaleBurstThreat().qualityValue')>=9);
 });
 
 test('a flipped level-two-plus industry can score again in era two if it remains', () => {
