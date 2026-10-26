@@ -993,6 +993,7 @@ function applyRouteReward(actor,id){const reward=RAIL_REWARD[id];if(!reward||sta
 return {
  fresh, get:()=>state, set:s=>{state=s}, groups:GROUPS, industries:INDUSTRIES, networks:NETWORKS,
  shuffle,incomeLevelAt,emptySlot,candidates:fourCandidates,chooseSteps:()=>automaDecisionSteps(false),
+ humanRules:{GROUPS,NETWORKS,INDUSTRIES,NODES,PIPE,RAIL,MARKET_DEF,playerGroupUnlocked,playerGroupUsed,groupIncomeCost,canLoseIncome,buildLocations,isOilField,actorPlan,connectedFrom,resourceType,outputsFor,awardCoveredIndustry,industryLevel,syncIncomeLevel,gainIncome,loseIncome,gainVP,groupIncomeGain,networkRouteAvailable,bestEdgePlan,withNetworkSupply,replacementTrainAnalysis,networkBonusType,pipelineOilBonus,addOilToField,openOilfield,gainWhiskey,applyRouteReward,connectedRailBonuses,sourcePlan,oilFieldStock,sourceText,saleOilCost,qualityClaimedByAnyone,actorNetworkAnchors,actorSaleReadiness,group,captureSupplyMutationState,restoreSupplyMutationState,log,buildOilCity,edgeId,withPlayerBoard,completeGroup,slot},
  // Read-only presentation hooks: the same 2P component markup and unlock rules.
  presentation:{availableIndustryTileMarkup,boardLaneTitle,boardFacts,personalLayout:PERSONAL_BOARD_LAYOUT,networkLayout:PERSONAL_NETWORK_LAYOUT,
   unlocked:groupUnlocked,used:groupUsed,complete:completeGroup,networkRemaining:personalNetworkRemaining},

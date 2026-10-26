@@ -178,3 +178,18 @@ body.next-ui.table-layout.four-table #automaPanel[hidden],
 body.next-ui.table-layout.four-table #playerPanel #nextHand .next-card[hidden],
 body.next-ui.table-layout.four-table #nextDetails[hidden],
 body.next-ui.table-layout.four-table #nextEndTurn[hidden]{display:none!important}
+
+/* The same inline, cancellable action steps as the two-player controller. */
+.four-table #nextDetails>.section-head{align-items:flex-start;margin-bottom:8px}
+.four-table #nextDetails h3{font-size:15px;line-height:1.5;margin:0}
+.four-table #nextDetails>.section-head>button{flex:none;min-height:36px;font-size:12px;padding:5px 10px}
+.four-table #nextDetails>.picker-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.four-table #nextDetails .picker-option{margin:0;min-width:0;white-space:normal;overflow-wrap:anywhere;line-height:1.65;padding:10px;font-size:12px;min-height:44px}
+.four-table #nextDetails .picker-network-tile-choice{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px}
+.four-table #nextDetails .picker-network-tile-choice img{width:100%;height:42px;object-fit:contain;filter:drop-shadow(0 3px 2px #142e3644)}
+.four-table .mobile-target-setting{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11px;margin:10px 0 0;color:#597278}
+.four-table .mobile-target-setting select{padding:6px;font-size:11px;margin:0;min-height:36px}
+.four-table #mapSelectionBar{flex-wrap:wrap}
+.four-table #mapVanderbiltToggle{display:flex;align-items:center;gap:6px;font-size:11px;margin:0}
+.four-table #mapVanderbiltInput{width:16px;height:16px;padding:0}
+@media(max-width:560px){.four-table #nextDetails>.picker-items{grid-template-columns:1fr}.four-table #nextDetails .picker-network-tile-choice{flex-direction:row;text-align:left}.four-table #nextDetails .picker-network-tile-choice img{width:85px;flex:none}.four-table #nextDetails .picker-option{font-size:12px}}
