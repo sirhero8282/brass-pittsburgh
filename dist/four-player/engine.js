@@ -5,6 +5,8 @@ const clone=x=>structuredClone(x), personal=['money','vp','income','spent','remo
 const ai=['aiPlanning','aiPlanHistory','aiPlanCooldowns','aiDevelopmentLedger','aiActionStats','aiGeneratedRuleRuntime'];
 const shared=['setup','cities','edges','oilfields','oilCities','markets','merchantUsed','routeRewardsClaimed','oilRewardsClaimed','eraTwoOilFilled'];
 function validColors(colors){return Array.isArray(colors)&&colors.length===4&&new Set(colors).size===4&&colors.every(c=>COLORS.includes(c))}
+// Older 4P saves omitted this entire market. Never replenish an existing stock.
+function restoreMissingMarkets(g){if(g.markets&&!Object.hasOwn(g.markets,'필라델피아'))g.markets['필라델피아']={강철:2,코크스:1};return g}
 function createGame(data,colors=COLORS,seed=Date.now()>>>0){
  if(!validColors(colors))throw Error('서로 다른 네 색상을 선택해 주세요.');
  const core=root.createFourCore(),base=core.fresh(),deck=core.shuffle(Object.entries(data.cardCounts).flatMap(([c,n])=>Array(n).fill(c)),seed+9);
@@ -13,14 +15,14 @@ function createGame(data,colors=COLORS,seed=Date.now()>>>0){
  const oil=core.shuffle(['위스키 · 2시대 오일 2','수입 +2 · 오일 2','수입 +3 · 오일 1','$8 · 오일 1','개발 1회 · 오일 3'],seed+2);
  const setup={quality:Object.fromEntries(core.shuffle(['수입 −4 / +13VP','$25 / 개발 2회','$15 / +8VP','+9VP','수입 +8 / +7VP','수입 +10 / +7VP'],seed+1).slice(0,3).map((v,i)=>[['5★','6★','7★'][i],v])),merchant:Object.fromEntries(['이즈브리지','캐나다','남부','보스턴'].map((c,i)=>[c,merchant[i]])),oil:Object.fromEntries(data.locations.filter(l=>l.oil).map((l,i)=>[l.name,{value:oil[i],revealed:false}]))};
  setup.merchantOriginal=clone(setup.merchant);
- const markets={};for(const l of data.locations.filter(x=>x.price)){const raw=['털리도','클락스버그','윌크스-배리'].includes(l.name);markets[l.name]=Object.fromEntries((raw?['철','석탄']:['강철','코크스']).map(r=>[r,raw?3:r==='코크스'?1:2]))}
+ const markets={};for(const l of data.locations.filter(x=>x.price)){const raw=['털리도','클락스버그','윌크스-배리'].includes(l.name);markets[l.name]=raw?{철:3,석탄:3}:{강철:2,코크스:1}}
  return {schema:'pittsburgh-four-player-v1',seed,era:1,round:1,turn:1,order:core.shuffle([0,1,2,3],seed+3),cursor:0,actionCount:0,players,setup,markets,cities:Object.fromEntries(data.locations.filter(l=>l.slots.length).map(l=>[l.name,l.slots.map(()=>core.emptySlot())])),edges:{},oilfields:Object.fromEntries(data.locations.filter(l=>l.oil).map(l=>[l.name,0])),oilCities:{},merchantUsed:{},routeRewardsClaimed:[],oilRewardsClaimed:{},eraTwoOilFilled:false,logs:[],eraScores:{},gameOver:null};
 }
 function active(g){return g.order[g.cursor]}
 function project(g,index=active(g)){
  const core=root.createFourCore(),s=core.fresh(),p=g.players[index],others=g.players.filter((_,i)=>i!==index);
  Object.assign(s,{era:g.era,round:g.round,seed:g.seed+index*7919,turn:g.turn,actionNo:g.actionCount+1,turnOwner:'automa',_active:index,_actionCount:g.actionCount,_players:clone(g.players),setupLocked:true,gameMode:'full',aiStrategy:p.strategy,aiDifficulty:p.difficulty,logs:[],history:[],eraScores:{},aiPolicy:null,aiGeneratedRules:[]});
- for(const k of shared)s[k]=clone(g[k]);for(const k of personal)s[k]=clone(p[k]);for(const k of ai)s[k]={automa:clone(p[k]),player:clone(others[0][k])};
+ for(const k of shared)s[k]=clone(g[k]);restoreMissingMarkets(s);for(const k of personal)s[k]=clone(p[k]);for(const k of ai)s[k]={automa:clone(p[k]),player:clone(others[0][k])};
  Object.assign(s,{playerMoney:others.reduce((a,b)=>a+b.money,0)/3,playerIncome:Math.max(...others.map(x=>x.income)),playerVP:Math.max(...others.map(x=>x.vp)),playerSpent:others.reduce((a,b)=>a+b.spent,0)/3,opponentSpent:others.reduce((a,b)=>a+b.spent,0)/3,playerRemoved:clone(others[0].removed),playerNetworkBuilt:clone(others[0].networkBuilt),playerHand:[],playerDeck:[],playerDiscard:[],bonus:{automa:{위스키:p.whiskey},player:{}},lightTrains:{automa:p.lightTrains,player:others.reduce((a,b)=>a+b.lightTrains,0)},freeDevelop:{automa:p.freeDevelop,player:0},qualityClaimed:{automa:clone(p.qualityClaimed),player:others.flatMap(x=>x.qualityClaimed)},upgradeIndustryScores:Object.fromEntries(Object.entries(p.upgradeIndustryScores).map(([e,n])=>[e,{automa:n,player:0}])),upgradeSewingScores:Object.fromEntries(Object.entries(p.upgradeSewingScores).map(([e,n])=>[e,{automa:n,player:0}]))});
  for(const piece of [...Object.values(s.cities).flat(),...Object.values(s.oilCities),...Object.values(s.edges)])if(Number.isInteger(piece.owner)){piece._fourOwner=piece.owner;piece.owner=piece.owner===index?'automa':'player'}
  for(const [field,owner]of Object.entries(s.oilRewardsClaimed))if(Number.isInteger(owner))s.oilRewardsClaimed[field]='p'+owner; // Owner zero is a valid, already claimed reward.
@@ -69,5 +71,5 @@ function validate(g){
  for(const p of g.players){if(!Number.isFinite(p.money)||p.money<0||!Number.isFinite(p.vp)||!Number.isInteger(p.income)||p.income<0||p.income>99||!Array.isArray(p.hand)||!Array.isArray(p.deck)||!Array.isArray(p.discard)||!Array.isArray(p.networkBuilt)||!Array.isArray(p.qualityClaimed)||!p.removed||!p.aiActionStats||!p.upgradeIndustryScores||!p.upgradeSewingScores)throw Error('참가자 데이터가 잘못되었습니다.');}
  const pieces=[...Object.values(g.cities).flat(),...Object.values(g.oilCities),...Object.values(g.edges)];if(pieces.some(p=>!p||p.owner!=='none'&&(!Number.isInteger(p.owner)||p.owner<0||p.owner>3)))throw Error('타일 소유자 정보가 잘못되었습니다.');return g;
 }
-root.FourPlayer={KEY,COLORS,createGame,active,project,commit,scoreEra,settleIncome,next,list,humanList,choose,chooseAsync,perform,validate,validColors};
+root.FourPlayer={KEY,COLORS,createGame,restoreMissingMarkets,active,project,commit,scoreEra,settleIncome,next,list,humanList,choose,chooseAsync,perform,validate,validColors};
 })(globalThis);

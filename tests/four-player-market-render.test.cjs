@@ -7,11 +7,11 @@ function stock(html,city,resource){const part=html.split('<g class="physical-mar
 const route='rail:'+['시카고','털리도'].sort().join('|');
 function humanUI(buildCity){return {pick:async(label,items)=>label==='연속 네트워크 건설'?'행동 종료':items.find(x=>x.n?.id==='light-train')||items[0],map:async(type,normal,vander)=>({... [...normal,...vander].find(item=>type==='edge'?item.id===route:item.city===buildCity&&item.g?.id==='c1'),_includeV:true})}}
 
-test('the physical board reads all five live market stocks, keeps all four resource assets and never invents a Philadelphia market',()=>{
+test('the physical board reads all six live markets, including the Philadelphia steel and coke wells',()=>{
  const g=fresh(),b=board(),before=JSON.stringify(g),html=b.marketMarkup(g),full=b.markup(g);
- assert.equal(countImages(html),24);assert.equal((html.match(/class="physical-market-stock"/g)||[]).length,10);
+ assert.equal(countImages(html),27);assert.equal((html.match(/class="physical-market-stock"/g)||[]).length,12);
  assert.equal(stock(html,'캐나다','강철').count,2);assert.equal(stock(html,'캐나다','코크스').count,1);assert.equal(stock(html,'털리도','철').count,3);assert.equal(stock(html,'털리도','석탄').count,3);
- assert.ok(!html.includes('필라델피아'));assert.ok(!g.markets.필라델피아);assert.match(full,/class="physical-market-resources-layer"/);assert.ok(full.includes(html));
+ assert.deepEqual(g.markets.필라델피아,{강철:2,코크스:1});assert.equal(stock(html,'필라델피아','강철').count,2);assert.equal(stock(html,'필라델피아','코크스').count,1);assert.match(full,/class="physical-market-resources-layer"/);assert.ok(full.includes(html));
  for(const [,file]of html.matchAll(/href="([^"]+)"/g))assert.ok(fs.existsSync(path.join(root,file)),file);
  for(const file of ['resource-iron','resource-coal','resource-steel','resource-coke'])assert.ok(html.includes(file+'.webp'),file);
  assert.ok(!/undefined|NaN/.test(html));assert.equal(JSON.stringify(g),before);
@@ -32,7 +32,7 @@ test('zero, partial and replenished stocks occupy only their canonical saved col
   }
  }
  for(const resources of Object.values(g.markets))for(const resource of Object.keys(resources))resources[resource]=0;
- assert.equal(countImages(b.marketMarkup(g)),0);assert.equal((b.marketMarkup(g).match(/data-stock="0"/g)||[]).length,10);
+ assert.equal(countImages(b.marketMarkup(g)),0);assert.equal((b.marketMarkup(g).match(/data-stock="0"/g)||[]).length,12);
 });
 
 test('actual human and Automa market consumption both remove the corresponding cube on the next render',async()=>{

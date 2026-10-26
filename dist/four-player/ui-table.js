@@ -1,7 +1,7 @@
 (async()=>{
 'use strict';
 const H=FourHuman,F=FourPlayer,$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const response=await fetch('four-player/data.json?v=r399-v4');if(!response.ok)throw Error('4인 데이터를 불러오지 못했습니다.');
+const response=await fetch('four-player/data.json?v=r399-v4-market-start2');if(!response.ok)throw Error('4인 데이터를 불러오지 못했습니다.');
 const data=await response.json(),core=createFourCore(),board=createFourBoard(data,core),groups=Object.values(core.groups).flat(),UIKEY=F.KEY+'-interface-v2';
 // Reuse the existing physical-component CSS/markup without bootstrapping the 2P app.
 $('#available').className='available-now';$('#available').closest('.panel').classList.add('available-panel');
