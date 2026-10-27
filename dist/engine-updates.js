@@ -1,10 +1,10 @@
 /* Read-only release information. No save, migration or game-state writes. */
 (() => {
   const release = Object.freeze({
-    version: 'v223 · 행동 조합·순점수차',
-    date: '2026-10-26',
+    version: 'v228 · 등유 링크·업그레이드 규칙',
+    date: '2026-10-27',
     timezone: 'Asia/Seoul',
-    executor: 'plan-executor-v223-action-combinations-v1'
+    executor: 'plan-executor-v228-industry-upgrade-rules-v1'
   });
   const current = document.getElementById('engineReleaseCurrent');
   if (current) {

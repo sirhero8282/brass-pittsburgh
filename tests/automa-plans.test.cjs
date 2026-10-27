@@ -151,13 +151,13 @@ test('v12 pays a flipped sewing machine immediately and evaluates future bicycle
   assert.equal(boston.preservation.value, 0);
 });
 
-test('upgrade requires a flipped lower tile and records its immediate VP once', () => {
+test('typewriter upgrade requires a flipped crate and records its immediate VP once', () => {
   const run = engine();
   run("state.era=2;state.income=32;Object.assign(slot('뉴욕',1),{owner:'automa',industry:'제조 상자',groupId:'m2',level:2,flipped:false,industryScoreAwarded:false})");
-  assert.equal(run("buildLocations('automa','manufacturing','제조 상자(자전거) IV','뉴욕').some(x=>x.i===1&&x.replaces)"), false);
+  assert.equal(run("buildLocations('automa','manufacturing','제조 상자(타자기) V-A','뉴욕').some(x=>x.i===1&&x.replaces)"), false);
   assert.equal(run("upgradeIndustryPoints(slot('뉴욕',1),'automa')"), 0);
   run("slot('뉴욕',1).flipped=true");
-  assert.equal(run("buildLocations('automa','manufacturing','제조 상자(자전거) IV','뉴욕').some(x=>x.i===1&&x.replaces)"), true);
+  assert.equal(run("buildLocations('automa','manufacturing','제조 상자(타자기) V-A','뉴욕').some(x=>x.i===1&&x.replaces)"), true);
   const before = run('state.vp');
   assert.equal(run("awardCoveredIndustry(slot('뉴욕',1),'automa',[])"), 11);
   run("state.cities['뉴욕'][1]=emptySlot();scoreIndustryForEra()");
