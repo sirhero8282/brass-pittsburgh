@@ -23,7 +23,7 @@ for(const file of ['dist/app.js','engine-source.js']){
  test(`${file}: reserve replacement does not pay any route oil twice or repeat opening rewards`,()=>{
   const run=game(file);
   for(const rule of rules)for(const actor of ['player','automa'])for(const id of ['start-income','pipe3k','pipe3s','pipe5','pipe10']){
-   run(`state=fresh();var [a,b]=${JSON.stringify([nodes.get(rule.fromId),nodes.get(rule.toId)])},e={a,b,id:edgeId(a,b,'pipe')},field=[a,b].find(isOilField);placeNetworkTile('${actor}',NETWORKS.find(n=>n.id==='reserve'),e);var claimed=JSON.stringify(state.oilRewardsClaimed);placeNetworkTile('${actor==='player'?'automa':'player'}',NETWORKS.find(n=>n.id==='${id}'),e)`);
+   run(`state=fresh();var [a,b]=${JSON.stringify([nodes.get(rule.fromId),nodes.get(rule.toId)])},e={a,b,id:edgeId(a,b,'pipe')},field=[a,b].find(isOilField);placeNetworkTile('${actor}',NETWORKS.find(n=>n.id==='reserve'),e);var claimed=JSON.stringify(state.oilRewardsClaimed);placeNetworkTile('${actor}',NETWORKS.find(n=>n.id==='${id}'),e)`);
    assert.equal(run('oilFieldStock(field)'),rule.oilOnBuild+1);
    assert.equal(run('JSON.stringify(state.oilRewardsClaimed)===claimed'),true);
    assert.equal(run(`state.${actor==='player'?'playerNetworkBuilt':'networkBuilt'}.includes('reserve')`),false);

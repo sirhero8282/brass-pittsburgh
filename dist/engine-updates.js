@@ -1,10 +1,10 @@
 /* Read-only release information. No save, migration or game-state writes. */
 (() => {
   const release = Object.freeze({
-    version: 'v228 · 등유 링크·업그레이드 규칙',
+    version: 'v229 · 송유관 소유권·제조 플랜',
     date: '2026-10-27',
     timezone: 'Asia/Seoul',
-    executor: 'plan-executor-v228-industry-upgrade-rules-v1'
+    executor: 'plan-executor-v229-owned-pipes-manufacturing-v1'
   });
   const current = document.getElementById('engineReleaseCurrent');
   if (current) {
