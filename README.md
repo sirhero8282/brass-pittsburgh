@@ -2,7 +2,7 @@
 
 공개 웹앱: https://sirhero8282.github.io/brass-pittsburgh/
 
-2인/4인 오토마 대국과 사람 네 명의 온라인 초대방을 제공합니다. [온라인 대국](https://sirhero8282.github.io/brass-pittsburgh/online.html)에서 실시간 또는 턴제를 선택할 수 있습니다. 사용법·시간 정책·서버 배포는 [온라인 안내](docs/ONLINE.md)를 참고하세요.
+2인/4인 오토마 대국과 2인 맵·4인 맵의 온라인 초대방을 제공합니다. [온라인 대국](https://sirhero8282.github.io/brass-pittsburgh/online.html)에서 실시간 또는 턴제를 선택할 수 있습니다. 사용법·시간 정책·서버 배포는 [온라인 안내](docs/ONLINE.md)를 참고하세요.
 
 ## 실행·배포
 

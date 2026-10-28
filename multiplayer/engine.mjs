@@ -2,13 +2,21 @@
 import '../dist/four-player/core.js';
 import '../dist/four-player/engine.js';
 import '../dist/four-player/human.js';
+import '../dist/online/two-core.js';
 import data from '../dist/four-player/data.json' with { type: 'json' };
+import twoData from '../dist/online/two-data.json' with { type: 'json' };
 
 const F=globalThis.FourPlayer,H=globalThis.FourHuman,clone=structuredClone;
 export const ACTIONS=['건설','네트워크','판매','개발','대출','패스'];
 function secureShuffle(items){const result=[...items];for(let i=result.length-1;i>0;i--){const limit=4294967296-4294967296%(i+1);let n;do{n=crypto.getRandomValues(new Uint32Array(1))[0];}while(n>=limit);const j=n%(i+1);[result[i],result[j]]=[result[j],result[i]];}return result;}
-function deal(game,opening){const deck=secureShuffle(Object.entries(data.cardCounts).flatMap(([card,count])=>Array(count).fill(card)));game.players.forEach((p,i)=>{p.hand=deck.slice(i*16,i*16+8);p.deck=deck.slice(i*16+8,i*16+16);p.discard=opening?[p.deck.pop()]:[];});}
-export function createGame(seed,names){const g=F.createGame(data,undefined,seed);g.players.forEach((p,i)=>{p.name=names[i];});deal(g,true);g.order=secureShuffle(g.order);const oil=secureShuffle(Object.values(g.setup.oil).map(x=>x.value));Object.values(g.setup.oil).forEach((tile,i)=>{tile.value=oil[i];});return g;}
+const dataFor=game=>game.map==='two'?twoData:data;
+function deal(game,opening){const deck=secureShuffle(Object.entries(dataFor(game).cardCounts).flatMap(([card,count])=>Array(count).fill(card)));game.players.forEach((p,i)=>{p.hand=deck.slice(i*16,i*16+8);p.deck=deck.slice(i*16+8,i*16+16);p.discard=opening?[p.deck.pop()]:[];});}
+export function createGame(seed,names,map='four'){
+ if(!['two','four'].includes(map)||names.length!==(map==='two'?2:4))throw Error('선택한 맵의 참가 인원을 확인하세요.');
+ const g=F.createGame(data,undefined,seed);g.map=map;
+ if(map==='two'){const base=globalThis.createTwoCore().fresh();g.players=g.players.slice(0,2);g.order=[0,1];g.setup=structuredClone(base.setup);g.setup.merchantOriginal=structuredClone(g.setup.merchant);g.markets=structuredClone(base.markets);g.cities=Object.fromEntries(twoData.locations.filter(l=>l.slots.length).map(l=>[l.name,l.slots.map(()=>globalThis.createTwoCore().emptySlot())]));g.oilfields=structuredClone(base.oilfields);}
+ g.players.forEach((p,i)=>{p.name=names[i];});deal(g,true);g.order=secureShuffle(g.order);const oil=secureShuffle(Object.values(g.setup.oil).map(x=>x.value));Object.values(g.setup.oil).forEach((tile,i)=>{tile.value=oil[i];});return g;
+}
 export const active=game=>F.active(game);
 
 // Swap the acting seat with zero for the retained human driver, then swap back.
@@ -37,7 +45,7 @@ export async function prepare(game,seat,input,allowReveal=false){
   return kind==='map'?{...items[index],_includeV:index>=normalCount}:items[index];
  };
  try{
-  const result=await H.run(swapSeat(game,seat),data,input.type,input.cardIndex,{
+  const result=await H.run(swapSeat(game,seat),dataFor(game),input.type,input.cardIndex,{
    targetSelectMode:'map',preview:value=>{preview=value;},
    pick:async(label,items,show,hint,vander=[])=>take(label,[...items,...vander],show,hint),
    map:async(kind,normal,vander=[],hint)=>take(kind==='build'?'건설 위치':'네트워크 경로',[...normal,...vander],mapLabel,hint,'map',normal.length)
@@ -63,7 +71,7 @@ export function previewFor(after,before,seat,allowReveal=false){
 
 export function project(game,viewer){
  const keys=['era','round','turn','order','cursor','actionCount','cities','edges','oilfields','oilCities','markets','merchantUsed','routeRewardsClaimed','oilRewardsClaimed','eraTwoOilFilled','eraScores','gameOver'];
- const view=Object.fromEntries(keys.map(k=>[k,clone(game[k])]));
+ const view={map:game.map||'four',...Object.fromEntries(keys.map(k=>[k,clone(game[k])]))};
  view.setup={merchant:clone(game.setup.merchant),quality:clone(game.setup.quality),oil:Object.fromEntries(Object.entries(game.setup.oil).map(([name,oil])=>[name,oil.revealed?clone(oil):{revealed:false}]))};
  const publicKeys=['name','color','money','vp','income','spent','removed','networkBuilt','whiskey','lightTrains','freeDevelop','qualityClaimed','upgradeIndustryScores','upgradeSewingScores','discard'];
  view.players=game.players.map((p,i)=>({...Object.fromEntries(publicKeys.map(k=>[k,clone(p[k])])),handCount:p.hand.length,deckCount:p.deck.length,...(i===viewer?{hand:clone(p.hand)}:{})}));

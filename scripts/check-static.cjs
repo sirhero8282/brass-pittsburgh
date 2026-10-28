@@ -15,7 +15,7 @@ for (const file of walk(root).filter(file => /\.(html|css|js)$/.test(file))) {
     if (/^(?:[a-z]+:|#|\$|\{)/i.test(ref) || ref.includes('${')) continue;
     if (ref.startsWith('/')) { failures.push(`${path.relative(root, file)}: root-relative ${ref}`); continue; }
     // core.js emits HTML into /four-player.html: its img paths use that document's base.
-    const documentBase = path.relative(root, file).split(path.sep).join('/') === 'four-player/core.js' ? root : path.dirname(file);
+    const documentBase = ['four-player/core.js','online/two-core.js'].includes(path.relative(root, file).split(path.sep).join('/')) ? root : path.dirname(file);
     const target = path.resolve(documentBase, decodeURIComponent(ref.split(/[?#]/)[0]));
     const rootIndex = target === root && fs.existsSync(path.join(root, 'index.html'));
     if ((!target.startsWith(root + path.sep) && !rootIndex) || !fs.existsSync(target)) failures.push(`${path.relative(root, file)}: missing ${ref}`);
