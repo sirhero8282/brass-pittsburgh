@@ -1,10 +1,10 @@
 /* Read-only release information. No save, migration or game-state writes. */
 (() => {
   const release = Object.freeze({
-    version: 'v229 · 송유관 소유권·제조 플랜',
-    date: '2026-10-27',
+    version: 'v230 · 송유관 보상 소유자 확인',
+    date: '2026-10-28',
     timezone: 'Asia/Seoul',
-    executor: 'plan-executor-v229-owned-pipes-manufacturing-v1'
+    executor: 'plan-executor-v230-pipeline-reward-owner-v1'
   });
   const current = document.getElementById('engineReleaseCurrent');
   if (current) {
