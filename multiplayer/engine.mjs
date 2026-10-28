@@ -43,7 +43,11 @@ export async function prepare(game,seat,input,allowReveal=false){
    map:async(kind,normal,vander=[],hint)=>take(kind==='build'?'건설 위치':'네트워크 경로',[...normal,...vander],mapLabel,hint,'map',normal.length)
   });
   if(cursor!==choices.length)throw Error('불필요한 선택 기록이 있습니다.');if(!result)throw Error('행동을 완료하지 못했습니다.');
-  const after=swapSeat(result.game,seat);if(after.era!==game.era)deal(after,false);
+  const after=swapSeat(result.game,seat);
+  // Even the absence of a follow-up choice can depend on a secret cash reward.
+  // Require the same lock for every newly opened field, not only choice prompts.
+  if(!allowReveal&&Object.keys(game.setup.oil).some(field=>!game.setup.oil[field].revealed&&after.setup.oil[field].revealed))return {complete:false,lockRequired:true,prefix:choices.slice(0,cursor)};
+  if(after.era!==game.era)deal(after,false);
   return {complete:true,game:after,action:result.action};
  }catch(error){if(error instanceof Choice)return error.value.lockRequired?{complete:false,lockRequired:true,prefix:error.value.prefix}:{complete:false,choice:error.value,preview:preview?swapSeat(preview,seat):null};throw error;}
 }
