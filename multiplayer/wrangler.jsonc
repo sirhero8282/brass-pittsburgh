@@ -1,0 +1,9 @@
+{
+  "name": "brass-pittsburgh-multiplayer",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-10-19",
+  "workers_dev": true,
+  "vars": {"ALLOWED_ORIGINS":"https://sirhero8282.github.io,https://pittsburgh-automa-next.sirhero8282.chatgpt.site,http://127.0.0.1:4194,http://localhost:4194"},
+  "durable_objects": {"bindings":[{"name":"ROOMS","class_name":"GameRoom"}]},
+  "migrations": [{"tag":"v1","new_sqlite_classes":["GameRoom"]}]
+}

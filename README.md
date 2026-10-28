@@ -2,11 +2,11 @@
 
 공개 웹앱: https://sirhero8282.github.io/brass-pittsburgh/
 
-현재 공개 기능은 기존 2인/오토마 앱입니다. 4인 지도는 참고 화면이며 온라인 4인 플레이는 아직 제공하지 않습니다.
+2인/4인 오토마 대국과 사람 네 명의 온라인 초대방을 제공합니다. [온라인 대국](https://sirhero8282.github.io/brass-pittsburgh/online.html)에서 실시간 또는 턴제를 선택할 수 있습니다. 사용법·시간 정책·서버 배포는 [온라인 안내](docs/ONLINE.md)를 참고하세요.
 
 ## 실행·배포
 
-Node.js 22 이상에서 별도 의존성 설치 없이 실행합니다.
+기존 정적 게임은 Node.js 22 이상에서 별도 의존성 설치 없이 실행합니다. 온라인 서버는 `multiplayer/`의 별도 의존성과 Cloudflare 배포가 필요합니다.
 
 ```sh
 npm test
