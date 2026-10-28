@@ -40,7 +40,7 @@ export async function prepare(game,seat,input,allowReveal=false){
  const choices=input.choices??[];if(!Array.isArray(choices)||choices.length>96||choices.some(i=>!Number.isInteger(i)||i<0||i>4096))throw Error('선택 기록이 잘못되었습니다.');
  let cursor=0,preview=null;const take=(label,items,show,hint,kind='pick',normalCount=items.length)=>{
   if(!allowReveal&&preview&&Object.keys(game.setup.oil).some(field=>!game.setup.oil[field].revealed&&preview.setup.oil[field].revealed))throw new Choice({lockRequired:true,prefix:choices.slice(0,cursor)});
-  if(cursor===choices.length)throw new Choice({label,hint,kind,options:items.map((item,index)=>({index,label:text(show(item)),...(kind==='map'?{city:item.city,slot:item.i,route:item.id||item.e?.id,vanderbilt:index>=normalCount}:{})}))});
+  if(cursor===choices.length)throw new Choice({label,hint,kind,options:items.map((item,index)=>({index,label:text(show(item)),...(item.n?.id?{networkId:item.n.id}:{}),...(item.vanderbilt?{vanderbilt:true}:{}),...(kind==='map'?{city:item.city,slot:item.i,route:item.id||item.e?.id,vanderbilt:index>=normalCount}:{})}))});
   const index=choices[cursor++];if(index>=items.length)throw Error('선택지가 변경되었습니다. 다시 선택하세요.');
   return kind==='map'?{...items[index],_includeV:index>=normalCount}:items[index];
  };
