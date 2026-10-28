@@ -49,7 +49,7 @@ test('Automa tile click and keyboard handler opens public facts without committi
  ctx.mapChoice={items:[],vander:[]};ctx.targetClick({dataset:{networkInfo:r.gameId}});assert.equal(calls.length,1);assert.equal(JSON.stringify(g),before);
 });
 test('both actual four-player entry points load the same physical network presentation and picker',()=>{
- for(const file of ['four-player.html','online.html']){const html=fs.readFileSync(require.resolve('../dist/'+file),'utf8');assert.match(html,/network-picker\.css\?v=3/);assert.match(html,/network-presentation\.css\?v=1/);assert.match(html,/online\/network-presentation\.js\?v=2/);}
+ for(const file of ['four-player.html','online.html']){const html=fs.readFileSync(require.resolve('../dist/'+file),'utf8');assert.match(html,/network-picker\.css\?v=3/);assert.match(html,/network-presentation\.css\?v=2/);assert.match(html,/online\/network-presentation\.js\?v=3/);}
  assert.match(ui,/board=createOnlineNetworkBoard\(data,core,createFourBoard\(data,core\),\(\)=>0\)/);
  assert.match(ui,/board\.configureNetworkTargets\(selecting\?\{kind:'map'\}:null\)/);
 });

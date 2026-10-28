@@ -25,7 +25,7 @@
   }
   return {...base,networkRect:rect,networkMarkup,networkInfoMarkup:infoMarkup,networkDescriptor:descriptor,markup,
    render(g,action){current=g;document.querySelector('#board').innerHTML=markup(g,action);},
-   highlight(legal){base.highlight(legal);for(const node of document.querySelectorAll('#board .route-hit'))node.classList.toggle('has-authored-shape',!!data.layout.networkHighlights?.[node.dataset.route]);for(const node of document.querySelectorAll('#board .four-route-zone-hit'))node.classList.add('physical-route-highlight-hit','selecting');},
+   highlight(legal){base.highlight(legal);for(const node of document.querySelectorAll('#board .route-hit')){const route=data.routes.find(r=>r.id===node.dataset.route),hasZones=!!(route&&base.networkHighlightShapes(route).length);node.classList.toggle('has-authored-shape',hasZones);if(hasZones){node.setAttribute('tabindex','-1');node.removeAttribute('role');node.removeAttribute('aria-label');}}for(const node of document.querySelectorAll('#board .four-route-zone-hit'))node.classList.add('physical-route-highlight-hit','selecting');},
    configureNetworkTargets(choice){const hits=document.querySelector('#onlineNetworkInfoHits');if(hits)hits.innerHTML=choice?.kind==='map'?'':infoMarkup(current);}
   };
  };

@@ -2,6 +2,7 @@
 .four-table #board .physical-route-hit{fill:none!important;stroke:transparent!important;stroke-width:40!important;pointer-events:none!important}
 .four-table #board .physical-route-hit.selecting:not(.has-authored-shape){pointer-events:stroke!important}
 .four-table #board .physical-route-highlight-hit{fill:transparent!important;stroke:transparent!important;pointer-events:all}
+.four-table #board .physical-route-highlight-hit:focus-visible{stroke:#fff2aa!important;stroke-width:4;outline:none}
 .four-table #board .physical-board-info-hit{fill:transparent;stroke:transparent;cursor:help;pointer-events:all}
 .four-table #board .physical-board-info-hit:focus-visible{stroke:#fff2aa;stroke-width:4;filter:drop-shadow(0 0 5px #ffdc67)}
 .four-table #physicalBoardInfoPopover .physical-board-info-head button{display:grid;place-items:center;flex:0 0 24px;width:24px;height:24px;padding:0;border:1px solid #d6c38d99;border-radius:6px;background:#2c4549;color:#fff7e4;font:700 18px/1 system-ui,sans-serif}
