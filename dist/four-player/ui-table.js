@@ -2,7 +2,7 @@
 'use strict';
 const H=FourHuman,F=FourPlayer,$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const response=await fetch('four-player/data.json?v=r399-v4-market-start2');if(!response.ok)throw Error('4인 데이터를 불러오지 못했습니다.');
-const data=await response.json(),core=createFourCore(),board=createFourBoard(data,core),groups=Object.values(core.groups).flat(),UIKEY=F.KEY+'-interface-v2';
+const data=await response.json(),core=createFourCore(),board=createOnlineNetworkBoard(data,core,createFourBoard(data,core),()=>0),groups=Object.values(core.groups).flat(),UIKEY=F.KEY+'-interface-v2';
 // Reuse the existing physical-component CSS/markup without bootstrapping the 2P app.
 $('#available').className='available-now';$('#available').closest('.panel').classList.add('available-panel');
 $('.available-column').classList.add('draft-left-rail');$('.command-column').classList.add('draft-right-rail');
@@ -74,7 +74,7 @@ function renderActions(){
  const step=session.pending||humanTask?'detail':session.cardIndex!=null?'action':'card';$$('.player-flow [data-step]').forEach(el=>{const active=el.dataset.step===step;el.classList.toggle('active',active);if(active)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current')});
  $('#nextSelection').textContent=session.pending?'실행 결과 확인 중':[session.cardIndex!=null?session.game.players[0].hand[session.cardIndex]:'카드 미선택',session.type||'행동 미선택'].join(' · ');
 }
-function pickerMarkup(item,index,show,label){const text=String(show(item)),network=/네트워크 (선택|타일)$/.test(label)&&item?.n,art=network?'<img src="'+board.netImage(network.id,session.game.players[0].color)+'" alt="">':'';return '<button type="button" class="picker-option'+(network?' picker-network-tile-choice':'')+'" data-human-pick="'+index+'" aria-label="'+esc(text)+'">'+art+'<span>'+esc(text)+'</span></button>'}
+function pickerMarkup(item,index,show,label){const text=String(show(item)),network=/네트워크 (선택|타일)$/.test(label)&&item?.n;return '<button type="button" class="picker-option'+(network?' picker-network-tile-choice':'')+'" data-human-pick="'+index+'" aria-label="'+esc(text)+'" title="'+esc(text)+'">'+(network?'<img src="'+board.netImage(network.id,session.game.players[0].color)+'" alt="">'+(item.vanderbilt?'<b class="picker-network-vanderbilt" aria-hidden="true">V</b>':''):'<span>'+esc(text)+'</span>')+'</button>'}
 function renderDetails(){
  const el=$('#nextDetails');el.hidden=!chooser&&!mapChoice;if(el.hidden){el.innerHTML='';return}
  const c=chooser||mapChoice;
@@ -126,14 +126,15 @@ function matchesMapItem(item,kind,id){
  if(kind!=='slot')return false;const c=data.catalog.find(c=>c.id===id),l=data.locations.find(l=>l.id===c?.parentId),index=Number(id.split('.').pop())-1;return item.city===l?.name&&item.i===index;
 }
 function renderBoard(g){
+ closeOnlineNetworkInfo();
  board.render(g,session.pending?.action||proposal);const selecting=!!mapChoice&&!session.pending,choices=selecting?(mapChoice.includeV?[...mapChoice.items,...mapChoice.vander]:mapChoice.items):[];
  document.body.classList.toggle('map-selecting',selecting);
  for(const node of $$('#board [data-slot],#board [data-route],#board [data-oil]')){const kind=node.dataset.slot?'slot':node.dataset.route?'route':'oil',id=node.dataset[kind],legal=selecting&&choices.some(a=>matchesMapItem(a,kind,id));node.classList.toggle('legal',legal);node.style.pointerEvents=selecting&&!legal?'none':'';node.setAttribute('role','button');node.setAttribute('tabindex',selecting&&!legal?'-1':'0');let label;if(kind==='slot'){const c=data.catalog.find(x=>x.id===id);label=c.name+' '+(selecting?legal?'선택 가능':'선택 불가':'정보')}else if(kind==='route'){const r=data.routes.find(x=>x.id===id);label=r.from+'—'+r.to+' '+(selecting?legal?'선택 가능':'선택 불가':'네트워크 정보')}else label='유전 '+(selecting?legal?'선택 가능':'선택 불가':'정보');node.setAttribute('aria-label',label);}
- board.highlight(new Set($$('#board [data-route].legal').map(n=>n.dataset.route)));$('#mapInfo').hidden=true;
+ board.highlight(new Set($$('#board [data-route].legal').map(n=>n.dataset.route)));board.configureNetworkTargets(selecting?{kind:'map'}:null);for(const node of $$('#board [data-route]:not(.legal)')){node.removeAttribute('role');node.removeAttribute('aria-label');node.setAttribute('tabindex','-1');}$('#mapInfo').hidden=true;
  $('#mapSelectionBar').hidden=!selecting;$('#mapSelectionTitle').textContent=selecting?mapChoice.hint:'';$('#mapVanderbiltToggle').hidden=!selecting||!mapChoice.vander.length;$('#mapVanderbiltInput').checked=selecting&&mapChoice.includeV;applyCamera();
 }
 function showInfo(text){$('#mapInfo').hidden=false;$('#mapInfo').innerHTML='<button id="closeMapInfo" aria-label="정보 닫기">×</button>'+esc(text)}
-function targetClick(node){if(Date.now()<ignoreClickUntil||busy||session?.pending)return;const kind=node.dataset.slot?'slot':node.dataset.route?'route':'oil',id=node.dataset[kind];if(mapChoice){const pool=mapChoice.includeV?[...mapChoice.items,...mapChoice.vander]:mapChoice.items,item=pool.find(x=>matchesMapItem(x,kind,id));if(!item){message('밝게 표시된 대상을 선택하세요.');return}settleChoice({...item,_includeV:mapChoice.includeV});return}
+function targetClick(node,event){if(Date.now()<ignoreClickUntil||!session)return;if(node.dataset.networkInfo){if(!mapChoice)showOnlineNetworkInfo(board.networkDescriptor(provisional||session.display(),node.dataset.networkInfo),event);return;}if(busy||session.pending)return;const kind=node.dataset.slot?'slot':node.dataset.route?'route':'oil',id=node.dataset[kind];if(mapChoice){const pool=mapChoice.includeV?[...mapChoice.items,...mapChoice.vander]:mapChoice.items,item=pool.find(x=>matchesMapItem(x,kind,id));if(!item){message('밝게 표시된 대상을 선택하세요.');return}settleChoice({...item,_includeV:mapChoice.includeV});return}
  const g=session.display();if(kind==='slot'){const c=data.catalog.find(x=>x.id===id),l=data.locations.find(x=>x.id===c.parentId),i=Number(id.split('.').pop())-1,p=g.cities[l.name][i];showInfo(l.name+' '+(i+1)+'번 칸\n'+(Number.isInteger(p.owner)?g.players[p.owner].name+' · '+p.industry+' · '+(p.flipped?'뒤집힘':'앞면')+'\n남은 자원: '+Object.entries(p.resources||{}).map(([r,n])=>r+' '+n).join(', '):'건설 가능: '+l.slots[i].join(' / ')))}else if(kind==='route'){const r=data.routes.find(x=>x.id===id),p=g.edges[r.gameId];showInfo(r.from+'—'+r.to+'\n'+(p?g.players[p.owner].name+' · '+core.networks.find(n=>n.id===p.networkId)?.name:'미설치')+'\n'+(r.type==='pipeline'?'기본 오일 '+r.oil:r.bonus||'노선 보너스 없음'))}else{const l=data.locations.find(x=>x.id===id),p=g.setup.oil[l.name];showInfo((p.revealed?p.value:'미공개 유전')+'\n남은 오일 '+(g.oilCities[l.name]?.resource??g.oilfields[l.name]))}}
 
 async function task(fn){if(busy)return;message('');try{await fn()}catch(e){message(e.message);console.error(e)}}
@@ -171,16 +172,17 @@ const camera={x:0,y:0,w:2000},svg=$('#board'),wrap=$('#mapWrap'),pointers=new Ma
 svg.setAttribute('role','group'); // Keep the labeled SVG slot/route buttons in the accessibility tree.
 function clampCamera(){camera.w=Math.max(450,Math.min(2000,camera.w));camera.x=Math.max(0,Math.min(2000-camera.w,camera.x));camera.y=Math.max(0,Math.min(2000-camera.w,camera.y))}
 function applyCamera(){clampCamera();svg.setAttribute('viewBox',`${camera.x} ${camera.y} ${camera.w} ${camera.w}`)}
-function resetCamera(){Object.assign(camera,{x:0,y:0,w:2000});applyCamera()}
+function resetCamera(){closeOnlineNetworkInfo();Object.assign(camera,{x:0,y:0,w:2000});applyCamera()}
 function point(x,y){const p=svg.createSVGPoint();p.x=x;p.y=y;return p.matrixTransform(svg.getScreenCTM().inverse())}
-function zoomAt(factor,x,y){const p=point(x,y),old=camera.w;camera.w=Math.max(450,Math.min(2000,old/factor));camera.x=p.x-(p.x-camera.x)*camera.w/old;camera.y=p.y-(p.y-camera.y)*camera.w/old;applyCamera()}
+function zoomAt(factor,x,y){closeOnlineNetworkInfo();const p=point(x,y),old=camera.w;camera.w=Math.max(450,Math.min(2000,old/factor));camera.x=p.x-(p.x-camera.x)*camera.w/old;camera.y=p.y-(p.y-camera.y)*camera.w/old;applyCamera()}
 function buttonZoom(factor){const r=svg.getBoundingClientRect();zoomAt(factor,r.x+r.width/2,r.y+r.height/2)}
 $('#zoomIn').onclick=()=>buttonZoom(1.3);$('#zoomOut').onclick=()=>buttonZoom(1/1.3);$('#fit').onclick=resetCamera;
 wrap.addEventListener('wheel',e=>{e.preventDefault();zoomAt(Math.exp(-e.deltaY*.0015),e.clientX,e.clientY)},{passive:false});
-wrap.addEventListener('pointerdown',e=>{if(e.target.closest('#mapInfo'))return;if(e.pointerType==='mouse'&&e.button!==0)return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});last={x:e.clientX,y:e.clientY};if(pointers.size===2){const [a,b]=[...pointers.values()];pinch={distance:Math.hypot(a.x-b.x,a.y-b.y),x:(a.x+b.x)/2,y:(a.y+b.y)/2};ignoreClickUntil=Date.now()+350}});
+wrap.addEventListener('pointerdown',e=>{if(e.target.closest('#mapInfo,#physicalBoardInfoPopover'))return;closeOnlineNetworkInfo();if(e.pointerType==='mouse'&&e.button!==0)return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});last={x:e.clientX,y:e.clientY};if(pointers.size===2){const [a,b]=[...pointers.values()];pinch={distance:Math.hypot(a.x-b.x,a.y-b.y),x:(a.x+b.x)/2,y:(a.y+b.y)/2};ignoreClickUntil=Date.now()+350}});
 wrap.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pointers.size===2&&pinch){const [a,b]=[...pointers.values()],distance=Math.hypot(a.x-b.x,a.y-b.y),x=(a.x+b.x)/2,y=(a.y+b.y)/2;if(distance>0&&pinch.distance>0)zoomAt(distance/pinch.distance,x,y);pinch={distance,x,y};ignoreClickUntil=Date.now()+350;}else if(pointers.size===1&&last){const dx=e.clientX-last.x,dy=e.clientY-last.y;if(Math.abs(dx)+Math.abs(dy)>3)ignoreClickUntil=Date.now()+250;const r=svg.getBoundingClientRect(),scale=camera.w/Math.min(r.width,r.height);camera.x-=dx*scale;camera.y-=dy*scale;applyCamera()}last={x:e.clientX,y:e.clientY};});
 for(const event of ['pointerup','pointercancel','lostpointercapture'])wrap.addEventListener(event,e=>{pointers.delete(e.pointerId);pinch=null;last=null});
-svg.addEventListener('click',e=>{const node=e.target.closest('[data-slot],[data-route],[data-oil]');if(node)targetClick(node)});svg.addEventListener('keydown',e=>{if(['Enter',' '].includes(e.key)&&e.target.matches('[role=button]')){e.preventDefault();targetClick(e.target)}});
+svg.addEventListener('click',e=>{const node=e.target.closest('[data-slot],[data-route],[data-oil],[data-network-info]');if(node)targetClick(node,e)});svg.addEventListener('keydown',e=>{if(['Enter',' '].includes(e.key)&&e.target.matches('[role=button]')){e.preventDefault();targetClick(e.target)}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeOnlineNetworkInfo();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stopAI();else scheduleAI()});
 render();if(session&&paused)message('저장된 4인 게임을 복원했습니다. 오토마 차례이면 ‘다시 실행’을 눌러 이어가세요.');
 })().catch(e=>{document.querySelector('#message').textContent='4인 UI 초기화 오류: '+e.message;console.error(e)});

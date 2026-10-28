@@ -6,13 +6,4 @@
 @media(min-width:1100px){.online-table.online-entered #table{height:100%}.online-table .command-column #playerPanel{order:2!important}.online-table .command-column .four-recent-panel{order:3!important}.online-table .command-column .four-market-panel{order:4!important}}
 .online-table .waiting-participants{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}.online-table .waiting-participants .participant{padding:10px;background:#f3f8f8;border-left:3px solid var(--owner)}
 
-/* 2P uses component-sized inspection hits, never the 4P whole-curve hover. */
-.online-table.online-two-map #board .physical-route-hit{fill:none!important;stroke:transparent!important;stroke-width:40!important;pointer-events:none!important}
-.online-table.online-two-map #board .physical-route-hit.selecting:not(.has-authored-shape){pointer-events:stroke!important}
-.online-table.online-two-map #board .physical-route-highlight-hit{fill:transparent!important;stroke:transparent!important;pointer-events:all}
-.online-table.online-two-map #board .physical-board-info-hit{fill:transparent;stroke:transparent;cursor:help;pointer-events:all}
-.online-table.online-two-map #board .physical-board-info-hit:focus-visible{stroke:#fff2aa;stroke-width:4;filter:drop-shadow(0 0 5px #ffdc67)}
-.online-table #physicalBoardInfoPopover .physical-board-info-head button{display:grid;place-items:center;flex:0 0 24px;width:24px;height:24px;padding:0;border:1px solid #d6c38d99;border-radius:6px;background:#2c4549;color:#fff7e4;font:700 18px/1 system-ui,sans-serif}
-.online-table #nextDetails .picker-option.picker-network-tile-choice img{width:100px;height:57px;object-fit:contain}
 .online-table .online-vanderbilt{display:flex;align-items:center;gap:6px;font-size:11px;margin:8px 0}.online-table .online-vanderbilt input{width:16px;height:16px;margin:0}
-@media(max-width:650px){.online-table #nextDetails .picker-option.picker-network-tile-choice img{width:92px;height:53px}}

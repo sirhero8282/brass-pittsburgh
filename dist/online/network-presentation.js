@@ -1,4 +1,4 @@
-// Presentation only: use the retained 2P network dimensions, hit areas and picker.
+// Presentation only: both maps use the retained 2P network dimensions, hit areas and picker.
 (() => {
  'use strict';
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -9,7 +9,6 @@
   return network?`<button class="picker-option picker-network-tile-choice${option.vanderbilt?' vanderbilt-option':''}" ${attrs}><img src="${board.netImage(network.id,color)}" alt="">${option.vanderbilt?'<b class="picker-network-vanderbilt" aria-hidden="true">V</b>':''}</button>`:`<button class="picker-option" ${attrs}>${esc(text)}</button>`;
  };
  globalThis.createOnlineNetworkBoard=(data,core,base,getSeat)=>{
-  if(data.map!=='two')return base;
   const widths=data.catalog.filter(c=>c.kind==='slot').map(c=>data.layout.placements[c.id]?.w*2000).filter(Boolean).sort((a,b)=>a-b),width=Math.round((widths[Math.floor(widths.length/2)]||90)*1.1),height=width/1.75;
   const rect=r=>{const p=data.layout.networkTiles[r.id];return {...p,x:p.x*2000,y:p.y*2000,w:width,h:height};};
   const transform=p=>`transform="rotate(${p.rotation||0} ${p.x} ${p.y})"`;
