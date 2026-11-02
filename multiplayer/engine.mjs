@@ -10,7 +10,7 @@ const F=globalThis.FourPlayer,H=globalThis.FourHuman,clone=structuredClone;
 export const ACTIONS=['건설','네트워크','판매','개발','대출','패스'];
 function secureShuffle(items){const result=[...items];for(let i=result.length-1;i>0;i--){const limit=4294967296-4294967296%(i+1);let n;do{n=crypto.getRandomValues(new Uint32Array(1))[0];}while(n>=limit);const j=n%(i+1);[result[i],result[j]]=[result[j],result[i]];}return result;}
 const dataFor=game=>game.map==='two'?twoData:data;
-function deal(game,opening){const deck=secureShuffle(Object.entries(dataFor(game).cardCounts).flatMap(([card,count])=>Array(count).fill(card)));game.players.forEach((p,i)=>{p.hand=deck.slice(i*16,i*16+8);p.deck=deck.slice(i*16+8,i*16+16);p.discard=opening?[p.deck.pop()]:[];});}
+function deal(game,opening){const deck=secureShuffle(Object.entries(dataFor(game).cardCounts).flatMap(([card,count])=>Array(count).fill(card)));game.players.forEach((p,i)=>{p.hand=deck.slice(i*16,i*16+8);p.deck=deck.slice(i*16+8,i*16+16);p.discard=opening?[(game.map==='four'?p.hand:p.deck).pop()]:[];});}
 export function createGame(seed,names,map='four'){
  if(!['two','four'].includes(map)||names.length!==(map==='two'?2:4))throw Error('선택한 맵의 참가 인원을 확인하세요.');
  const g=F.createGame(data,undefined,seed);g.map=map;
