@@ -10,6 +10,7 @@ function industry({group,slot,left,ready,layout,color,track,markup,manual=false}
   const x=slot.x*layout.width,y=slot.y*layout.height;
   return `<foreignObject x="${x-92}" y="${y-62}" width="184" height="147" data-personal-industry="${esc(group.id)}"><div xmlns="http://www.w3.org/1999/xhtml" class="available-now personal-slot-card ${left?(ready?'ready':'locked'):'vacant'}" ${manual?'data-group="'+esc(group.id)+'" role="button" tabindex="0"':'role="img"'} aria-label="${esc(label)}" title="${esc(label)}"><div class="mini-board-lane">${card}</div></div></foreignObject>`;
 }
+function networkSlotClass(remaining){return remaining>0?"in-stock":"vacant"}
 function personal({p,view,core,board,groups}){const layout=view.personalLayout,networkLayout=view.networkLayout;
  const tiles=groups.map(group=>{
   const slot=layout.slots[group.id];
@@ -22,9 +23,9 @@ function personal({p,view,core,board,groups}){const layout=view.personalLayout,n
  const networkSlots=nets.map(n=>{
   const slot=networkLayout.slots[n.id];
   if(!slot)return '';
-  const remaining=view.networkRemaining(n,p.networkBuilt,p.lightTrains),onBoard=remaining>0&&locked(n);
-  const label=n.name+' · '+(onBoard?'잠김':remaining?'해금되어 아래 공급처에 있음':'사용함');
-  return `<span class="physical-personal-network-tile ${onBoard?'':'vacant'}" style="--network-x:${slot.x*100}%;--network-y:${slot.y*100}%;--network-size:${networkLayout.tileScale*100}%" role="img" aria-label="${esc(label)}" title="${esc(label)}"><span class="physical-personal-network-tile-stack"><img src="${board.netImage(n.id,p.color)}" alt=""></span></span>`;
+  const remaining=view.networkRemaining(n,p.networkBuilt,p.lightTrains);
+  const label=n.name+' · '+(remaining?(locked(n)?'미사용 · 잠김':'미사용 · 건설 가능'):'사용함');
+  return `<span class="physical-personal-network-tile ${networkSlotClass(remaining)}" style="--network-x:${slot.x*100}%;--network-y:${slot.y*100}%;--network-size:${networkLayout.tileScale*100}%" role="img" aria-label="${esc(label)}" title="${esc(label)}"><span class="physical-personal-network-tile-stack"><img src="${board.netImage(n.id,p.color)}" alt=""></span></span>`;
  }).join('');
  $('#personal').innerHTML=`<p class="personal-board-key">타일 왼쪽은 건설 비용, 오른쪽은 뒤집힌 뒤 보상입니다. 흐린 타일은 빈 자리입니다.</p><div class="personal-board-scroll"><div id="personalBoard" class="physical-personal-board" role="group" aria-label="${esc(p.name)} 개인판"><img class="physical-personal-board-art" src="${layout.asset}" width="${layout.width}" height="${layout.height}" alt=""><div class="physical-personal-board-overlay">${layout.labels.map(l=>`<span class="physical-personal-track-label" style="--label-x:${l.x*100}%;--label-y:${l.y*100}%">${l.text}</span>`).join('')}${industryLayer}${networkSlots}</div></div></div><h3>해금된 네트워크 리소스</h3><div class="network-grid physical-network-resource-rack">${nets.filter(n=>!locked(n)).map(n=>`<article class="network-tile personal-network-resource ${view.networkRemaining(n,p.networkBuilt,p.lightTrains)?'':'vacant'}" role="group" aria-label="${esc(n.name)}"><span class="personal-network-resource-art"><img src="${board.netImage(n.id,p.color)}" alt=""></span><span class="personal-network-resource-info"><strong>${esc(n.name)}</strong><span class="board-counts">◇ ${view.networkRemaining(n,p.networkBuilt,p.lightTrains)}장</span><span class="board-facts board-cost">${view.boardFacts(n.cost)}</span><span class="board-facts board-effect">${view.boardFacts(n.effect)}</span></span></article>`).join('')}</div>`;
 }
@@ -164,5 +165,5 @@ function roundPresenter(doc, win) {
 }
 
 document.addEventListener('keydown',event=>{if((event.key==='Enter'||event.key===' ')&&event.target.matches?.('.personal-slot-card[data-group]')){event.preventDefault();event.target.click()}});
-globalThis.BrassTable={round,industry,personal,finalScores,hand,stamp,guideInfo,guideControl,reason};
+globalThis.BrassTable={networkSlotClass,round,industry,personal,finalScores,hand,stamp,guideInfo,guideControl,reason};
 })();
