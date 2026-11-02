@@ -1,0 +1,64 @@
+/* The hand may be narrower than the window, especially on a three-column table. */
+html body.next-ui.table-layout #playerPanel #nextHand.readable-hand {
+  display: grid !important;
+  grid-template-columns: repeat(var(--hand-columns, 1), minmax(0, var(--hand-width, 100px))) !important;
+  justify-content: start;
+  gap: 6px !important;
+  padding: 4px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+}
+html body.next-ui.table-layout #playerPanel #nextHand.readable-hand > .next-card {
+  box-sizing: border-box;
+  position: relative !important;
+  inset: auto !important;
+  margin: 0 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none;
+  transform: none !important;
+  transition: box-shadow .12s ease;
+}
+html body.next-ui.table-layout #playerPanel #nextHand.readable-hand > [hidden],
+html body.next-ui.table-layout #playerPanel #nextHand.readable-hand[data-filter=city] > .industry,
+html body.next-ui.table-layout #playerPanel #nextHand.readable-hand[data-filter=industry] > .city {
+  display: none !important;
+}
+@media (min-width: 1100px) {
+  html body.next-ui.table-layout #playerPanel #nextHand.readable-hand .draft-physical-card {
+    aspect-ratio: 18/25;
+    height: auto !important;
+  }
+  html body.next-ui.table-layout #playerPanel #nextHand[data-compact-cards] .draft-physical-card > :is(strong, .card-label) {
+    display: block !important;
+    position: absolute;
+    z-index: 6;
+    inset: auto 0 0;
+    margin: 0;
+    padding: 3px 1px;
+    border-top: 1px solid #aa9f84;
+    border-radius: 0;
+    background: #172426;
+    color: #fffaf0;
+    font: 700 14px/1.45 "Malgun Gothic", system-ui, sans-serif;
+    white-space: nowrap;
+    text-align: center;
+    pointer-events: none;
+  }
+  html body.next-ui.table-layout #playerPanel #nextHand[data-compact-cards] .draft-physical-card > :is(.card-kind, .draft-card-count) {
+    display: none !important;
+  }
+  html body.next-ui.table-layout #playerPanel #nextHand[data-compact-cards] .draft-physical-card:has(small:nth-of-type(2)) > .draft-card-count {
+    display: block !important;
+    inset: 3px 3px auto auto;
+  }
+  html body.next-ui.table-layout #playerPanel #nextHand[data-compact-cards] .draft-physical-card.next-card-unavailable::after {
+    bottom: 27px;
+  }
+}
+@media (max-width:1099px) {
+  html body.next-ui.table-layout #playerPanel #nextHand[data-compact-cards] .next-card > :is(.card-kind, small:first-of-type) {
+    display: none !important;
+  }
+}
