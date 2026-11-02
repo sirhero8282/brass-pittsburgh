@@ -31,3 +31,5 @@
 body.map-selecting:has(.ai-build-guide select) .physical-oil-hit,body.map-selecting:has(.ai-build-guide select) .physical-oil-hit-surface{pointer-events:all}
 .guide-recommended .physical-slot-candidate,.guide-recommended rect{stroke:#67fa98!important;stroke-width:7px!important}
 .personal-slot-card[data-group]:focus-visible{outline:3px solid #ffdf95}
+
+#personalBoard .physical-personal-board-overlay{background: url("./assets/board/automobile-to-locomotive.svg") center / 100% 100% no-repeat}

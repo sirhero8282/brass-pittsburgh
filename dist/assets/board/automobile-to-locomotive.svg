@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1421 1107">
+  <defs>
+    <linearGradient id="brass" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#694527"/><stop offset=".22" stop-color="#b88c55"/>
+      <stop offset=".53" stop-color="#e1bb79"/><stop offset="1" stop-color="#745232"/>
+    </linearGradient>
+    <linearGradient id="lamp" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#ffe7a1"/><stop offset=".5" stop-color="#fffbe4"/><stop offset="1" stop-color="#eebc55"/>
+    </linearGradient>
+  </defs>
+  <!-- The automobile is on the right of the locomotive works on the printed board. -->
+  <rect x="686" y="75" width="73" height="49" rx="1" fill="url(#brass)" stroke="#674623"/>
+  <path d="M690 78h65M690 121h65" fill="none" stroke="#e2bc79" opacity=".64"/>
+  <path d="m704 100 21-18v10h17v16h-17v10z" fill="url(#lamp)" stroke="#81511d" stroke-width="2.5" stroke-linejoin="round"/>
+</svg>
