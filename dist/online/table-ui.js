@@ -16,7 +16,7 @@ configureLayout();window.addEventListener('resize',configureLayout);
 if(typeof ResizeObserver==='function')new ResizeObserver(scheduleLayout).observe($('#playerPanel'));
 $('#nextHand').closest('details')?.addEventListener('toggle',scheduleLayout);
 
-function renderPersonal(g){const p=g.players[Number($('#personalOwner').value)||0];BrassTable.personal({p,view:presentation(p),core,board,groups})}
+function renderPersonal(g){globalThis.BrassSplit?.game(g,seat,board);const p=g.players[Number($('#personalOwner').value)||0];BrassTable.personal({p,view:presentation(p),core,board,groups})}
 
 function renderAvailable(g){const p=g.players[seat],view=presentation(p);
  const lanes=Object.entries(core.groups).flatMap(([track,gs])=>gs.filter(group=>view.unlocked(group.id)&&view.used(group.id)<group.count).map(group=>`<section class="mini-board-lane" data-lane="${track}">${view.availableIndustryTileMarkup(group,group.count-view.used(group.id),track).replace('data-stack="'+track+'"','data-inventory="'+group.id+'"').replace('/industry/blue/','/industry/'+p.color+'/')}<h3>${view.boardLaneTitle(track)}</h3></section>`)).join('');

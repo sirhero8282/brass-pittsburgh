@@ -1,17 +1,17 @@
 /* Keep tile art and reward ribbons aligned with the printed player-board wells. */
 #boardView .personal-board-scroll{overflow-x:auto}
 #boardView #personalBoard.physical-personal-board{min-width:760px}
-#boardView .personal-slot-layer{position:absolute;inset:0;width:100%;height:100%;z-index:2;overflow:visible;pointer-events:none}
-#boardView .personal-slot-card{margin:0;width:184px;height:147px;container-type:normal;pointer-events:auto}
-#boardView .personal-slot-card .mini-board-lane .tile.available-industry-tile{--component-height:122px;box-sizing:border-box;width:184px!important;min-height:122px!important;grid-template-columns:31px 122px 31px!important;margin:0!important;padding:0!important}
-#boardView .personal-slot-card .available-industry-tile-art{width:122px!important}
-#boardView .personal-slot-card .available-industry-tile-reward.empty{visibility:hidden!important}
-#boardView .personal-slot-card.vacant .available-industry-tile-art,#boardView .physical-personal-network-tile.vacant .physical-personal-network-tile-stack,#boardView .personal-network-resource.vacant .personal-network-resource-art{background:#152226}
-#boardView .personal-slot-card.vacant .available-industry-tile-art img,#boardView .physical-personal-network-tile.vacant img,#boardView .personal-network-resource.vacant img{opacity:.6}
-#boardView .personal-slot-card.vacant .available-industry-tile-build,#boardView .personal-slot-card.vacant .available-industry-tile-reward{opacity:.6}
+:is(#boardView,.split-mats) .personal-slot-layer{position:absolute;inset:0;width:100%;height:100%;z-index:2;overflow:visible;pointer-events:none}
+:is(#boardView,.split-mats) .personal-slot-card{margin:0;width:184px;height:147px;container-type:normal;pointer-events:auto}
+:is(#boardView,.split-mats) .personal-slot-card .mini-board-lane .tile.available-industry-tile{--component-height:122px;box-sizing:border-box;width:184px!important;min-height:122px!important;grid-template-columns:31px 122px 31px!important;margin:0!important;padding:0!important}
+:is(#boardView,.split-mats) .personal-slot-card .available-industry-tile-art{width:122px!important}
+:is(#boardView,.split-mats) .personal-slot-card .available-industry-tile-reward.empty{visibility:hidden!important}
+:is(#boardView,.split-mats) .personal-slot-card.vacant .available-industry-tile-art,:is(#boardView,.split-mats) .physical-personal-network-tile.vacant .physical-personal-network-tile-stack,#boardView .personal-network-resource.vacant .personal-network-resource-art{background:#152226}
+:is(#boardView,.split-mats) .personal-slot-card.vacant .available-industry-tile-art img,:is(#boardView,.split-mats) .physical-personal-network-tile.vacant img,#boardView .personal-network-resource.vacant img{opacity:.6}
+:is(#boardView,.split-mats) .personal-slot-card.vacant .available-industry-tile-build,:is(#boardView,.split-mats) .personal-slot-card.vacant .available-industry-tile-reward{opacity:.6}
 #boardView .personal-board-key{font-size:.88rem;color:#38524b}
 
-#boardView .personal-slot-card.locked .available-industry-tile-art img{filter:saturate(.68) brightness(.86)!important}
+:is(#boardView,.split-mats) .personal-slot-card.locked .available-industry-tile-art img{filter:saturate(.68) brightness(.86)!important}
 
 #finalResults{box-sizing:border-box;position:fixed;inset:0;margin:auto;width:min(46rem,calc(100vw - 1.5rem));height:fit-content;max-height:90vh;overflow:auto;padding:clamp(1rem,3vw,1.8rem);border:1px solid #92aea6;border-radius:14px;background:#fff;color:#183d38;box-shadow:0 1rem 4rem #122f3355}
 #finalResults::backdrop{background:#0f292bb3}#finalResults h2{margin:0;font-size:1.55rem}#finalWinner{margin:.4rem 0 1.1rem;font-weight:bold;color:#216052}
@@ -32,4 +32,4 @@ body.map-selecting:has(.ai-build-guide select) .physical-oil-hit,body.map-select
 .guide-recommended .physical-slot-candidate,.guide-recommended rect{stroke:#67fa98!important;stroke-width:7px!important}
 .personal-slot-card[data-group]:focus-visible{outline:3px solid #ffdf95}
 
-#personalBoard .physical-personal-board-overlay{background: url("./assets/board/automobile-to-locomotive.svg") center / 100% 100% no-repeat}
+:is(#personalBoard,.split-mats) .physical-personal-board-overlay{background: url("./assets/board/automobile-to-locomotive.svg") center / 100% 100% no-repeat}
