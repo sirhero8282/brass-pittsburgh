@@ -24,7 +24,12 @@
    return {type:'네트워크',title:r.from+' — '+r.to,html:fact('종류',r.type==='pipeline'?'송유관':'철도')+fact('소유자',g.players[e.owner].name)+fact('네트워크 타일',n?.name||e.networkId)+ (n?fact('효과',n.effect):'')+(heavy?fact('현재 올라간 자원',resource):'')};
   }
   return {...base,networkRect:rect,networkMarkup,networkInfoMarkup:infoMarkup,networkDescriptor:descriptor,markup,
-   render(g,action){current=g;document.querySelector('#board').innerHTML=markup(g,action);},
+   render(g,action){
+    current=g;
+    const svg=document.querySelector('#board');
+    svg.innerHTML=markup(g,action);
+    globalThis.BoardDrawPile?.mount(svg);
+   },
    highlight(legal){base.highlight(legal);for(const node of document.querySelectorAll('#board .route-hit')){const route=data.routes.find(r=>r.id===node.dataset.route),hasZones=!!(route&&base.networkHighlightShapes(route).length);node.classList.toggle('has-authored-shape',hasZones);if(hasZones){node.setAttribute('tabindex','-1');node.removeAttribute('role');node.removeAttribute('aria-label');}}for(const node of document.querySelectorAll('#board .four-route-zone-hit'))node.classList.add('physical-route-highlight-hit','selecting');},
    configureNetworkTargets(choice){const hits=document.querySelector('#onlineNetworkInfoHits');if(hits)hits.innerHTML=choice?.kind==='map'?'':infoMarkup(current);}
   };
