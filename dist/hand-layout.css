@@ -1,7 +1,7 @@
 /* The hand may be narrower than the window, especially on a three-column table. */
 html body.next-ui.table-layout #playerPanel #nextHand.readable-hand {
   display: grid !important;
-  grid-template-columns: repeat(var(--hand-columns, 1), minmax(0, var(--hand-width, 100px))) !important;
+  grid-template-columns: repeat(4, minmax(0, 145px)) !important;
   justify-content: start;
   gap: 6px !important;
   padding: 4px !important;
@@ -42,7 +42,8 @@ html body.next-ui.table-layout #playerPanel #nextHand.readable-hand[data-filter=
     background: #172426;
     color: #fffaf0;
     font: 700 14px/1.45 "Malgun Gothic", system-ui, sans-serif;
-    white-space: nowrap;
+    white-space: normal;
+    overflow-wrap: anywhere;
     text-align: center;
     pointer-events: none;
   }

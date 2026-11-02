@@ -12,6 +12,7 @@ const save=()=>{try{localStorage.setItem(key,JSON.stringify(prefs))}catch{}};
 let workspace,pane,settings,list,dividers=[],game,seat=0,netBoard,matCore,coreType,frame=0,drag=null;
 const cards=new Map(),$=s=>document.querySelector(s);
 let matWindow, windowPane, emptyNotice, reopenButton, windowStatus;
+let opponentsExpanded=false, opponentsButton, fullBoard, fullOpponents;
 function closeMatWindow() {
  const previous=matWindow;
  matWindow=null;
@@ -66,17 +67,22 @@ function players(){return game?game.players.map((_,i)=>game.players[(i+seat)%gam
 function mat(p,i){
  const multi=!!game;
  if(multi){const type=game.map==='two'?'two':'four';if(coreType!==type){matCore=type==='two'?createTwoCore():createFourCore();coreType=type}
-  matCore.set({removed:p.removed});return BrassTable.personal({p,view:matCore.presentation,core:matCore,board:netBoard,groups:Object.values(matCore.groups).flat(),boardOnly:true})}
+  matCore.set({removed:p.removed});return BrassTable.personal({p,view:matCore.presentation,core:matCore,board:netBoard,groups:Object.values(matCore.groups).flat(),boardOnly:true,showAvailable:i===0})}
  const view={personalLayout:PERSONAL_BOARD_LAYOUT,networkLayout:PERSONAL_NETWORK_LAYOUT,used:groupUsed,unlocked:groupUnlocked,complete:completeGroup,networkRemaining:personalNetworkRemaining,availableIndustryTileMarkup};
- const draw=()=>BrassTable.personal({p,view,core:{networks:NETWORKS},board:{netImage:id=>personalNetworkAsset(id,i?'automa':'player')},groups:Object.values(GROUPS).flat(),boardOnly:true});
+ const draw=()=>BrassTable.personal({p,view,core:{networks:NETWORKS},board:{netImage:id=>personalNetworkAsset(id,i?'automa':'player')},groups:Object.values(GROUPS).flat(),boardOnly:true,showAvailable:i===0});
  return i?draw():withPlayerBoard(draw);
 }
 function update(){
  if(!workspace)return;
- const ps=players(),active=prefs.mode==='split'&&wide.matches&&!!workspace.querySelector(':scope > .draft-right-rail'),visible=ps.map((_,i)=>!prefs.hidden[ps.length+':'+i]),show=prefs.pane&&visible.some(Boolean);
+ const ps=players(),active=prefs.mode==='split'&&wide.matches&&!!workspace.querySelector(':scope > .draft-right-rail');
+ const visible=ps.map((_,i)=>(i===0||opponentsExpanded)&&!prefs.hidden[ps.length+':'+i]);
+ const hasContent=visible.some(Boolean)||ps.length>1,show=prefs.pane&&hasContent;
  const detached=prefs.mode==='detached', separate=detached && !!windowPane;
- const target=separate?windowPane:pane;
- const showBoards=separate?visible.some(Boolean):active&&show;
+ const ownsFullBoard=game?Number($('#personalOwner')?.value)===seat:$('#boardPlayer')?.getAttribute('aria-selected')==='true';
+ const full=fullBoard.classList.contains('active')&&ownsFullBoard&&!separate;
+ fullBoard.classList.toggle('show-own-stock',!!ownsFullBoard);
+ const target=separate?windowPane:full?fullOpponents:pane;
+ const showBoards=separate||full?hasContent:active&&show;
  workspace.classList.toggle('split-active',active || (separate && wide.matches && !!workspace.querySelector(':scope > .draft-right-rail')));workspace.classList.toggle('split-no-mats',separate||!show);
  reopenButton.hidden=!detached;
  reopenButton.textContent=separate?'개인판 창 보기 ↗':'개인판 창 열기 ↗';
@@ -96,13 +102,19 @@ function update(){
  list.querySelectorAll('input').forEach((c,i)=>{c.checked=visible[i];c.disabled=!detached&&!prefs.pane});
  settings.querySelector('.mat-options').hidden=prefs.mode==='classic';
  if(showBoards){
-  ps.forEach((p,i)=>{if(!visible[i])return;const signature=JSON.stringify([game?.map||'solo',names[i],p.color,p.removed,p.networkBuilt,p.lightTrains]);
+  ps.forEach((p,i)=>{if(!visible[i]||(full&&i===0))return;const signature=JSON.stringify([game?.map||'solo',names[i],p.color,p.removed,p.networkBuilt,p.lightTrains]);
    let card=cards.get(i);if(!card){card=document.createElement('section');card.className='split-owner';card.dataset.owner=i;card.append(document.createElement('h3'),document.createElement('div'));cards.set(i,card)}
    if(card.signature!==signature){card.firstChild.textContent=names[i]+' 개인판';card.lastChild.innerHTML=mat(p,i);card.signature=signature}
    if(card.parentNode!==target)target.insertBefore(card,[...target.children].find(e=>Number(e.dataset.owner)>i)||null);
   });
  }
- for(const [i,c] of cards)if(!showBoards||!visible[i]){c.remove();cards.delete(i)}
+ for(const [i,c] of cards)if(!showBoards||!visible[i]||(full&&i===0)){c.remove();cards.delete(i)}
+ if(showBoards&&ps.length>1){
+  opponentsButton.textContent=opponentsExpanded?'상대 개인판 접기':'상대 개인판 펼치기';
+  opponentsButton.setAttribute('aria-expanded',String(opponentsExpanded));
+  const firstOpponent=[...target.children].find(el=>Number(el.dataset.owner)>0)||null;
+  if(opponentsButton.parentNode!==target||opponentsButton.nextElementSibling!==firstOpponent)target.insertBefore(opponentsButton,firstOpponent);
+ }else opponentsButton.remove();
  scales();
 }
 function scales(){if(!workspace)return;const w=prefs.widths;
@@ -121,6 +133,19 @@ function divider(i){const d=document.createElement('div');d.className='split-bar
 }
 globalThis.BrassSplit={game(g,s,b){game=g;seat=Number.isInteger(s)?s:0;netBoard=b;queued()}};
 function mount(){workspace=$('.game-workspace,.four-workspace');const dialog=$('#screenToneDialog');if(!workspace||!dialog)return;
+ fullBoard=$('#boardView');
+ fullOpponents=document.createElement('div');fullOpponents.className='split-mats full-opponents';fullBoard.append(fullOpponents);
+ new MutationObserver(queued).observe(fullBoard,{attributes:true,attributeFilter:['class']});
+ $('#personalOwner')?.addEventListener('change',queued);
+ opponentsButton=document.createElement('button');opponentsButton.type='button';opponentsButton.className='mat-opponents';
+ opponentsButton.onclick=()=>{
+  opponentsExpanded=!opponentsExpanded;
+  const ps=players();
+  if(opponentsExpanded && ps.slice(1).every((_,i)=>prefs.hidden[ps.length+':'+(i+1)])){
+   ps.forEach((_,i)=>{if(i)delete prefs.hidden[ps.length+':'+i]});save();
+  }
+  update();
+ };
  pane=document.createElement('aside');pane.className='split-mats';pane.setAttribute('aria-label','참가자 개인판');dividers=[divider(0),divider(1)];workspace.append(dividers[0],pane,dividers[1]);
  settings=document.createElement('fieldset');settings.className='split-settings';settings.innerHTML='<legend>테이블 배치</legend><label><input type="radio" name="table-layout" value="classic">기본 보기</label><label><input type="radio" name="table-layout" value="split">3열 보기</label><small>넓은 화면에서 두 구분선을 끌어 너비를 조절하세요. 좁은 화면에서는 기본 보기를 사용합니다.</small><div class="mat-options"><label><input type="checkbox" name="show-mats">개인판 열 표시</label><div class="mat-list"></div><button type="button" class="split-reset">기본 너비로</button></div>';
  dialog.querySelector('.screen-tone-footnote').before(settings);list=settings.querySelector('.mat-list');
@@ -136,7 +161,15 @@ function mount(){workspace=$('.game-workspace,.four-workspace');const dialog=$('
    if(c.value==='detached'){prefs.returnLayout=prefs.mode;prefs.mode='detached';openMatWindow()}
    else{prefs.mode=c.value;closeMatWindow()}
   }else if(c.name==='show-mats')prefs.pane=c.checked;
-  else if(c.hasAttribute('data-owner'))prefs.hidden[players().length+':'+c.dataset.owner]=!c.checked;
+  else if(c.hasAttribute('data-owner')){
+   const ps=players(),owner=Number(c.dataset.owner);
+   if(owner>0&&c.checked&&!opponentsExpanded){
+    ps.forEach((_,i)=>{if(i)prefs.hidden[ps.length+':'+i]=true});
+    opponentsExpanded=true;
+   }
+   prefs.hidden[ps.length+':'+owner]=!c.checked;
+   if(owner>0&&ps.slice(1).every((_,i)=>prefs.hidden[ps.length+':'+(i+1)]))opponentsExpanded=false;
+  }
   save();update();
  };
  window.addEventListener('pagehide',closeMatWindow);
