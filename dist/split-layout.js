@@ -11,6 +11,54 @@ if(!prefs.hidden||typeof prefs.hidden!=='object')prefs.hidden={};
 const save=()=>{try{localStorage.setItem(key,JSON.stringify(prefs))}catch{}};
 let workspace,pane,settings,list,dividers=[],game,seat=0,netBoard,matCore,coreType,frame=0,drag=null;
 const cards=new Map(),$=s=>document.querySelector(s);
+let matWindow, windowPane, emptyNotice, reopenButton, windowStatus;
+function closeMatWindow() {
+ const previous=matWindow;
+ matWindow=null;
+ windowPane=null;
+ if(previous && !previous.closed) previous.close();
+}
+function mergeBoards() {
+ prefs.mode=prefs.returnLayout==='split'?'split':'classic';
+ closeMatWindow();
+ save();
+ update();
+}
+function openMatWindow() {
+ if(matWindow && !matWindow.closed){matWindow.focus();return}
+ const popup=window.open('','_blank','popup=yes,width=900,height=820,resizable=yes,scrollbars=yes');
+ if(!popup){
+  windowStatus.textContent='개인판 창을 열 수 없습니다. 이 사이트의 팝업을 허용한 뒤 다시 열어 주세요.';
+  return;
+ }
+ const doc=popup.document;
+ doc.documentElement.lang='ko';
+ doc.title='피츠버그 · 참가자 개인판';
+ const base=doc.createElement('base');
+ base.href=new URL('./',document.baseURI).href;
+ doc.head.append(base);
+ const viewport=doc.createElement('meta');
+ viewport.name='viewport';viewport.content='width=device-width, initial-scale=1';doc.head.append(viewport);
+ for(const sheet of document.querySelectorAll('link[rel=stylesheet]')){
+  const link=doc.createElement('link');
+  link.rel='stylesheet';link.href=sheet.href;doc.head.append(link);
+ }
+ doc.body.className='next-ui table-layout available-board-draft detached-board-window';
+ const bar=doc.createElement('div'),title=doc.createElement('strong'),merge=doc.createElement('button');
+ bar.className='detached-board-bar';title.textContent='참가자 개인판';merge.type='button';merge.textContent='본창에 합치기';
+ merge.onclick=()=>{window.focus();mergeBoards()};
+ bar.append(title,merge);
+ emptyNotice=doc.createElement('p');
+ windowPane=doc.createElement('main');windowPane.className='split-mats';
+ doc.body.append(bar,emptyNotice,windowPane);
+ matWindow=popup;
+ popup.addEventListener('pagehide',()=>{
+  if(matWindow!==popup)return;
+  matWindow=null;windowPane=null;mergeBoards();
+ },{once:true});
+ windowStatus.textContent='';
+ update();
+}
 function solo(){if(typeof state==='undefined')return [];
  return ['player','automa'].map((actor,i)=>({name:i?'오토마':'나',color:i?'red':'blue',removed:i?state.removed:state.playerRemoved,networkBuilt:i?state.networkBuilt:state.playerNetworkBuilt,lightTrains:state.lightTrains[actor]||0}));
 }
@@ -26,30 +74,42 @@ function mat(p,i){
 function update(){
  if(!workspace)return;
  const ps=players(),active=prefs.mode==='split'&&wide.matches&&!!workspace.querySelector(':scope > .draft-right-rail'),visible=ps.map((_,i)=>!prefs.hidden[ps.length+':'+i]),show=prefs.pane&&visible.some(Boolean);
- workspace.classList.toggle('split-active',active);workspace.classList.toggle('split-no-mats',!show);
+ const detached=prefs.mode==='detached', separate=detached && !!windowPane;
+ const target=separate?windowPane:pane;
+ const showBoards=separate?visible.some(Boolean):active&&show;
+ workspace.classList.toggle('split-active',active || (separate && wide.matches && !!workspace.querySelector(':scope > .draft-right-rail')));workspace.classList.toggle('split-no-mats',separate||!show);
+ reopenButton.hidden=!detached;
+ reopenButton.textContent=separate?'개인판 창 보기 ↗':'개인판 창 열기 ↗';
+ settings.querySelector('.window-actions').hidden=!detached;
+ settings.querySelector('.split-reset').hidden=detached;
+ settings.querySelector('[name=show-mats]').parentElement.hidden=detached;
+ if(separate){
+  emptyNotice.hidden=showBoards;
+  emptyNotice.textContent=ps.length?'화면 설정에서 표시할 개인판을 선택하세요.':'게임을 시작하면 개인판이 표시됩니다.';
+ }
  for(const r of settings.querySelectorAll('[name=table-layout]'))r.checked=r.value===prefs.mode;
  settings.querySelector('[name=show-mats]').checked=prefs.pane;
  const names=ps.map((p,i)=>(i===0&&p.name!=='나'?'나 · ':'')+p.name);
  if(list.dataset.names!==JSON.stringify(names)){
   list.replaceChildren();list.dataset.names=JSON.stringify(names);names.forEach((name,i)=>{const l=document.createElement('label'),c=document.createElement('input');c.type='checkbox';c.dataset.owner=i;l.append(c,document.createTextNode(name));list.append(l)});
  }
- list.querySelectorAll('input').forEach((c,i)=>{c.checked=visible[i];c.disabled=!prefs.pane});
- settings.querySelector('.mat-options').hidden=prefs.mode!=='split';
- if(active&&show){
+ list.querySelectorAll('input').forEach((c,i)=>{c.checked=visible[i];c.disabled=!detached&&!prefs.pane});
+ settings.querySelector('.mat-options').hidden=prefs.mode==='classic';
+ if(showBoards){
   ps.forEach((p,i)=>{if(!visible[i])return;const signature=JSON.stringify([game?.map||'solo',names[i],p.color,p.removed,p.networkBuilt,p.lightTrains]);
    let card=cards.get(i);if(!card){card=document.createElement('section');card.className='split-owner';card.dataset.owner=i;card.append(document.createElement('h3'),document.createElement('div'));cards.set(i,card)}
    if(card.signature!==signature){card.firstChild.textContent=names[i]+' 개인판';card.lastChild.innerHTML=mat(p,i);card.signature=signature}
-   if(card.parentNode!==pane)pane.insertBefore(card,[...pane.children].find(e=>Number(e.dataset.owner)>i)||null);
+   if(card.parentNode!==target)target.insertBefore(card,[...target.children].find(e=>Number(e.dataset.owner)>i)||null);
   });
  }
- for(const [i,c] of cards)if(!active||!show||!visible[i]){c.remove();cards.delete(i)}
+ for(const [i,c] of cards)if(!showBoards||!visible[i]){c.remove();cards.delete(i)}
  scales();
 }
 function scales(){if(!workspace)return;const w=prefs.widths;
  w.forEach((n,i)=>workspace.style.setProperty('--split-'+i,n+'fr'));
  dividers.forEach((d,i)=>{const pos=i?w[0]+w[1]:w[0];d.setAttribute('aria-valuenow',Math.round(pos));d.setAttribute('aria-valuetext','왼쪽에서 '+Math.round(pos)+'%')});
 }
-function queued(){if(!frame)frame=requestAnimationFrame(()=>{frame=0;update()})}
+function queued(){if(frame)return;frame=1;const run=()=>{frame=0;update()};if(windowPane)queueMicrotask(run);else requestAnimationFrame(run)}
 function adjust(i,delta,base){const pair=base[i]+base[i+1],min=[16,14,19],next=Math.max(min[i],Math.min(pair-min[i+1],base[i]+delta));prefs.widths=base.slice();prefs.widths[i]=next;prefs.widths[i+1]=pair-next;scales()}
 function divider(i){const d=document.createElement('div');d.className='split-bar split-bar-'+i;d.tabIndex=0;d.setAttribute('role','separator');d.setAttribute('aria-orientation','vertical');d.setAttribute('aria-label',i?'개인판과 행동 영역 너비':'게임판과 개인판 너비');
  let raf=0,x;const flush=()=>{raf=0;if(drag?.d===d)adjust(i,100*(x-drag.x)/drag.width,drag.base)};
@@ -64,7 +124,22 @@ function mount(){workspace=$('.game-workspace,.four-workspace');const dialog=$('
  pane=document.createElement('aside');pane.className='split-mats';pane.setAttribute('aria-label','참가자 개인판');dividers=[divider(0),divider(1)];workspace.append(dividers[0],pane,dividers[1]);
  settings=document.createElement('fieldset');settings.className='split-settings';settings.innerHTML='<legend>테이블 배치</legend><label><input type="radio" name="table-layout" value="classic">기본 보기</label><label><input type="radio" name="table-layout" value="split">3열 보기</label><small>넓은 화면에서 두 구분선을 끌어 너비를 조절하세요. 좁은 화면에서는 기본 보기를 사용합니다.</small><div class="mat-options"><label><input type="checkbox" name="show-mats">개인판 열 표시</label><div class="mat-list"></div><button type="button" class="split-reset">기본 너비로</button></div>';
  dialog.querySelector('.screen-tone-footnote').before(settings);list=settings.querySelector('.mat-list');
- settings.onchange=e=>{const c=e.target;if(c.name==='table-layout')prefs.mode=c.value;else if(c.name==='show-mats')prefs.pane=c.checked;else if(c.hasAttribute('data-owner'))prefs.hidden[players().length+':'+c.dataset.owner]=!c.checked;save();update()};
+ settings.querySelector('small').insertAdjacentHTML('beforebegin','<label><input type="radio" name="table-layout" value="detached">개인판 별도 창</label><div class="window-actions" hidden><button type="button">개인판 창 열기 ↗</button><span role="status"></span></div>');
+ windowStatus=settings.querySelector('.window-actions [role=status]');
+ settings.querySelector('.window-actions button').onclick=openMatWindow;
+ reopenButton=document.createElement('button');reopenButton.type='button';reopenButton.className='mat-window-open';reopenButton.hidden=true;
+ $('.screen-tone-open').after(reopenButton);
+ reopenButton.onclick=()=>{openMatWindow();if(!windowPane&&!dialog.open)dialog.showModal()};
+ settings.onchange=e=>{
+  const c=e.target;
+  if(c.name==='table-layout'){
+   if(c.value==='detached'){prefs.returnLayout=prefs.mode;prefs.mode='detached';openMatWindow()}
+   else{prefs.mode=c.value;closeMatWindow()}
+  }else if(c.name==='show-mats')prefs.pane=c.checked;
+  else if(c.hasAttribute('data-owner'))prefs.hidden[players().length+':'+c.dataset.owner]=!c.checked;
+  save();update();
+ };
+ window.addEventListener('pagehide',closeMatWindow);
  settings.querySelector('.split-reset').onclick=()=>{prefs.widths=[44,34,22];scales();save()};
  const soloBoard=$('#personalBoard');if(workspace.matches('.game-workspace')&&soloBoard)new MutationObserver(queued).observe(soloBoard,{childList:true});
  wide.addEventListener('change',queued);update();

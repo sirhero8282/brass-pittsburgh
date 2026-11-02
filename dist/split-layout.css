@@ -27,3 +27,13 @@
  html body .split-active #playerPanel #nextHand.draft-card-fan>.next-card:not([hidden]),html body .split-active #playerPanel #nextHand.draft-card-fan>.draft-physical-card-sample{position:relative!important;inset:auto!important;width:100%!important;max-width:120px;min-width:0!important;transform:none!important;transition:none!important}
  html body .split-active #playerPanel #nextHand>[hidden]{display:none!important}
 }
+
+.split-settings [hidden],.mat-window-open[hidden]{display:none!important}
+.window-actions{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem}
+.detached-board-window{display:block!important;box-sizing:border-box;overflow:auto!important;width:100%;height:auto!important;min-height:100vh;margin:0;padding:8px;background:#eef2f1;color:#183f47;font-family:"Malgun Gothic",system-ui,sans-serif}
+.detached-board-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin:0 auto 8px;max-width:1421px}
+.detached-board-bar button{padding:6px 10px;border:1px solid #acbfbd;border-radius:6px;background:#fff;color:#183f47;cursor:pointer}
+.detached-board-window>.split-mats{display:block;width:100%;max-width:1421px;margin:auto;padding:0}
+.detached-board-window .split-owner{margin:0 0 12px}
+.detached-board-window .split-owner h3{margin:0;padding:5px 9px;background:#21464d;color:#fff;border-radius:6px 6px 0 0;font-size:14px}
+.detached-board-window .physical-personal-board{position:relative;isolation:isolate;width:100%;aspect-ratio:1421/1107;overflow:hidden;background:#152226;border-radius:0 0 6px 6px}
