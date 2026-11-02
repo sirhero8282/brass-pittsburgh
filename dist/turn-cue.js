@@ -1,7 +1,12 @@
 /* A short local chime announces a new player turn after round presentation. */
 (() => {
   let audio = null;
-  let previous = turnKey();
+  let previous = turnKey(),lastRound=state.era*10+state.round,seed=state.seed,sound=true;
+  try{sound=localStorage.getItem('brass-playroom-round-sound')!=='off'}catch{}
+  const toggle=document.createElement('button');toggle.type='button';
+  const label=()=>{toggle.textContent='라운드 알림음 '+(sound?'켜짐':'꺼짐');toggle.setAttribute('aria-pressed',String(sound))};label();
+  document.querySelector('#setupView .section-head')?.append(toggle);toggle.onclick=()=>{sound=!sound;label();try{localStorage.setItem('brass-playroom-round-sound',sound?'on':'off')}catch{}};
+
   function turnKey() {
     return state.setupLocked && !state.gameOver && state.turnOwner === 'player'
       ? [state.seed, state.era, state.round, 'player'].join(':') : null;
@@ -15,7 +20,7 @@
     } catch {}
   }
   function chime() {
-    if (!audio || audio.state !== 'running') return;
+    if (!sound || !audio || audio.state !== 'running') return;
     try {
       const start = audio.currentTime;
       [660, 880].forEach((frequency, index) => {
@@ -36,6 +41,7 @@
     } catch {}
   }
   function observeTurn() {
+    const now=state.era*10+state.round,moved=seed===state.seed&&now>lastRound;seed=state.seed;lastRound=now;if(moved&&state.setupLocked&&!state.gameOver){chime();previous=turnKey();return}
     if (roundTransition) return;
     const current = turnKey();
     if (current && current !== previous) chime();

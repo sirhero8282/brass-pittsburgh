@@ -38,10 +38,10 @@ function commit(g,core,index=active(g)){
 }
 function scoreEra(g){
  if(g.eraScores[g.era])return;const totals=[];
- for(let i=0;i<g.players.length;i++){const core=project(g,i),before=core.get().vp;core.score();const s=core.get();g.players[i].vp=s.vp;totals.push({player:i,industry:s.eraScores[g.era].industry.automa,network:s.eraScores[g.era].network.automa,added:s.vp-before});for(const [city,slots]of Object.entries(s.cities))slots.forEach((p,j)=>{if(p.owner==='automa')g.cities[city][j].industryScoreAwarded=p.industryScoreAwarded});for(const [field,p]of Object.entries(s.oilCities))if(p.owner==='automa')g.oilCities[field].industryScoreAwarded=p.industryScoreAwarded;}
- g.eraScores[g.era]=totals;g.logs.push({title:g.era+'시대 점수 정산',detail:totals.map(x=>g.players[x.player].name+' +'+x.added+'VP').join(' · ')});
+ for(let i=0;i<g.players.length;i++){const core=project(g,i),before=core.get().vp;core.score();const s=core.get();g.players[i].vp=s.vp;totals.push({player:i,industry:s.eraScores[g.era].industry.automa,network:s.eraScores[g.era].network.automa,sewing:s.eraScores[g.era].sewing.automa,special:{...s.eraScores[g.era].special.automa},added:s.vp-before});for(const [city,slots]of Object.entries(s.cities))slots.forEach((p,j)=>{if(p.owner==='automa')g.cities[city][j].industryScoreAwarded=p.industryScoreAwarded});for(const [field,p]of Object.entries(s.oilCities))if(p.owner==='automa')g.oilCities[field].industryScoreAwarded=p.industryScoreAwarded;}
+ g.eraScores[g.era]=totals;g.logs.push({era:g.era,round:g.round,turn:g.turn-1,title:g.era+'시대 점수 정산',detail:totals.map(x=>g.players[x.player].name+' +'+x.added+'VP').join(' · ')});
 }
-function settleIncome(g){if(g.era===2&&g.round===8)return;const core=coreFor(g);for(const p of g.players){const level=core.incomeLevelAt(p.income);if(p.money+level>=0)p.money+=level;else{p.money=0;p.whiskey=0;p.vp-=40;p.income=10;p.aiActionStats.loansSinceBankruptcy=0;g.logs.push({title:p.name+' 파산',detail:'현금·위스키 반납, −40VP, 수입 10번 칸으로 복귀'});}}}
+function settleIncome(g){if(g.era===2&&g.round===8)return;const core=coreFor(g);for(const p of g.players){const level=core.incomeLevelAt(p.income);if(p.money+level>=0)p.money+=level;else{p.money=0;p.whiskey=0;p.vp-=40;p.income=10;p.aiActionStats.loansSinceBankruptcy=0;g.logs.push({era:g.era,round:g.round,turn:g.turn-1,title:p.name+' 파산',detail:'현금·위스키 반납, −40VP, 수입 10번 칸으로 복귀'});}}}
 function next(g,data){
  const p=g.players[active(g)],limit=g.era===1&&g.round===1?1:2;g.actionCount++;g.turn++;
  if(g.actionCount<limit)return;while(p.hand.length<8&&p.deck.length)p.hand.push(p.deck.shift());g.actionCount=0;g.cursor++;if(g.cursor<g.players.length)return;

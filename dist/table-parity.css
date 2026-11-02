@@ -1,0 +1,33 @@
+/* Keep tile art and reward ribbons aligned with the printed player-board wells. */
+#boardView .personal-board-scroll{overflow-x:auto}
+#boardView #personalBoard.physical-personal-board{min-width:760px}
+#boardView .personal-slot-layer{position:absolute;inset:0;width:100%;height:100%;z-index:2;overflow:visible;pointer-events:none}
+#boardView .personal-slot-card{width:184px;height:147px;container-type:normal;pointer-events:auto}
+#boardView .personal-slot-card .mini-board-lane .tile.available-industry-tile{--component-height:122px;box-sizing:border-box;width:184px!important;min-height:122px!important;grid-template-columns:31px 122px 31px!important;margin:0!important;padding:0!important}
+#boardView .personal-slot-card .available-industry-tile-art{width:122px!important}
+#boardView .personal-slot-card .available-industry-tile-reward.empty{visibility:hidden!important}
+#boardView .personal-slot-card.vacant .available-industry-tile-art,#boardView .physical-personal-network-tile.vacant .physical-personal-network-tile-stack,#boardView .personal-network-resource.vacant .personal-network-resource-art{background:#152226}
+#boardView .personal-slot-card.vacant .available-industry-tile-art img,#boardView .physical-personal-network-tile.vacant img,#boardView .personal-network-resource.vacant img{opacity:.6}
+#boardView .personal-slot-card.vacant .available-industry-tile-build,#boardView .personal-slot-card.vacant .available-industry-tile-reward{opacity:.6}
+#boardView .personal-board-key{font-size:.88rem;color:#38524b}
+
+#boardView .personal-slot-card.locked .available-industry-tile-art img{filter:saturate(.68) brightness(.86)!important}
+
+#finalResults{box-sizing:border-box;position:fixed;inset:0;margin:auto;width:min(46rem,calc(100vw - 1.5rem));height:fit-content;max-height:90vh;overflow:auto;padding:clamp(1rem,3vw,1.8rem);border:1px solid #92aea6;border-radius:14px;background:#fff;color:#183d38;box-shadow:0 1rem 4rem #122f3355}
+#finalResults::backdrop{background:#0f292bb3}#finalResults h2{margin:0;font-size:1.55rem}#finalWinner{margin:.4rem 0 1.1rem;font-weight:bold;color:#216052}
+.final-score-scroll{overflow-x:auto}#finalResults table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+#finalResults :is(th,td){padding:.6rem .45rem;text-align:right;border-bottom:1px solid #dce5df;white-space:nowrap}#finalResults th:first-child{text-align:left;position:sticky;left:0;background:#fff}#finalResults thead th:not(:first-child){white-space:normal;min-width:6rem;overflow-wrap:anywhere}
+#finalResults thead th{background:#eef3ee;font-size:.85rem}#finalResults .subtotal>*{font-weight:700;background:#f0f5f2}#finalResults .total>*{font-weight:800;background:#d4ede2;color:#164333}
+#finalResults .final-note{font-size:.85rem;color:#49615a;margin:1rem 0;line-height:1.6}#finalResults form{text-align:right}
+#boardView{overflow-x:auto}.hand-whiskey-rack{display:inline-flex;align-items:center;gap:2px;vertical-align:middle}.hand-whiskey-rack img{width:1.35em;height:1.55em;object-fit:contain}.ai-build-guide{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}.guide-reason:not(:empty){padding:.35rem .5rem;background:#fff6dc;color:#593c16;border-radius:5px}.recent-stamp{font-size:.72rem;color:#38534e}.personal-slot-card[data-group]{cursor:pointer}
+
+#onlineRoundBanner { position:fixed; top:clamp(5rem,16vh,10rem); left:50%; transform:translateX(-50%); z-index:90; pointer-events:none; box-sizing:border-box; width:max-content; max-width:calc(100vw - 2rem); padding:.85rem 2rem; border:1px solid #cba86b; border-radius:.6rem; background:#183c41; color:#fff9e8; box-shadow:0 6px 24px #102a304a; text-align:center; overflow-wrap:anywhere }
+#onlineRoundBanner:not([hidden]) { display:grid; gap:.25rem; animation:brass-round-arrive .23s ease-out }
+#onlineRoundBanner small { color:#f2d898 }
+#onlineRoundBanner strong { font-size:clamp(1.1rem,3vw,1.6rem) }
+@keyframes brass-round-arrive { from { opacity:0; translate:0 -.6rem } to { opacity:1; translate:0 0 } }
+@media(prefers-reduced-motion:reduce) { #onlineRoundBanner:not([hidden]) { animation:none } }
+
+body.map-selecting:has(.ai-build-guide select) .physical-oil-hit,body.map-selecting:has(.ai-build-guide select) .physical-oil-hit-surface{pointer-events:all}
+.guide-recommended .physical-slot-candidate,.guide-recommended rect{stroke:#67fa98!important;stroke-width:7px!important}
+.personal-slot-card[data-group]:focus-visible{outline:3px solid #ffdf95}

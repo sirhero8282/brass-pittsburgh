@@ -2,7 +2,7 @@
 (function(root){
 class FourFlow{
  constructor(F,data,game){this.F=F;this.data=data;this.game=F.restoreMissingMarkets(structuredClone(game));this.history=Array.isArray(game.uiHistory)?game.uiHistory.slice(-12).map(g=>F.restoreMissingMarkets(structuredClone(F.validate(g)))):[];delete this.game.uiHistory;this.pending=null;this.revision=0;this.cardIndex=null;this.type=null;this.group=null;this.target=null;this.cache=null;if(game?.uiPending){const pending=game.uiPending;delete this.game.uiPending;if(pending.after)this.stagePrepared({game:pending.after,action:pending.action},this.revision);else this.stage(pending.action);}}
- display(){return this.pending?.after||this.game}
+ display(){return this.pending?.action?.deferredOil?this.game:(this.pending?.after||this.game)}
  serializable(){const saved=structuredClone(this.game);saved.uiHistory=structuredClone(this.history);if(this.pending)saved.uiPending={action:structuredClone(this.pending.action),...(this.pending.prepared?{after:structuredClone(this.pending.after)}:{})};return saved}
  clear(){this.cardIndex=null;this.type=null;this.group=null;this.target=null;this.cache=null}
  selectCard(index){if(this.pending)throw Error('먼저 실행을 확정하거나 되돌려 주세요.');if(this.F.active(this.game)!==0||!this.game.players[0].hand[index])throw Error('현재 선택할 수 없는 카드입니다.');this.cardIndex=this.cardIndex===index?null:index;this.group=null;this.target=null;this.cache=null}

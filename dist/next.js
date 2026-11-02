@@ -64,7 +64,7 @@ function calculateNextAvailability(card){
  const b=buildOptions(card),j=state.playerWhiskey?buildOptions(card,true):{normal:[],vander:[]};
  const n=playerNetworkRouteOptions(state.playerMoney);
  const goods=Object.entries(state.cities).some(([city,slots])=>slots.some(s=>s?.owner==='player'&&!s.flipped&&['등유','제조 상자','자동차'].includes(s.industry)&&[...connectedFrom(city),city].some(m=>['서부','캐나다','보스턴'].includes(m)&&state.setup.merchant[m]?.startsWith(s.groupId==='m6'?'자동차':s.industry))&&playerSaleOilAvailable(city,s.groupId)));
- return {build:b.normal.length+b.vander.length+j.normal.length+j.vander.length?'':'카드·자원·현금 조건에 맞는 건설 대상 없음',network:n.normal.length+n.vander.length?'':'연결 가능한 경로 또는 자원 없음',sell:goods?'':'상인과 연결된 판매 산업 없음',develop:playerDevelopCandidates().length?'':'개발할 산업 타일 없음',loan:canLoseIncome('player',3)?'':'수입이 부족해 대출 불가',pass:''};
+ return {build:state.targetSelectMode!=='list'||b.normal.length+b.vander.length+j.normal.length+j.vander.length?'':'카드·자원·현금 조건에 맞는 건설 대상 없음',network:n.normal.length+n.vander.length?'':'연결 가능한 경로 또는 자원 없음',sell:goods?'':'상인과 연결된 판매 산업 없음',develop:playerDevelopCandidates().length?'':'개발할 산업 타일 없음',loan:canLoseIncome('player',3)?'':'수입이 부족해 대출 불가',pass:''};
 }
 function nextCardIcon(card){return {'제철소':'steelworks','등유':'kerosene','제조 상자':'manufacturing-crate','석탄':'coal'}[card]}
 function nextCardHasAction(card){let a=nextAvailability(card);return ['build','network','sell','develop','loan'].some(k=>!a[k])}
@@ -102,11 +102,11 @@ function renderNext(){
  $('#nextEra').textContent='시대 '+state.era+' · 라운드 '+state.round;
  $('#nextTurn').textContent=state.gameOver?'게임 종료':!state.setupLocked?'초기 배치를 확인하세요':state.turnOwner==='player'?'내 차례':'오토마 차례';
  $('#nextRemain').textContent=state.gameOver?'':Math.max(0,(state.era===1&&state.round===1?1:2)-state.actionNo+1)+' 행동 남음';
- $('#nextFinance').innerHTML=`<span>나 <b>$${state.playerMoney}</b> · 지출 <b>$${state.playerSpent}</b></span><span>오토마 <b>$${state.money}</b> · 지출 <b>$${state.spent}</b></span>`;
+ $('#nextFinance').innerHTML=`<span>나 <b>$${state.playerMoney}</b> · 이번 턴 지출 <b>$${state.playerSpent}</b></span><span>오토마 <b>$${state.money}</b> · 이번 턴 지출 <b>$${state.spent}</b></span>`;
  $('#nextSetup').hidden=state.setupLocked;
  $('#nextStartNotice').hidden=state.setupLocked;
  $('#nextStartSummary').textContent='첫 차례: '+(state.turnOwner==='player'?'플레이어':'오토마')+' · 현재 배치를 확정해야 행동할 수 있습니다.';
- $('#nextHandTitle').textContent=tracksPlayerHand()?'내 손패':'실물 카드 선택';
+ BrassTable.hand($('#nextHandTitle'),tracksPlayerHand()?state.playerHand.length:null,state.playerWhiskey);
  $('#nextHandHint').hidden=true;
  const availability=nextAvailability(nextCard);
  const handKey=nextAvailabilityRevision+':'+(nextAction||'')+':'+playerActionPending+':'+JSON.stringify(nextCards());
@@ -127,7 +127,7 @@ function renderNext(){
  $('#decideBtn').hidden=!nextIsPhysical()||state.turnOwner!=='automa'||!!state.current;
  $('#executeBtn').hidden=!nextIsPhysical()||!state.current;
  $('#impossibleBtn').hidden=!nextIsPhysical()||!state.current;
- $('#nextUndo').disabled=playerActionPending||!state.history.length;
+ $('#nextUndo').textContent=state.pendingPlayerTurn?'행동 취소':'직전 실행 되돌리기';$('#nextUndo').disabled=playerActionPending||!state.history.length;
  $('#nextResumeAutoma').hidden=!((automaPausedByUndo||automaPausedByFailure)&&state.setupLocked&&!nextIsPhysical()&&!state.gameOver&&state.turnOwner==='automa');
  $('#nextResumeAutoma').textContent=automaPausedByFailure?'오토마 다시 계산':'오토마 자동 진행 재개';
  $('#nextEndTurn').hidden=state.gameMode!=='full'||!state.pendingPlayerTurn;

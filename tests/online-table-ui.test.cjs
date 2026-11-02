@@ -2,8 +2,8 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),fs=requir
 const source=fs.readFileSync(require.resolve('../dist/online/table-ui.js'),'utf8');
 function harness(map,seat){
  const nodes=new Map(),node=id=>{if(!nodes.has(id))nodes.set(id,{value:'',innerHTML:'',classList:{add(){},toggle(){},remove(){}},closest(){return node('panel')},addEventListener(){},insertBefore(){},append(){}});return nodes.get(id);};
- const context={document:{querySelector:node,querySelectorAll:()=>[],body:node('body')},matchMedia:()=>({matches:false}),window:{addEventListener(){}},requestAnimationFrame:()=>1};vm.createContext(context);
- vm.runInContext(fs.readFileSync(require.resolve(map==='two'?'../dist/online/two-core.js':'../dist/four-player/core.js'),'utf8'),context);vm.runInContext(source,context);
+ const context={document:{addEventListener(){},querySelector:node,querySelectorAll:()=>[],body:node('body')},matchMedia:()=>({matches:false}),window:{addEventListener(){}},requestAnimationFrame:()=>1};vm.createContext(context);
+ vm.runInContext(fs.readFileSync(require.resolve(map==='two'?'../dist/online/two-core.js':'../dist/four-player/core.js'),'utf8'),context);vm.runInContext(fs.readFileSync(require.resolve('../dist/table-parity.js'),'utf8'),context);vm.runInContext(source,context);
  const core=map==='two'?context.createTwoCore():context.createFourCore(),board={image:(id,c)=>`tile/${c}/${id}`,netImage:(id,c)=>`network/${c}/${id}`};
  const ui=context.createOnlineTableUI({getCore:()=>core,getBoard:()=>board,getSeat:()=>seat});return {ui,core,node};
 }
