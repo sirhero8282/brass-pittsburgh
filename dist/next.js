@@ -1,12 +1,12 @@
 /* Card-first interaction layer. Game rules remain in app.js. */
 let nextCard=null, nextCardIndex=-1, nextAction=null, nextStamp='';
 let nextActionTask=null,nextActionRequest=0;
-let automaTimer=null, automaRunKey='', automaToastTimer=null, automaPausedByUndo=false,automaDecisionRunning=false;
+let automaTimer=null, automaRunKey='', automaToastTimer=null, automaPausedByUndo=false,automaPausedByFailure=false,automaDecisionRunning=false;
 const nextNames={build:'건설',network:'네트워크',sell:'판매',develop:'개발',loan:'대출',pass:'패스'};
 function nextCards(){return tracksPlayerHand()?(state.playerHand||[]).map(card=>({card,left:1})):physicalAvailableCards()}
 function nextIsPhysical(){return state.gameMode==='automa'}
 function nextAutomaTitle(){return nextIsPhysical()?'오토마 행동 확인':'오토마 자동 실행'}
-function nextAutomaMessage(){return nextIsPhysical()?'계산된 행동과 비용을 확인한 뒤 실행하세요.':'스탠드얼론에서는 오토마가 행동을 자동으로 실행합니다.'}
+function nextAutomaMessage(){return nextIsPhysical()?'계산된 행동과 비용을 확인한 뒤 실행하세요.':automaPausedByFailure?'자동 진행을 완료하지 못했습니다. 기록을 확인한 뒤 다시 계산해 주세요.':'스탠드얼론에서는 오토마가 행동을 자동으로 실행합니다.'}
 function automaActionPlace(a){return a?.city||a?.edge?(a.city||[a.edge.a,a.edge.b].join('—')):a?.sales?.[0]?.city||''}
 function automaActionIcon(type){return {건설:'steelworks',네트워크:'locomotive-works',판매:'manufacturing-crate',개발:'development',대출:'income-up',패스:'whiskey'}[type]||'locomotive-works'}
 function showAutomaToast(log,a){let mobile=window.matchMedia('(max-width:900px)').matches,toast=$(mobile?'#mobileAutomaActionToast':'#automaActionToast');if(!toast)return;let type=a?.type||log?.title?.split(' · ')[0]||'행동',place=automaActionPlace(a),icon=automaActionIcon(type);toast.innerHTML=`<small>오토마 실행 · 터치하여 닫기</small><div class="automa-action-summary"><img src="./assets/icons/detail/${icon}.png" alt=""><strong>${escapeAuditHtml(type)}</strong>${place?`<span>${escapeAuditHtml(place)}</span>`:''}</div>`;toast.hidden=false;toast.onclick=()=>{toast.hidden=true};clearTimeout(automaToastTimer);automaToastTimer=setTimeout(()=>{toast.hidden=true},2000)}
@@ -18,11 +18,25 @@ async function addAutomaLookaheadCooperatively(opts){let steps=automaLookaheadSt
 async function decideAutoma(){normalizeRoundActions();if(automaDecisionRunning||state.turnOwner!=='automa'||state.roundActions.automa>=actionsThisTurn())return false;if(!state.hand.length){state.current=null;save();return false}automaDecisionRunning=true;setAutomaThinking(true);await yieldAutomaFrame();try{let steps=automaDecisionSteps(),result;do{result=steps.next();if(!result.done)await yieldAutomaFrame()}while(!result.done);state.current=result.value;save();return !!state.current}catch(err){console.error(err);state.current=null;renderProposal();alert('행동 후보 계산 중 오류가 발생했습니다. 다시 계산해 주세요.');return false}finally{automaDecisionRunning=false;setAutomaThinking(false)}}
 function scheduleAutoma(){
  if(typeof gameSaveStatus!=='undefined'&&!gameSaveStatus.saved){clearTimeout(automaTimer);automaTimer=null;automaRunKey='';setAutomaThinking(false);return}
- if(automaPausedByUndo||!state.setupLocked||nextIsPhysical()||state.gameOver||state.turnOwner!=='automa'){setAutomaThinking(false);return}
+ if(!state.setupLocked||nextIsPhysical()||state.gameOver||state.turnOwner!=='automa'){if(typeof automaPausedByFailure!=='undefined')automaPausedByFailure=false;setAutomaThinking(false);return}
+ if(automaPausedByUndo||(typeof automaPausedByFailure!=='undefined'&&automaPausedByFailure)){setAutomaThinking(false);return}
 if(roundTransition){setAutomaThinking(false);if(!automaTimer)automaTimer=setTimeout(()=>{automaTimer=null;scheduleAutoma()},4100);return}
- let key=[state.era,state.round,state.actionNo,state.turn,state.hand.length].join(':');
+ let key=[state.seed,state.era,state.round,state.actionNo,state.turn,state.hand.length].join(':');
  if(automaRunKey===key||automaTimer)return;
- automaRunKey=key;setAutomaThinking(true);automaTimer=setTimeout(async()=>{automaTimer=null;if(typeof gameSaveStatus!=='undefined'&&!gameSaveStatus.saved||automaPausedByUndo||!state.setupLocked||state.gameMode!=='full'||state.turnOwner!=='automa'||state.gameOver){setAutomaThinking(false);return}try{await decideAutoma();if(state.current&&(typeof gameSaveStatus==='undefined'||gameSaveStatus.saved))runAutomaAction()}finally{setAutomaThinking(false)}},650);
+ automaRunKey=key;setAutomaThinking(true);automaTimer=setTimeout(async()=>{
+  automaTimer=null;
+  if(typeof gameSaveStatus!=='undefined'&&!gameSaveStatus.saved||automaPausedByUndo||!state.setupLocked||state.gameMode!=='full'||state.turnOwner!=='automa'||state.gameOver){automaRunKey='';setAutomaThinking(false);return}
+  try{const decided=await decideAutoma();if(decided&&state.current&&(typeof gameSaveStatus==='undefined'||gameSaveStatus.saved))runAutomaAction()}
+  catch(error){console.error('Automa automatic action failed',error)}
+  finally{
+   setAutomaThinking(false);
+   const unchanged=key===[state.seed,state.era,state.round,state.actionNo,state.turn,state.hand.length].join(':');
+   if(unchanged&&state.setupLocked&&state.gameMode==='full'&&state.turnOwner==='automa'&&!state.gameOver&&(typeof gameSaveStatus==='undefined'||gameSaveStatus.saved)){
+    // Retry only on explicit request: execution may have stopped after a partial change.
+    automaRunKey='';automaPausedByFailure=true;renderNext();
+   }
+  }
+ },650);
 }
 function nextConnectedMarkets(){
  const reachable=new Set;
@@ -114,7 +128,8 @@ function renderNext(){
  $('#executeBtn').hidden=!nextIsPhysical()||!state.current;
  $('#impossibleBtn').hidden=!nextIsPhysical()||!state.current;
  $('#nextUndo').disabled=playerActionPending||!state.history.length;
- $('#nextResumeAutoma').hidden=!(automaPausedByUndo&&state.setupLocked&&!nextIsPhysical()&&!state.gameOver&&state.turnOwner==='automa');
+ $('#nextResumeAutoma').hidden=!((automaPausedByUndo||automaPausedByFailure)&&state.setupLocked&&!nextIsPhysical()&&!state.gameOver&&state.turnOwner==='automa');
+ $('#nextResumeAutoma').textContent=automaPausedByFailure?'오토마 다시 계산':'오토마 자동 진행 재개';
  $('#nextEndTurn').hidden=state.gameMode!=='full'||!state.pendingPlayerTurn;
  $('#nextEndTurn').disabled=playerActionPending;
  $('#nextEndTurn').textContent=(state.roundActions?.player||0)+1>=actionsThisTurn()?'턴 종료 · 실행 확정 및 손패 보충':'행동 확정 · 다음 행동';
@@ -162,10 +177,10 @@ function initNext(){
 
  $('#nextSetup').onclick=()=>nav('setupView');
  const originalUndo=$('#undoBtn').onclick;
- const undoWithAutomaPause=()=>{let hadHistory=state.history.length>0;automaPausedByUndo=hadHistory;clearTimeout(automaTimer);automaTimer=null;setAutomaThinking(false);originalUndo();if(!hadHistory||!state.setupLocked||nextIsPhysical()||state.gameOver||state.turnOwner!=='automa')automaPausedByUndo=false;renderNext()};
+ const undoWithAutomaPause=()=>{let hadHistory=state.history.length>0;automaPausedByUndo=hadHistory;automaPausedByFailure=false;clearTimeout(automaTimer);automaTimer=null;setAutomaThinking(false);originalUndo();if(!hadHistory||!state.setupLocked||nextIsPhysical()||state.gameOver||state.turnOwner!=='automa')automaPausedByUndo=false;renderNext()};
  $('#undoBtn').onclick=undoWithAutomaPause;
  $('#nextUndo').onclick=()=>{nextCard=null;undoWithAutomaPause()};
- $('#nextResumeAutoma').onclick=()=>{automaPausedByUndo=false;automaRunKey='';scheduleAutoma();renderNext()};
+ $('#nextResumeAutoma').onclick=()=>{automaPausedByUndo=false;automaPausedByFailure=false;automaRunKey='';scheduleAutoma();renderNext()};
  $('#nextEndTurn').onclick=()=>{if(state.gameMode!=='full'||!state.pendingPlayerTurn||playerActionPending)return;confirmPlayerTurn()};
  $$('[data-player]').forEach(b=>b.onclick=()=>runNextAction(b.dataset.player));
  const originalRender=renderAll;renderAll=function(){originalRender();renderNext();scheduleAutoma()};
