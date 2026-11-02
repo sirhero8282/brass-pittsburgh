@@ -2,7 +2,7 @@
 #boardView .personal-board-scroll{overflow-x:auto}
 #boardView #personalBoard.physical-personal-board{min-width:760px}
 #boardView .personal-slot-layer{position:absolute;inset:0;width:100%;height:100%;z-index:2;overflow:visible;pointer-events:none}
-#boardView .personal-slot-card{width:184px;height:147px;container-type:normal;pointer-events:auto}
+#boardView .personal-slot-card{margin:0;width:184px;height:147px;container-type:normal;pointer-events:auto}
 #boardView .personal-slot-card .mini-board-lane .tile.available-industry-tile{--component-height:122px;box-sizing:border-box;width:184px!important;min-height:122px!important;grid-template-columns:31px 122px 31px!important;margin:0!important;padding:0!important}
 #boardView .personal-slot-card .available-industry-tile-art{width:122px!important}
 #boardView .personal-slot-card .available-industry-tile-reward.empty{visibility:hidden!important}

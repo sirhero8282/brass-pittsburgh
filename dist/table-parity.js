@@ -8,7 +8,7 @@ function industry({group,slot,left,ready,layout,color,track,markup,manual=false}
    .replace(/^<button[^>]*>/,'<span class="tile next available-industry-tile">')
    .replace('</button>','</span>').replace('/industry/blue/','/industry/'+color+'/');
   const x=slot.x*layout.width,y=slot.y*layout.height;
-  return `<foreignObject x="${x-92}" y="${y-71}" width="184" height="147" data-personal-industry="${esc(group.id)}"><div xmlns="http://www.w3.org/1999/xhtml" class="available-now personal-slot-card ${left?(ready?'ready':'locked'):'vacant'}" ${manual?'data-group="'+esc(group.id)+'" role="button" tabindex="0"':'role="img"'} aria-label="${esc(label)}" title="${esc(label)}"><div class="mini-board-lane">${card}</div></div></foreignObject>`;
+  return `<foreignObject x="${x-92}" y="${y-61}" width="184" height="147" data-personal-industry="${esc(group.id)}"><div xmlns="http://www.w3.org/1999/xhtml" class="available-now personal-slot-card ${left?(ready?'ready':'locked'):'vacant'}" ${manual?'data-group="'+esc(group.id)+'" role="button" tabindex="0"':'role="img"'} aria-label="${esc(label)}" title="${esc(label)}"><div class="mini-board-lane">${card}</div></div></foreignObject>`;
 }
 function networkSlotClass(remaining){return remaining>0?"in-stock":"vacant"}
 function personal({p,view,core,board,groups}){const layout=view.personalLayout,networkLayout=view.networkLayout;
