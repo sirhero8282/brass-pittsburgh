@@ -22,7 +22,7 @@ $('#nextHand').closest('details')?.addEventListener('toggle',scheduleLayout);
 const actionIcons={'건설':'action-construction-hammer','네트워크':'action-network-rail','판매':'action-sale-dollar','개발':'action-development-bulb','대출':'action-loan','패스':'action-pass-whiskey'};
 let humanTask=null,humanEpoch=0,selectionRequest=0,chooser=null,mapChoice=null,provisional=null,targetSelectMode='map';
 const availabilityCache=new Map();let availabilityRevision=-1,availabilitySession=null;
-let session=null,currentView='setupView',auto=true,paused=false,busy=false,epoch=0,timer=null,toastTimer=null,proposal=null,cardFilter='all',detailChoices=[],storageError='';
+let session=null,currentView='setupView',auto=true,paused=false,busy=false,epoch=0,timer=null,proposal=null,cardFilter='all',detailChoices=[],storageError='';
 try{const settings=JSON.parse(localStorage.getItem(UIKEY)||'{}');auto=settings.auto!==false;targetSelectMode=settings.targetSelectMode==='list'?'list':'map';const saved=localStorage.getItem(F.KEY);if(saved){session=new FourFlow(F,data,F.validate(JSON.parse(saved)));currentView='gameView';paused=F.active(session.game)!==0;}}catch(e){$('#message').textContent='저장 복원 실패: '+e.message+' 원본 저장 파일은 변경하지 않았습니다.';}
 if(new URLSearchParams(location.search).get('view')==='setup')currentView='setupView';
 function message(value){$('#message').textContent=[storageError,value].filter(Boolean).join('\n')}
@@ -49,7 +49,11 @@ function render(){
  $('#turnNotice').textContent=pending?'아직 확정되지 않은 실행입니다.':humanTask?'행동을 선택하고 있습니다.':busy?'오토마 계산 중…':'';
  $('#targetSelectMode').value=targetSelectMode;
  renderStatus(g,committed,pending);
- $('#playerPanel').hidden=active!==0&&!pending||!!g.gameOver;$('#automaPanel').hidden=active===0||pending||!!g.gameOver;
+ globalThis.BoardDrawPile?.render(committed.players.map(player => player.deck.length));
+ const controls = $('#playerPanel');
+ controls.hidden = !!g.gameOver;
+ controls.inert = active !== 0 && !pending;
+ $('#automaPanel').hidden=active===0||pending||!!g.gameOver;
  renderHand(g);renderActions();renderDetails();renderPending();renderAI();renderMarkets(g);renderPersonal(g);renderAvailable(g);renderLogs(g);renderBoard(g);
  $('#undo').disabled=$('#undoRecent').disabled=busy||!pending&&!session.history.length;
  scheduleLayout();
@@ -135,8 +139,7 @@ function targetClick(node,event){if(Date.now()<ignoreClickUntil||!session)return
 
 async function task(fn){if(busy)return;message('');try{await fn()}catch(e){message(e.message);console.error(e)}}
 function scheduleAI(){clearTimeout(timer);timer=null;if(!session||!auto||paused||busy||humanTask||storageError||session.pending||session.game.gameOver||F.active(session.game)===0||currentView!=='gameView')return;const token=epoch;timer=setTimeout(()=>{timer=null;if(token===epoch)runAI(true)},650)}
-async function runAI(execute){if(!session||busy||session.pending||session.game.gameOver||F.active(session.game)===0)return;const token=++epoch,revision=session.revision,actor=F.active(session.game);busy=true;document.body.classList.add('thinking');render();try{const action=await F.chooseAsync(session.game,()=>new Promise(r=>setTimeout(r,0)),()=>token!==epoch);if(!action||token!==epoch)return;if(execute){if(session.applyAI(action,revision)){proposal=null;persist();showToast(session.game.players[actor].name+' · '+title(action))}}else proposal=action;}catch(e){paused=true;message('오토마 실행을 중단했습니다: '+e.message);console.error(e)}finally{busy=false;document.body.classList.remove('thinking');render();scheduleAI()}}
-function showToast(text){$('#automaToast').textContent=text;$('#automaToast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#automaToast').hidden=true,2600)}
+async function runAI(execute){if(!session||busy||session.pending||session.game.gameOver||F.active(session.game)===0)return;const token=++epoch,revision=session.revision;busy=true;document.body.classList.add('thinking');render();try{const action=await F.chooseAsync(session.game,()=>new Promise(r=>setTimeout(r,0)),()=>token!==epoch);if(!action||token!==epoch)return;if(execute){if(session.applyAI(action,revision)){proposal=null;persist()}}else proposal=action;}catch(e){paused=true;message('오토마 실행을 중단했습니다: '+e.message);console.error(e)}finally{busy=false;document.body.classList.remove('thinking');render();scheduleAI()}}
 $('#colors').innerHTML=F.COLORS.map((c,i)=>`<label>${i?'오토마 '+i:'플레이어'}<select data-color="${i}" aria-label="${i?'오토마 '+i:'플레이어'} 색상">${F.COLORS.map(v=>`<option value="${v}" ${c===v?'selected':''}>${board.colorNames[v]}</option>`).join('')}</select>${i?`<select data-strategy="${i}" aria-label="오토마 ${i} 전략"><option value="balanced">균형형</option><option value="industry" ${i===2?'selected':''}>산업·판매형</option><option value="network" ${i===3?'selected':''}>네트워크형</option></select>`:''}</label>`).join('');
 $('#personalOwner').innerHTML=['나','오토마 1','오토마 2','오토마 3'].map((n,i)=>`<option value="${i}">${n}</option>`).join('');
 if(session){$$('[data-color]').forEach(e=>e.value=session.game.players[Number(e.dataset.color)].color);$$('[data-strategy]').forEach(e=>e.value=session.game.players[Number(e.dataset.strategy)].strategy)}
@@ -150,7 +153,7 @@ document.addEventListener('click',e=>{
  if(e.target.closest('[data-human-cancel]'))void cancelHumanAction();
  if(inventory){$('#personalOwner').value='0';view('boardView')}
  if(e.target.id==='closeMapInfo')$('#mapInfo').hidden=true;
- if(e.target.id==='executeAI')task(()=>{if(!proposal||busy)return;const actor=F.active(session.game);if(session.applyAI(proposal,session.revision)){showToast(session.game.players[actor].name+' · '+title(proposal));proposal=null;persist();render();scheduleAI()}});
+ if(e.target.id==='executeAI')task(()=>{if(!proposal||busy)return;if(session.applyAI(proposal,session.revision)){proposal=null;persist();render();scheduleAI()}});
 });
 document.addEventListener('change',e=>{if(e.target.matches('[data-human-v]')&&chooser){chooser.includeV=e.target.checked;render()}if(e.target.id==='mapVanderbiltInput'&&mapChoice){mapChoice.includeV=e.target.checked;render()}if(e.target.id==='targetSelectMode'){selectionRequest++;void cancelHuman().then(()=>{session?.clear();targetSelectMode=e.target.value;saveSettings();render()})}});
 $('#start').onclick=()=>task(async()=>{const selection=$$('[data-color]').map(e=>e.value);if(!F.validColors(selection))throw Error('네 참가자는 서로 다른 색상을 선택해야 합니다.');if(session&&!confirm('진행 중인 4인 게임을 새 게임으로 바꿀까요? 2인 게임은 유지됩니다.'))return;await cancelHuman();stopAI();const g=F.createGame(data,selection);$$('[data-strategy]').forEach(e=>g.players[Number(e.dataset.strategy)].strategy=e.value);session=new FourFlow(F,data,g);paused=false;proposal=null;currentView='gameView';resetCamera();persist();saveSettings();render();scheduleAI()});
@@ -158,7 +161,7 @@ $('#cancelSelection').onclick=()=>void cancelHumanAction();
 $('#nextEndTurn').onclick=()=>task(()=>{session.confirm();proposal=null;persist();render();scheduleAI()});
 $('#undo').onclick=$('#undoRecent').onclick=()=>task(async()=>{selectionRequest++;await cancelHuman();stopAI();paused=true;proposal=null;if(session.undo()){persist();render();message('직전 실행을 되돌렸습니다. 오토마 자동 진행은 일시정지되었습니다.')}});
 $('#decide').onclick=()=>{paused=false;if(auto)runAI(true);else runAI(false)};
-$('#pauseAI').onclick=()=>{paused=!paused;stopAI();proposal=null;render();scheduleAI()};$('#automaToast').onclick=()=>$('#automaToast').hidden=true;
+$('#pauseAI').onclick=()=>{paused=!paused;stopAI();proposal=null;render();scheduleAI()};
 $('#personalOwner').onchange=()=>renderPersonal(session.display());
 $('#export').onclick=()=>task(()=>{if(!session)throw Error('저장할 게임이 없습니다.');const url=URL.createObjectURL(new Blob([JSON.stringify(session.serializable(),null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='pittsburgh-four-player-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
 $('#import').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;const imported=F.validate(JSON.parse(await file.text())),next=new FourFlow(F,data,imported);if(session&&!confirm('현재 4인 진행을 이 저장 파일로 바꿀까요?'))return;selectionRequest++;await cancelHuman();stopAI();session=next;paused=true;proposal=null;currentView='gameView';resetCamera();persist();render()}catch(err){message(err.message)}finally{e.target.value=''}};

@@ -1,0 +1,35 @@
+/* Sits inside the map viewport, above the terrain and outside the zoomed SVG. */
+.map-wrap { position: relative }
+.board-draw-pile {
+  position: absolute; z-index: 6; top: 5.5%; right: 5.6%;
+  display: flex; align-items: center; gap: .4rem; border-radius: .4rem;
+  padding: .24rem .45rem; background: #183532f2; color: #fff9e6;
+  border: 1px solid #c9aa69; pointer-events: none; line-height: 1.08;
+}
+.board-draw-pile[hidden] { display:none }
+.board-draw-pile small,.board-draw-pile strong { display:block; white-space:nowrap }
+.board-draw-pile small { font-size:10px; color:#eadbbc }
+.board-draw-pile strong { font-size:14px; font-variant-numeric:tabular-nums }
+.board-deck-back {
+  width:19px; height:27px; border-radius:3px; border:1px solid #beaf91;
+  background: #25262b url('assets/cards/draw-back.webp') center/cover;
+  box-shadow: 0 var(--depth,0px) #dbd1ac, 0 calc(var(--depth,0px) + 1px) #242424;
+  transform: translateY(calc(var(--depth,0px) * -.5));
+}
+[data-depth="4"] .board-deck-back { --depth:5px }
+[data-depth="3"] .board-deck-back { --depth:3px }
+[data-depth="2"] .board-deck-back { --depth:2px }
+[data-depth="1"] .board-deck-back { --depth:0px }
+[data-depth="0"] .board-deck-back { background:none; box-shadow:none; border:1px dashed #acb6a9 }
+@media (prefers-reduced-motion:no-preference) {
+  .board-deck-back { transition:box-shadow .18s ease-out,transform .18s ease-out }
+}
+.four-table #playerPanel[inert] { opacity:.5 }
+.four-table #mapWrap > #onlineRoundBanner {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  max-width:calc(100% - 1rem); margin:0;
+}
+@keyframes board-round-fade { from { opacity:0 } to { opacity:1 } }
+@media (prefers-reduced-motion:no-preference) {
+  .four-table #mapWrap > #onlineRoundBanner:not([hidden]) { animation:board-round-fade .23s ease-out }
+}

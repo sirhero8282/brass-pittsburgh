@@ -93,6 +93,7 @@ function renderNext(){
  const physicalBox=$('#physicalAutomaCards');
  if(physicalBox){let title=physicalBox.querySelector('b'),copy=physicalBox.querySelector('p.muted'),list=$('#physicalAutomaCardList');if(title)title.textContent='실물 카드 기록';if(copy)copy.textContent='손패를 공개하거나 미리 배정하지 않습니다. 실제로 버린 카드만 기록합니다.';if(list)list.hidden=true}
  if(!$('#nextHand'))return;
+ globalThis.BoardDrawPile?.render(!state.setupLocked ? [] : tracksPlayerHand() ? [state.playerDeck.length, state.deck.length] : [state.deck.length], tracksPlayerHand() ? '뽑을 카드' : '오토마 덱');
  const stamp=[state.seed,state.gameMode,state.era,state.round,state.turnOwner,state.turn,state.playerDiscard.length].join(':');
  if(stamp!==nextStamp){nextCard=null;nextStamp=stamp}
  if(nextCard&&!nextCards().some(c=>c.card===nextCard))nextCard=null;
